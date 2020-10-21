@@ -259,6 +259,7 @@
    SvSolidEdgesNode
    SvSolidFacesNode
    SvSelectSolidNode
+   SvPopulateSolidNode
    @ Analyze
    SvSolidViewerNode
 
