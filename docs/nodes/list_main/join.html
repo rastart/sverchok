@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Join &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Join &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Length" href="length.html" />
-    <link rel="prev" title="List Math" href="func.html" /> 
+    <link rel="next" title="Constant List" href="constant.html" />
+    <link rel="prev" title="List Main" href="list_main_index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,24 +69,25 @@
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_main_index.html">List Main</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
-<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Join</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#advanced-parameters">Advanced Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
 <li class="toctree-l3"><a class="reference internal" href="zip.html">List Zip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="statistics.html">List Statistics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html">List index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">List Index</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
@@ -135,9 +137,10 @@
            <div itemprop="articleBody">
              
   <section id="list-join">
-<h1>List Join<a class="headerlink" href="#list-join" title="Permalink to this headline">¶</a></h1>
+<h1>List Join<a class="headerlink" href="#list-join" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187512380-c7e79c39-f868-489a-879d-dd3a063dea53.png"><img alt="https://user-images.githubusercontent.com/14288520/187512380-c7e79c39-f868-489a-879d-dd3a063dea53.png" src="https://user-images.githubusercontent.com/14288520/187512380-c7e79c39-f868-489a-879d-dd3a063dea53.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node joins different list into a single one.</p>
 <p>level 1:
 [ [ (1,2,3), (4,5,6) ] ] + [ [ (7,8,9), (10,11,12) ] ] = [ [ (1,2,3), (4,5,6), (7,8,9), (10,11,12) ] ]</p>
@@ -167,25 +170,44 @@
 [[1, 2, 3], [4, 5, 6]] + [[7, 8, 9]] = [[(1, 7), (2, 8), (3, 9)], [(4, 7), (5, 8), (6, 9)]]</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>data</strong> multisocket</p>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>data</strong> multisocket</p></li>
+</ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p><strong>Match</strong>: length of lists will be matched before joining
-<strong>Match mode</strong>: how length of lists should be matched (Repeat Last, Cycle, Match Short…)
-<strong>Mix</strong> to mix (not zip) data inside
-<strong>Wrap</strong> to wrap additional level
-<strong>Levels</strong> level of joining</p>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Match</strong>: length of lists will be matched before joining</p></li>
+<li><p><strong>Match mode</strong>: how length of lists should be matched (Repeat Last, Cycle, Match Short…)</p></li>
+<li><p><strong>Mix</strong> to mix (not zip) data inside</p></li>
+<li><p><strong>Wrap</strong> to wrap additional level</p></li>
+<li><p><strong>Levels</strong> level of joining</p></li>
+</ul>
 </section>
 <section id="advanced-parameters">
-<h2>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this heading">¶</a></h2>
 <p>In the N-Panel (and on the right-click menu) you can find:</p>
-<p><strong>NumPy Mode</strong>: When enabled the node will expect and produce lists of NumPy arrays. It will be faster when joining NumPy Arrays but due the nature of the implementation it will fail when trying to join arrays with different axis number.</p>
+<ul class="simple">
+<li><p><strong>NumPy Mode</strong>: When enabled the node will expect and produce lists of NumPy arrays. It will be faster when joining NumPy Arrays but due the nature of the implementation it will fail when trying to join arrays with different axis number.</p></li>
+</ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>data</strong> adaptable socket</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>data</strong> adaptable socket</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p><strong>Combine Bezier Spline Curves with ‘List Join’ node to Create a Surface</strong></p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187514973-08b68caf-2024-4316-b2d5-834d49f96712.png"><img alt="https://user-images.githubusercontent.com/14288520/187514973-08b68caf-2024-4316-b2d5-834d49f96712.png" src="https://user-images.githubusercontent.com/14288520/187514973-08b68caf-2024-4316-b2d5-834d49f96712.png" /></a>
+<ul class="simple">
+<li><p>Curve-&gt;Bezier-&gt; <a class="reference internal" href="../curve/bezier_spline.html"><span class="doc">Bezier Spline (Curve)</span></a></p></li>
+<li><p>Surfaces-&gt; <a class="reference internal" href="../surface/interpolating_surface.html"><span class="doc">Surface from Curves</span></a></p></li>
+<li><p>Surfaces-&gt; <a class="reference internal" href="../surface/evaluate_surface.html"><span class="doc">Evaluate Surfaces</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -193,8 +215,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="func.html" class="btn btn-neutral float-left" title="List Math" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="length.html" class="btn btn-neutral float-right" title="List Length" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="list_main_index.html" class="btn btn-neutral float-left" title="List Main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="constant.html" class="btn btn-neutral float-right" title="Constant List" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

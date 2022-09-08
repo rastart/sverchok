@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Framework node &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Framework &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Wireframe" href="wireframe.html" />
-    <link rel="prev" title="join tris" href="join_tris.html" /> 
+    <link rel="prev" title="Join Triangles" href="join_tris.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -71,8 +72,8 @@
 <li class="toctree-l3"><a class="reference internal" href="solidify_mk2.html">Solidify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uv_connect.html">UV Connection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wafel.html">Wafel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="join_tris.html">join tris</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Framework node</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="join_tris.html">Join Triangles</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Framework</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -81,15 +82,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="wireframe.html">Wireframe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bevel_curve.html">Bevel a Curve (Mesh)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="contour2D.html">Contour 2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dual_mesh.html">Dual Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="diamond_mesh.html">Diamond Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clip_verts.html">Clip Vertices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sweep_modulator.html">Sweep Modulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">csg boolean mk2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">CSG Boolean MK2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../CAD/CAD_index.html">CAD</a></li>
@@ -136,7 +137,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="modifier_make_index.html">Modifier Make</a> &raquo;</li>
-      <li>Framework node</li>
+      <li>Framework</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/modifier_make/framework.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -146,10 +147,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="framework-node">
-<h1>Framework node<a class="headerlink" href="#framework-node" title="Permalink to this headline">¶</a></h1>
+  <section id="framework">
+<h1>Framework<a class="headerlink" href="#framework" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates framework / construction carcass-like structure (fr. ferme)
 from a flat mesh that defines construction profile. That profile can be
 extruded along one of coordinate axis (“orientation axis”), or along custom
@@ -172,7 +173,7 @@ used. It can behave somewhat unexpected when the vertex of profile mesh is
 connected to more than two other vertices.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. Vertices of the profile mesh. This input is mandatory.</p></li>
@@ -210,7 +211,7 @@ Mode</strong> parameter is set to <strong>Length</strong>.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul>
 <li><p><strong>Z Mode</strong>. Mode of lengthwise crossbars generation. The following values are available:</p>
@@ -241,7 +242,7 @@ Mode</strong> parameter is set to <strong>Axis</strong>. Unchecked by default.</
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. Output mesh vertices.</p></li>
@@ -250,7 +251,7 @@ Mode</strong> parameter is set to <strong>Axis</strong>. Unchecked by default.</
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Simple example:</p>
 <img alt="https://user-images.githubusercontent.com/284644/69917574-50639500-1489-11ea-82f1-1c91349093ca.png" src="https://user-images.githubusercontent.com/284644/69917574-50639500-1489-11ea-82f1-1c91349093ca.png" />
 <p>An example with intersecting traverse edges:</p>
@@ -266,7 +267,7 @@ Mode</strong> parameter is set to <strong>Axis</strong>. Unchecked by default.</
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="join_tris.html" class="btn btn-neutral float-left" title="join tris" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="join_tris.html" class="btn btn-neutral float-left" title="Join Triangles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="wireframe.html" class="btn btn-neutral float-right" title="Wireframe" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

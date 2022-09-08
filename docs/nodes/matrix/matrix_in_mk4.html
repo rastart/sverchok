@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Matrix In &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Matrix In &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -64,9 +65,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../number/number_index.html">Number</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vector/vector_index.html">Vector</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="matrix_index.html">Matrix</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="apply_and_join.html">Apply Matrix to Mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apply_and_join.html">Matrix Apply to Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deform.html">Matrix Deform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="euler.html">Euler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="euler.html">Matrix Euler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html">Matrix Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolation.html">Matrix Interpolation</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Matrix In</a><ul>
@@ -84,7 +85,7 @@
 <li class="toctree-l3"><a class="reference internal" href="matrix_track_to.html">Matrix Track To</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shear.html">Matrix Shear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="matrix_normal.html">Matrix Normal</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iterate.html">Iterate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterate.html">Iterate Matrix Transformation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../quaternion/quaternion_index.html">Quaternion</a></li>
@@ -138,14 +139,14 @@
            <div itemprop="articleBody">
              
   <section id="matrix-in">
-<h1>Matrix In<a class="headerlink" href="#matrix-in" title="Permalink to this headline">¶</a></h1>
+<h1>Matrix In<a class="headerlink" href="#matrix-in" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node creates homogeneous 4x4 matrices out of translation, scale and rotation components.
 The rotation component can be generated based on various input formats, selectable by one of the supported modes: Quaternion, Axis + Angle or Euler Angles.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>All inputs are vectorized and they will accept single or multiple values.</p>
 <ul class="simple">
 <li><p><strong>Location</strong></p></li>
@@ -165,7 +166,7 @@ The rotation component can be generated based on various input formats, selectab
 <p>The node accepts as inputs either lists of items (vectors, numbers, quaternions), such as: [[v, v, v]], [[a, a, a]], [[q, q, q]]. in which case it would generate a set of matrices: [[m, m, m]], but it also accepts lists of lists of items, such as [[v, v], [v, v, v]], in which case it will produce a set of matrices: [[m, m], [m, m, m]].</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>Mode</strong> parameter allows to switch between “Quaternion”, “Axis Angle” and “Euler Angles”. The input sockets for the rotation are updated to reflect the selected mode.</p>
 <p>All parameters except <strong>Mode</strong>, <strong>Angle Units</strong> and <strong>Flat Output</strong> can be given by the node or an external input.</p>
 <table class="docutils align-default">
@@ -264,7 +265,7 @@ ZXY, ZYX</p>
 [4] : Angles are given by default in DEGREES. The Property Panel has option to set angle units as: RADIANS, DEGREES or UNITIES.</p>
 </section>
 <section id="extra-parameters">
-<h2>Extra Parameters<a class="headerlink" href="#extra-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Extra Parameters<a class="headerlink" href="#extra-parameters" title="Permalink to this heading">¶</a></h2>
 <p>A set of extra parameters are available on the property panel.
 These parameters do not receive external input.</p>
 <table class="docutils align-default">
@@ -319,13 +320,13 @@ input structure and generate the output as a list of list of matrices:
 </dl>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p><strong>Matrices</strong>
 The output is a list of one or multiple 4x4 homogeneous matrices, based on the given input.</p>
 <p>All outputs will be generated only when output socket is connected.</p>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 

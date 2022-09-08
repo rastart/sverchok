@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Sort &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Sort &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Split" href="split.html" />
-    <link rel="prev" title="slice lite" href="slice_lite.html" /> 
+    <link rel="next" title="List Flip" href="flip.html" />
+    <link rel="prev" title="List Shuffle" href="shuffle.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -69,15 +70,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../list_main/list_main_index.html">List Main</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_struct_index.html">List Structure</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repeater.html">List Repeater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice.html">List Slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split.html">List Split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="start_end.html">List First &amp; Last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="item.html">List Item</a></li>
 <li class="toctree-l3"><a class="reference internal" href="item_insert.html">List Item Insert</a></li>
-<li class="toctree-l3"><a class="reference internal" href="repeater.html">List Repeater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reverse.html">List Reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shuffle.html">List Shuffle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice.html">List Slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">slice lite</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Sort</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -86,9 +87,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="split.html">List Split</a></li>
-<li class="toctree-l3"><a class="reference internal" href="start_end.html">List First &amp; Last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="levels.html">List Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">List Slice Lite</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_masks/list_masks_index.html">List Masks</a></li>
@@ -137,35 +138,78 @@
            <div itemprop="articleBody">
              
   <section id="list-sort">
-<h1>List Sort<a class="headerlink" href="#list-sort" title="Permalink to this headline">¶</a></h1>
+<h1>List Sort<a class="headerlink" href="#list-sort" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187995646-ed8c3c53-3fad-4882-9175-6cf9bd037bf3.png"><img alt="https://user-images.githubusercontent.com/14288520/187995646-ed8c3c53-3fad-4882-9175-6cf9bd037bf3.png" src="https://user-images.githubusercontent.com/14288520/187995646-ed8c3c53-3fad-4882-9175-6cf9bd037bf3.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Sort items from list. It should accept any type of data from Sverchok: Vertices, Strings (Edges, Polygons), Matrix, Curves, Surfaces, Fields or Blender data.</p>
 <p>The node will sort the data based on the keys list. I not keys list is supplied the node will sort the data based in the data itself, note that this is only possible with numeric data.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>Data</strong>: Any kind of data.
-<strong>Keys</strong>: List with the  desired order of the data</p>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Data</strong>: Any kind of data.</p></li>
+<li><p><strong>Keys</strong>: List with the  desired order of the data (new positions)</p></li>
+</ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p><strong>Level:</strong> Set the level at which to observe the List. Level 1 is top level (totally zoomed out), higher levels get more granular (zooming in) until no higher level is found (atomic). The node will just sort the data at the level selected.</p>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Level:</strong> Set the level at which to observe the List. Level 1 is top level (totally zoomed out), higher levels get more granular (zooming in) until no higher level is found (atomic). The node will just sort the data at the level selected.</p></li>
+</ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>Data</strong>: Sorted data. Depends on incoming data and can be nested.</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Data</strong>: Sorted data. Depends on incoming data and can be nested.</p></li>
+</ul>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>Sorting a list of random numbers:
-.. image:: <a class="reference external" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_00.png">https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_00.png</a></p>
-<p>Sorting a List of Objects:
-.. image:: <a class="reference external" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png">https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png</a></p>
-<p>Sorting faces based on theirs center Z coordinate:
-.. image:: <a class="reference external" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png">https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png</a></p>
-<p>Examples of sorting at different levels:
-.. image:: <a class="reference external" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_03.png">https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_03.png</a></p>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188199920-cae91075-e413-4804-b4f7-4759986d9242.png"><img alt="https://user-images.githubusercontent.com/14288520/188199920-cae91075-e413-4804-b4f7-4759986d9242.png" src="https://user-images.githubusercontent.com/14288520/188199920-cae91075-e413-4804-b4f7-4759986d9242.png" /></a>
+<ul class="simple">
+<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="shuffle.html"><span class="doc">List Shuffle</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/simple_text.html"><span class="doc">Simple Text</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/string_tools.html"><span class="doc">String Tools</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188199934-419325ec-3eb8-453f-8040-66b430a9c445.png"><img alt="https://user-images.githubusercontent.com/14288520/188199934-419325ec-3eb8-453f-8040-66b430a9c445.png" src="https://user-images.githubusercontent.com/14288520/188199934-419325ec-3eb8-453f-8040-66b430a9c445.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/simple_text.html"><span class="doc">Simple Text</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/string_tools.html"><span class="doc">String Tools</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<p>Sorting a list of random numbers:</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_00.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_00.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_00.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/random_num_gen.html"><span class="doc">Random Num Gen</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_2d.html"><span class="doc">Viewer 2D</span></a></p></li>
+</ul>
+<p>Sorting a List of Objects:</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png" /></a>
+<ul class="simple">
+<li><p>Scene-&gt; <a class="reference internal" href="../scene/objects_in_lite.html"><span class="doc">Objects In</span></a></p></li>
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<p>Sorting faces based on theirs center Z coordinate:</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png" /></a>
+<ul class="simple">
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/suzanne.html"><span class="doc">Suzanne</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Vector-&gt; <a class="reference internal" href="../vector/vector_out.html"><span class="doc">Vector Out</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<p>Examples of sorting at different levels:</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_03.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_03.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_03.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/random_num_gen.html"><span class="doc">Random Num Gen</span></a></p></li>
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/line_mk4.html"><span class="doc">Line</span></a></p></li>
+<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="reverse.html"><span class="doc">List Reverse</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -173,8 +217,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="slice_lite.html" class="btn btn-neutral float-left" title="slice lite" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="split.html" class="btn btn-neutral float-right" title="List Split" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="shuffle.html" class="btn btn-neutral float-left" title="List Shuffle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flip.html" class="btn btn-neutral float-right" title="List Flip" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

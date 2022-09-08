@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Statistics &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Statistics &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List index" href="index.html" />
-    <link rel="prev" title="List Zip" href="zip.html" /> 
+    <link rel="next" title="List Index" href="index.html" />
+    <link rel="prev" title="List Decompose" href="decompose.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,24 +69,25 @@
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_main_index.html">List Main</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
-<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="join.html">List Join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
 <li class="toctree-l3"><a class="reference internal" href="zip.html">List Zip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Statistics</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#extra-parameters">Extra Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="index.html">List index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">List Index</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
@@ -135,25 +137,26 @@
            <div itemprop="articleBody">
              
   <section id="list-statistics">
-<h1>List Statistics<a class="headerlink" href="#list-statistics" title="Permalink to this headline">¶</a></h1>
+<h1>List Statistics<a class="headerlink" href="#list-statistics" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187748171-58c72008-67ec-4951-9f69-7f0eb1ab6f96.png"><img alt="https://user-images.githubusercontent.com/14288520/187748171-58c72008-67ec-4951-9f69-7f0eb1ab6f96.png" src="https://user-images.githubusercontent.com/14288520/187748171-58c72008-67ec-4951-9f69-7f0eb1ab6f96.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>List Statistics node computes various statistical quantities for the input values.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>Data</strong> input is expected to be a list of integers / floats or list of lists of integers / floats.
 All inputs are vectorized.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>Function</strong> parameter allows to select the statistical function to compute the corresponding statistical quantity for the input values.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 18%" />
-<col style="width: 24%" />
+<col style="width: 17%" />
+<col style="width: 26%" />
 <col style="width: 10%" />
-<col style="width: 48%" />
+<col style="width: 47%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Param</p></th>
@@ -164,29 +167,31 @@ All inputs are vectorized.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>Function</strong></p></td>
-<td><dl>
-<dt>Enum</dt><dd><p>All Statistics
-Selected Statistics</p>
-<p>Sum
-Sum Of Squares
-Sum Of Inverse
-Product
-Average
-Geometric Mean
-Harmonic Mean
-Variance
-Standard Deviation
-Standard Error
-Root Mean Square
-Skewness
-Kurtosis
-Minimum
-Maximum
-Range
-Median
-Percentile
-Histogram
-Count</p>
+<td><dl class="simple">
+<dt>Enum</dt><dd><ul class="simple">
+<li><p>All Statistics</p></li>
+<li><p>Selected Statistics</p></li>
+<li><p>Sum</p></li>
+<li><p>Sum Of Squares</p></li>
+<li><p>Sum Of Inverse</p></li>
+<li><p>Product</p></li>
+<li><p>Average</p></li>
+<li><p>Geometric Mean</p></li>
+<li><p>Harmonic Mean</p></li>
+<li><p>Variance</p></li>
+<li><p>Standard Deviation</p></li>
+<li><p>Standard Error</p></li>
+<li><p>Root Mean Square</p></li>
+<li><p>Skewness</p></li>
+<li><p>Kurtosis</p></li>
+<li><p>Minimum</p></li>
+<li><p>Maximum</p></li>
+<li><p>Range</p></li>
+<li><p>Median</p></li>
+<li><p>Percentile</p></li>
+<li><p>Histogram</p></li>
+<li><p>Count</p></li>
+</ul>
 </dd>
 </dl>
 </td>
@@ -234,17 +239,30 @@ to the given normalize size. [2]</p></td>
 [2] : The <strong>Normalize</strong> setting and the <strong>Bins</strong> and <strong>Size</strong> input sockets are available only for the <strong>Histogram</strong> function.</p>
 </section>
 <section id="extra-parameters">
-<h2>Extra Parameters<a class="headerlink" href="#extra-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Extra Parameters<a class="headerlink" href="#extra-parameters" title="Permalink to this heading">¶</a></h2>
 <p>The Property Panel contains additional settings to configure the statistics drawn in the node editor: font, text color, text scale and floating point precision of the displayed statistics, the x/y offset of the displayed statistics relative to the node and a setting for toggling the statistics names between full names and abbreviations.</p>
 <p>The fonts used for this node are monospace fonts for best text alignment.</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>Name(s)</strong>
-The name(s) of the statistical value(s) computed corresponding to the selected statistical function.</p>
-<p><strong>Value(s)</strong>
-The statistical quantity of the input values corresponding to the selected function. For a vectorized input the output values are a series of quantities corresponding to the selected function.</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Name(s)</strong> The name(s) of the statistical value(s) computed corresponding to the selected statistical function.</p></li>
+<li><p><strong>Value(s)</strong> The statistical quantity of the input values corresponding to the selected function. For a vectorized input the output values are a series of quantities corresponding to the selected function.</p></li>
+</ul>
 <p>When “All Statistics” is selected the <strong>Names</strong> and <strong>Values</strong> outputs will list the names and the corresponding values for all the statistical functions.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187533079-ada585a4-d1cf-4eb0-ba80-8faae3f53222.png"><img alt="https://user-images.githubusercontent.com/14288520/187533079-ada585a4-d1cf-4eb0-ba80-8faae3f53222.png" src="https://user-images.githubusercontent.com/14288520/187533079-ada585a4-d1cf-4eb0-ba80-8faae3f53222.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/random.html"><span class="doc">Random</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187532896-f7fe6bdd-d25e-40f4-99bf-d2373f75b9c0.png"><img alt="https://user-images.githubusercontent.com/14288520/187532896-f7fe6bdd-d25e-40f4-99bf-d2373f75b9c0.png" src="https://user-images.githubusercontent.com/14288520/187532896-f7fe6bdd-d25e-40f4-99bf-d2373f75b9c0.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/random.html"><span class="doc">Random</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -252,8 +270,8 @@ The statistical quantity of the input values corresponding to the selected funct
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="zip.html" class="btn btn-neutral float-left" title="List Zip" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="index.html" class="btn btn-neutral float-right" title="List index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="decompose.html" class="btn btn-neutral float-left" title="List Decompose" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-right" title="List Index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extrude Curve Along Vector &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Extrude Curve Along Vector &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -71,7 +72,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_point.html">Extrude to Point</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_curve.html">Extrude Curve Along Curve</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe (Curve)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe Surface Along Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="coons_patch.html">Surface from Four Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="blend_surface.html">Blend Surfaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="minimal_surface.html">Minimal Surface</a></li>
@@ -170,16 +171,16 @@
            <div itemprop="articleBody">
              
   <section id="extrude-curve-along-vector">
-<h1>Extrude Curve Along Vector<a class="headerlink" href="#extrude-curve-along-vector" title="Permalink to this headline">¶</a></h1>
+<h1>Extrude Curve Along Vector<a class="headerlink" href="#extrude-curve-along-vector" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates a Surface by extruding a Curve (called “profile”) along some vector.</p>
 <p>Surface domain: along U direction - the same as of profile curve; along V
 direction - from 0 to 1. V = 0 corresponds to the initial position of profile
 curve.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Profile</strong>. The curve to be extruded. This input is mandatory.</p></li>
@@ -187,14 +188,14 @@ curve.</p>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Surface</strong>. The generated surface.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Extrude some cubic spline along a vector:</p>
 <img alt="https://user-images.githubusercontent.com/284644/79358827-2ce24800-7f5b-11ea-91ec-a5df4762e610.png" src="https://user-images.githubusercontent.com/284644/79358827-2ce24800-7f5b-11ea-91ec-a5df4762e610.png" />
 </section>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Viewer Draw &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Viewer Draw &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="vd matrix" href="vd_matrix.html" />
+    <link rel="next" title="Matrix View" href="vd_matrix.html" />
     <link rel="prev" title="Viewer 2D" href="viewer_2d.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -73,7 +74,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../list_mutators/list_mutators_index.html">List Mutators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dictionary/dictionary_index.html">Dictionary</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="viz_index.html">Viz</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_2d.html">Viewer 2D</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Viewer Draw</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
@@ -84,9 +85,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#support">Support</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">vd matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Index Viewer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">Matrix View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Viewer Index+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_curves.html">Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_bezier_curve.html">Bezier Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_nurbs_curve.html">NURBS Curve Out Node</a></li>
@@ -148,14 +149,14 @@
            <div itemprop="articleBody">
              
   <section id="viewer-draw">
-<h1>Viewer Draw<a class="headerlink" href="#viewer-draw" title="Permalink to this headline">¶</a></h1>
+<h1>Viewer Draw<a class="headerlink" href="#viewer-draw" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p><em>aliases: vdmk4, viewer draw 4</em></p>
 <p>This node takes your geometry and displays it in the 3d view, using opengl and shaders. The node is intended to be a fast way to show you the result of your node tree. We’ve added various levels of refinements that you may find useful to better understand the virtual geometry you’ve created.</p>
 </section>
 <section id="shader-modes">
-<h2>Shader modes<a class="headerlink" href="#shader-modes" title="Permalink to this headline">¶</a></h2>
+<h2>Shader modes<a class="headerlink" href="#shader-modes" title="Permalink to this heading">¶</a></h2>
 <p>** flat **</p>
 <p>You can view your geometry as a single flat colour, this requires little to no processing before being passed onto the shader and is lightning fast. This is useful when you are working with large quantities of polygons.</p>
 <p>** facetted **</p>
@@ -166,7 +167,7 @@
 <p>If this interests you, you should read the node’s source code, and check out the development thread for examples. This is the more experimental part of the node and subject to changing eventually. At present this lets you load a VertexShader and FragmentShader from the bpy.data.texts block.</p>
 </section>
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>You can view Verts on their own, and set their size and color. Color can be set by vertex or by object, also can generate random colors in one click.</p></li>
 <li><p>You can view Edges, set their color and thickness and even apply a configurable Dashed edge style. Color can be set by edge or by object, also can use vertex colors to color edges.</p></li>
@@ -182,7 +183,7 @@
 </ul>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Vertices</p></li>
 <li><p>Edges</p></li>
@@ -195,13 +196,13 @@
 </ul>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/10011941/95666436-eb250980-0b59-11eb-9785-3d6f3d40fbdc.png" src="https://user-images.githubusercontent.com/10011941/95666436-eb250980-0b59-11eb-9785-3d6f3d40fbdc.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/95681591-fd965600-0be0-11eb-9fbf-6c124ba71c03.png" src="https://user-images.githubusercontent.com/10011941/95681591-fd965600-0be0-11eb-9fbf-6c124ba71c03.png" />
 <img alt="(https://user-images.githubusercontent.com/10011941/95681673-81e8d900-0be1-11eb-8ff0-b5a57675617c.png" src="(https://user-images.githubusercontent.com/10011941/95681673-81e8d900-0be1-11eb-8ff0-b5a57675617c.png" />
 </section>
 <section id="support">
-<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this heading">¶</a></h2>
 <p>it’s relatively stable, it’s been in development on and off for a year, since the first 2.8 releases. But, you will find bugs, let us know. Better yet, suggest fixes (preferably not requiring dedicated hardware) :)</p>
 </section>
 </section>
@@ -211,7 +212,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="viewer_2d.html" class="btn btn-neutral float-left" title="Viewer 2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="vd_matrix.html" class="btn btn-neutral float-right" title="vd matrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="vd_matrix.html" class="btn btn-neutral float-right" title="Matrix View" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

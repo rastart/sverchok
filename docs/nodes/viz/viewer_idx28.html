@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index Viewer &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Viewer Index+ &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Polyline viewer" href="polyline_viewer.html" />
-    <link rel="prev" title="vd matrix" href="vd_matrix.html" /> 
+    <link rel="next" title="Polyline Viewer" href="polyline_viewer.html" />
+    <link rel="prev" title="Matrix View" href="vd_matrix.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -73,15 +74,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../list_mutators/list_mutators_index.html">List Mutators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dictionary/dictionary_index.html">Dictionary</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="viz_index.html">Viz</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_2d.html">Viewer 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_draw_mk4.html">Viewer Draw</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">vd matrix</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Index Viewer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">Matrix View</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Viewer Index+</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_curves.html">Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_bezier_curve.html">Bezier Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_nurbs_curve.html">NURBS Curve Out Node</a></li>
@@ -132,7 +135,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="viz_index.html">Viz</a> &raquo;</li>
-      <li>Index Viewer</li>
+      <li>Viewer Index+</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/viz/viewer_idx28.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -142,28 +145,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="index-viewer">
-<h1>Index Viewer<a class="headerlink" href="#index-viewer" title="Permalink to this headline">¶</a></h1>
+  <section id="viewer-index">
+<h1>Viewer Index+<a class="headerlink" href="#viewer-index" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node’s primary purpose is for display the index information of geometry and topology, it will draw the indices of <code class="docutils literal notranslate"><span class="pre">Vertices</span></code>, <code class="docutils literal notranslate"><span class="pre">Edges</span></code>, and <code class="docutils literal notranslate"><span class="pre">Faces</span></code></p>
 <ul class="simple">
 <li><p>Vertex indices are drawn on the locations of the vertices</p></li>
 <li><p>Edge indices are drawn on midpoint of the Edge</p></li>
 <li><p>Face indices are drawn at the average location of the Vertices associated with the face.</p></li>
 </ul>
-<p>Additionally
-- the input geometry can be transformed using the Matrix socket.
-- the Node can draw arbitrary (non renderable) text into the 3dview at the location of incoming verts. There must be a one-to-one supply of vertices and text to draw, else the node will decide where to draw the excess text elements.</p>
-<img alt="https://user-images.githubusercontent.com/619340/127735798-4c3a4222-28ce-418a-b3f0-13c8149a590c.png" src="https://user-images.githubusercontent.com/619340/127735798-4c3a4222-28ce-418a-b3f0-13c8149a590c.png" />
+<p>Additionally</p>
 <ul class="simple">
-<li><p>(available from N Panel) the Node can display the Object index associated with the element ( the first object, first index will be drawn as <code class="docutils literal notranslate"><span class="pre">0:</span> <span class="pre">0</span></code> )</p></li>
+<li><p>the input geometry can be transformed using the Matrix socket.</p></li>
+<li><p>the Node can draw arbitrary (non renderable) text into the 3dview at the
+location of incoming verts, edges and faces. If incoming data is shorter than
+number of elements the last element will be displayed on rest elements.</p></li>
 </ul>
 <p>Because it can be difficult to read indices when there are many geometric elements visible there is an option to draw a small background under the text element.</p>
-<ul class="simple">
-<li><p>(using the Ghost icon in the Node UI) if you attach verts + faces, you can also hide backfacing indices from being displayed. Adding the faces information gives the node enough information to detect what can be seen directly by the viewport “eye” location.</p></li>
-</ul>
-<img alt="https://user-images.githubusercontent.com/619340/127735702-7db6c27a-9f59-4ad4-83f8-44fe96fcbd0c.png" src="https://user-images.githubusercontent.com/619340/127735702-7db6c27a-9f59-4ad4-83f8-44fe96fcbd0c.png" />
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Activate</dt><dd><p>Enabling the node.</p>
+</dd>
+<dt>Draw background</dt><dd><p>Hide background around text.</p>
+</dd>
+<dt>Draw bface</dt><dd><p>(using the Ghost icon in the Node UI) if you attach verts + faces, you can
+also hide backfacing indices from being displayed. Adding the faces
+information gives the node enough information to detect what can be seen
+directly by the viewport “eye” location.</p>
+</dd>
+<dt>Draw object index</dt><dd><p>(available from N Panel) the Node can display the Object index associated
+with the element ( the first object, first index will be drawn as <code class="docutils literal notranslate"><span class="pre">0:</span> <span class="pre">0</span></code> )</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p>Hide text behind geometry</p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/619340/127735702-7db6c27a-9f59-4ad4-83f8-44fe96fcbd0c.png"><img alt="https://user-images.githubusercontent.com/619340/127735702-7db6c27a-9f59-4ad4-83f8-44fe96fcbd0c.png" src="https://user-images.githubusercontent.com/619340/127735702-7db6c27a-9f59-4ad4-83f8-44fe96fcbd0c.png" style="width: 800px;" /></a>
+<p>Show custom text</p>
+<a class="reference internal image-reference" href="https://user-images.githubusercontent.com/619340/127735798-4c3a4222-28ce-418a-b3f0-13c8149a590c.png"><img alt="https://user-images.githubusercontent.com/619340/127735798-4c3a4222-28ce-418a-b3f0-13c8149a590c.png" src="https://user-images.githubusercontent.com/619340/127735798-4c3a4222-28ce-418a-b3f0-13c8149a590c.png" style="width: 800px;" /></a>
 </section>
 </section>
 
@@ -171,8 +194,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="vd_matrix.html" class="btn btn-neutral float-left" title="vd matrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="polyline_viewer.html" class="btn btn-neutral float-right" title="Polyline viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="vd_matrix.html" class="btn btn-neutral float-left" title="Matrix View" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="polyline_viewer.html" class="btn btn-neutral float-right" title="Polyline Viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

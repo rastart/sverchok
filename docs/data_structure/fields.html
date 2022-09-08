@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scalar Fields &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Scalar Fields &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -89,13 +90,13 @@
            <div itemprop="articleBody">
              
   <section id="scalar-fields">
-<h1>Scalar Fields<a class="headerlink" href="#scalar-fields" title="Permalink to this headline">¶</a></h1>
+<h1>Scalar Fields<a class="headerlink" href="#scalar-fields" title="Permalink to this heading">¶</a></h1>
 <p>A scalar field is a mathematical object, which is defined as a function from R^3 to R, i.e. a mapping which maps each point in a 3D space to some number. Such objects are quite common in mathematics and in physics too; for example, you can take a field of temperatures (which maps each point to the temperature in that point).</p>
 <p>Technically, scalar field is defined as Python class, which can calculate some number for a provided point in space. Note that the definition of the field function can be quite complex, but it does not mean that that complex definition will be executed for all points in 3D space — only for points for which it is actually required to know the value.</p>
 <p>Sverchok can generate such fields by several ways, including user-provided formulas; it can execute some mathematical operations on them (such as addition or multiplication).</p>
 </section>
 <section id="vector-fields">
-<h1>Vector Fields<a class="headerlink" href="#vector-fields" title="Permalink to this headline">¶</a></h1>
+<h1>Vector Fields<a class="headerlink" href="#vector-fields" title="Permalink to this heading">¶</a></h1>
 <p>A vector field is a mathematical object, which is defined as a function from R^3 to R^3, i.e. a mapping which maps each point in 3D space into a 3D vector. Such objects are very common in mathematics and in physics; for example, consider the field of some force, for example the gravitation field, which defines the gravitation force vector for each point in space.</p>
 <p>Note that when we are talking about vector fields, there are two possible ways to interpret their values:</p>
 <ol class="arabic simple">

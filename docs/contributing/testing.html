@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Testing &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Testing &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Adding new Node" href="add_new_node.html" /> 
+    <link rel="prev" title="Node API" href="node_api.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -31,7 +32,7 @@
             <img src="../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -53,6 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="contribute_small_things.html">Contributing small things</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contribute_general.html">General guidelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="add_new_node.html">Adding new Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_api.html">Node API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Testing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#preface">Preface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implementation">Implementation</a></li>
@@ -90,9 +92,9 @@
            <div itemprop="articleBody">
              
   <section id="testing">
-<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h1>
+<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">¶</a></h1>
 <section id="preface">
-<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">¶</a></h2>
+<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this heading">¶</a></h2>
 <p>This document describes (for developers mainly) our approach to testing the code of Sverchok.</p>
 <p>The main ideas are:</p>
 <ul class="simple">
@@ -110,7 +112,7 @@
 </ul>
 </section>
 <section id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
 <p>Automated testing of Sverchok is implemented based on standard Python’s <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> module.
 In <code class="docutils literal notranslate"><span class="pre">sverchok.utils.testing</span></code> module there is a number of utility methods and some base classes for test cases. Please refer to docstrings in that module for more detailed information.
 Test cases themselves are under <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory. The files have to be named <code class="docutils literal notranslate"><span class="pre">*_tests.py</span></code>. Feel free to use existing test cases as examples to create your own.
@@ -123,7 +125,7 @@ Test data files are located under <code class="docutils literal notranslate"><sp
 <p>Please do run the tests at least before making a pull request.</p>
 </section>
 <section id="continuous-integration">
-<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
+<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this heading">¶</a></h2>
 <p>GitHub actions are used for executing tests. You can see current status of Sverchok tests
 <a class="reference external" href="https://github.com/nortikin/sverchok/actions">here</a>.
 GitHub action is configured to trigger automatically on the following events:</p>
@@ -135,7 +137,7 @@ GitHub action is configured to trigger automatically on the following events:</p
 <p>Moreover, it is a good idea to add some automated tests with each pull request. For example, if you added a new feature, add a test for it (in case it is not too hard to write such a test; otherwise just do manual testing).</p>
 </section>
 <section id="testing-documentation">
-<h2>Testing Documentation<a class="headerlink" href="#testing-documentation" title="Permalink to this headline">¶</a></h2>
+<h2>Testing Documentation<a class="headerlink" href="#testing-documentation" title="Permalink to this heading">¶</a></h2>
 <p>For building Sverchok docs <a class="reference external" href="https://www.sphinx-doc.org/en/master/index.html">Sphinx</a> documentation generator is used.
 If in a pul request there are changed files located in <code class="docutils literal notranslate"><span class="pre">sverchok/docs</span></code> folder it will trigger testing of building
 the documentation. Before pushing changes you can build docs on your computer.
@@ -153,7 +155,7 @@ you will not face with such fail unless there was changes in the configuration f
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="add_new_node.html" class="btn btn-neutral float-left" title="Adding new Node" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="node_api.html" class="btn btn-neutral float-left" title="Node API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

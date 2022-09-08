@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Script Node Lite &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Script Node Lite &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="topology simple" href="topology_simple.html" />
-    <link rel="prev" title="multi exec" href="multi_exec.html" /> 
+    <link rel="next" title="Topology Simple" href="topology_simple.html" />
+    <link rel="prev" title="Exec Node Mod" href="multi_exec.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -77,10 +78,11 @@
 <li class="toctree-l2 current"><a class="reference internal" href="script_index.html">Script</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="formula_mk5.html">Formula Node Mk4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="formula_interpolate.html">Formula Interpolate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="multi_exec.html">multi exec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_exec.html">Exec Node Mod</a></li>
 <li class="toctree-l3"><a class="reference internal" href="multi_exec.html#features">features</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Script Node Lite</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#syntax">Syntax</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs-outputs">Inputs / Outputs</a></li>
@@ -88,8 +90,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples-of-usage">Examples of usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="topology_simple.html">topology simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sn_functor_b.html">sn functor b</a></li>
+<li class="toctree-l3"><a class="reference internal" href="topology_simple.html">Topology Simple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sn_functor_b.html">SN Functor B</a></li>
 <li class="toctree-l3"><a class="reference internal" href="profile_mk3.html">Profile Parametric Node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesh_eval.html">Mesh Expression Node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generative_art.html">Generative Art</a></li>
@@ -135,9 +137,9 @@
            <div itemprop="articleBody">
              
   <section id="script-node-lite">
-<h1>Script Node Lite<a class="headerlink" href="#script-node-lite" title="Permalink to this headline">¶</a></h1>
+<h1>Script Node Lite<a class="headerlink" href="#script-node-lite" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node allows the user to write arbitrary node logic in Python. It is useful
 when there is no standard node in Sverchok for your particular purpose; you may
 want to use this if you want some complex piece of logic to be used in a couple
@@ -145,8 +147,13 @@ of your own projects, or if you are prototyping a new standard node for
 Sverchok itself.</p>
 <p>The script node implementation is intended for quick, non serious, experimentation.</p>
 </section>
+<section id="keyboard-shortcuts">
+<h2>Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permalink to this heading">¶</a></h2>
+<p>When a script is loaded in the SNLite node you can keep editing the script from the TextEditor.
+Instead of pressing the reload button the Node’s UI you can press “Ctrl+Enter” while inside the TextEditor.</p>
+</section>
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>A small amount of boilerplate (called a directive) at the top of your scripts used to define what sockets and ui elements you want. More about this in the Syntax segment below.</p></li>
 <li><p>We provide example scripts to get you up an running quickly. These come in the form of templates and they can be imported directly into the node from the N panel. They can be imported directly into <strong>node</strong>, or to a <strong>text block</strong>.</p></li>
@@ -156,6 +163,15 @@ Sverchok itself.</p>
 <li><p>You must declare an input socket, but outputs are optional.</p></li>
 <li><p>You can set defaults for input numbers, vectors, and list sockets.</p></li>
 <li><p>You can set the level of nestedness; means you don’t need to unwrap/index stuff via code</p></li>
+<li><p>You can use a dictionary per node instance, this allows you to store any data that can be produced at runtime. Get a <cite>dict</cite> and store states using these functions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># here self refers to the node and will be available at runtime.</span>
+<span class="nb">dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_user_dict</span><span class="p">()</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">reset_user_dict</span><span class="p">()</span>   <span class="c1"># takes a boolean parameter &quot;hard&quot; to wipe the</span>
+<span class="o">...</span>                      <span class="c1"># dictionaries at the class-level (all instances)</span>
+<span class="o">...</span>                      <span class="c1"># hard=True is useful for debugging.</span>
+</pre></div>
+</div>
+</li>
 <li><p>You can append a UI drawing function to the default drawing function of SNLite, in case you want to display a variety of UI elements from anywhere in Blender in one place.</p></li>
 <li><p>has the option to <strong>auto inject</strong> the list of variable references as <strong>parameters</strong> much like javascript does for <strong>arguments</strong> inside a function. In essence implemented like this</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
@@ -194,8 +210,10 @@ Sverchok itself.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
     <span class="n">layout</span><span class="o">.</span><span class="n">prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;custom_enum&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">layout</span><span class="o">.</span><span class="n">prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;custom_enum_2&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">pass</span>
 </pre></div>
 </div>
+<p>When adding a custom UI drawing function (as above) it’s sometimes necessary to add an explicit <code class="docutils literal notranslate"><span class="pre">pass</span></code> or <code class="docutils literal notranslate"><span class="pre">return</span></code> “terminator” statement at the end, this is down to a bug i’ve not had time to track down yet. If you get unexplainable/illogical python errors with a <cite>def ui</cite>, then add a “terminator”.</p>
 <p>in your code you might use them this way:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_enum_2</span> <span class="o">==</span> <span class="s2">&quot;clean&quot;</span><span class="p">:</span>
     <span class="n">v_out</span><span class="p">,</span> <span class="n">f_out</span> <span class="o">=</span> <span class="n">join_tris</span><span class="p">(</span><span class="n">b_verts</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">params</span><span class="p">)</span>
@@ -249,7 +267,7 @@ Sverchok itself.</p>
 </ul>
 </section>
 <section id="syntax">
-<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this heading">¶</a></h2>
 <p>To initialize a scriptnode you must provide a “directive”, it’s where you define sockets and other scriptnode specific properties. The directive is rigidly wrapped with
 a pair of triple quote marks: <strong>“””</strong>, never single quotes like <strong>‘’’</strong>.</p>
 <p>The syntax looks like this:</p>
@@ -373,11 +391,11 @@ against this, but I find it useful to be notified quickly if the input is
 unexpected, the node will gracefully fail.</p>
 </section>
 <section id="inputs-outputs">
-<h2>Inputs / Outputs<a class="headerlink" href="#inputs-outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs / Outputs<a class="headerlink" href="#inputs-outputs" title="Permalink to this heading">¶</a></h2>
 <p>All inputs and outputs of this node are defined in the script.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has two states:</p>
 <ol class="arabic">
 <li><p>When no script is loaded, it shows:</p>
@@ -398,7 +416,7 @@ unexpected, the node will gracefully fail.</p>
 </ol>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Please refer to the initial thread: <a class="reference external" href="https://github.com/nortikin/sverchok/issues/942">https://github.com/nortikin/sverchok/issues/942</a>.</p>
 <p>In the N panel of the node there is a drop-down menu allowing you to select one
 of example scripts which are distributed with Sverchok.</p>
@@ -409,8 +427,8 @@ of example scripts which are distributed with Sverchok.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="multi_exec.html" class="btn btn-neutral float-left" title="multi exec" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="topology_simple.html" class="btn btn-neutral float-right" title="topology simple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="multi_exec.html" class="btn btn-neutral float-left" title="Exec Node Mod" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="topology_simple.html" class="btn btn-neutral float-right" title="Topology Simple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

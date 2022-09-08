@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adding new Node &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Adding new Node &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="next" title="Node API" href="node_api.html" />
     <link rel="prev" title="General guidelines" href="contribute_general.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -63,6 +64,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="node_api.html">Node API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing.html">Testing</a></li>
 </ul>
 </li>
@@ -94,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="adding-new-node">
-<h1>Adding new Node<a class="headerlink" href="#adding-new-node" title="Permalink to this headline">¶</a></h1>
+<h1>Adding new Node<a class="headerlink" href="#adding-new-node" title="Permalink to this heading">¶</a></h1>
 <p>This page documents the essentials to make your own node for sverchok. We make several assumptions
 about your Python knowledge - an affinity for Python is a prerequisite. If you suck at Python, you
 will have a bad time trying to write nodes for sverchok (– a hard truth).</p>
@@ -109,7 +111,7 @@ your brain do the pattern matching.</p>
 <p>Also do any of the free python courses, and quit and move on from easy ones to harder ones.</p>
 </div>
 <section id="to-create-a-node">
-<h2>To create a node:<a class="headerlink" href="#to-create-a-node" title="Permalink to this headline">¶</a></h2>
+<h2>To create a node:<a class="headerlink" href="#to-create-a-node" title="Permalink to this heading">¶</a></h2>
 <p>Creation of new node can be split into next steps.</p>
 <ol class="arabic simple">
 <li><p>Make a scripted node to test the idea.</p></li>
@@ -131,7 +133,7 @@ may be born because current approach has
 <a class="reference external" href="https://github.com/nortikin/sverchok/issues/3955">certain disadvantages</a>.</p>
 </div>
 <section id="license">
-<h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
+<h3>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h3>
 <p>Use next strings in the top of the node file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This file is part of project Sverchok. It&#39;s copyrighted by the contributors</span>
 <span class="c1"># recorded in the version control history of the file, available from</span>
@@ -143,7 +145,7 @@ may be born because current approach has
 </div>
 </section>
 <section id="imports">
-<h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
+<h3>Imports<a class="headerlink" href="#imports" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bpy</span>
 <span class="kn">from</span> <span class="nn">mathutils</span> <span class="kn">import</span> <span class="n">Vector</span>
 <span class="kn">from</span> <span class="nn">bpy.props</span> <span class="kn">import</span> <span class="n">FloatProperty</span>
@@ -165,7 +167,7 @@ it adds a <code class="docutils literal notranslate"><span class="pre">poll</spa
 </ul>
 </section>
 <section id="node-class">
-<h3>Node Class<a class="headerlink" href="#node-class" title="Permalink to this headline">¶</a></h3>
+<h3>Node Class<a class="headerlink" href="#node-class" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SvScaleVectorNode</span><span class="p">(</span><span class="n">SverchCustomTreeNode</span><span class="p">,</span> <span class="n">bpy</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Triggers: vector multiple scale</span>
@@ -270,7 +272,7 @@ vertices and wrap the result back. Last string assign the result to output socke
 </dl>
 </section>
 <section id="register-node-class">
-<h3>Register node class<a class="headerlink" href="#register-node-class" title="Permalink to this headline">¶</a></h3>
+<h3>Register node class<a class="headerlink" href="#register-node-class" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
     <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_class</span><span class="p">(</span><span class="n">SvScaleVectorNode</span><span class="p">)</span>
 
@@ -307,7 +309,7 @@ Sverchok’s custom node mixin class. (this is true and when new node is created
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="contribute_general.html" class="btn btn-neutral float-left" title="General guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="testing.html" class="btn btn-neutral float-right" title="Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="node_api.html" class="btn btn-neutral float-right" title="Node API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

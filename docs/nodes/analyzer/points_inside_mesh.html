@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Points Inside Mesh &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Points Inside Mesh &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Project points to line" href="project_point_to_line.html" />
+    <link rel="next" title="Project Points to Line" href="project_point_to_line.html" />
     <link rel="prev" title="Path Length" href="path_length_2.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -72,12 +73,12 @@
 <li class="toctree-l3"><a class="reference internal" href="intersect_circle_circle.html">Circle Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intersect_plane_plane.html">Plane Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_MK2.html">KDT Closest Verts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges_mk2.html">KDT Closest Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges.html">KDT Closest Edges</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_path.html">KDT Closest Path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linked_verts.html">Linked Verts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesh_filter.html">Mesh Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select mesh elements by location</a></li>
-<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select similar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select Mesh Elements by Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select Similar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="proportional.html">Proportional Edit Falloff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="normals_mk2.html">Calculate Normals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nearest_point_on_mesh.html">Nearest Point on Mesh</a></li>
@@ -89,11 +90,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples-of-use">Examples of use</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project points to line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project Points to Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="volume.html">Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycaster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="image_components.html">Image Decomposer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess Selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wave_paint.html">Wave Painter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="origins.html">Origins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linear_approx.html">Linear Approximation</a></li>
@@ -160,9 +161,9 @@
            <div itemprop="articleBody">
              
   <section id="points-inside-mesh">
-<h1>Points Inside Mesh<a class="headerlink" href="#points-inside-mesh" title="Permalink to this headline">¶</a></h1>
+<h1>Points Inside Mesh<a class="headerlink" href="#points-inside-mesh" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>The node determines if points are inside a mesh. I has two modes, 2D and 3D</p>
 <ul class="simple">
 <li><p>In the 2D mode will determine if points are inside the polygons of the input mesh.</p>
@@ -181,7 +182,7 @@
 <p>see <a class="reference external" href="https://github.com/nortikin/sverchok/pull/1703">https://github.com/nortikin/sverchok/pull/1703</a></p>
 </section>
 <section id="examples-of-use">
-<h2>Examples of use<a class="headerlink" href="#examples-of-use" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of use<a class="headerlink" href="#examples-of-use" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/10011941/71828078-eea6d400-30a1-11ea-8b12-618479a5ef32.png" src="https://user-images.githubusercontent.com/10011941/71828078-eea6d400-30a1-11ea-8b12-618479a5ef32.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/71828631-fa46ca80-30a2-11ea-97ee-a5a3475b4fc6.png" src="https://user-images.githubusercontent.com/10011941/71828631-fa46ca80-30a2-11ea-97ee-a5a3475b4fc6.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/71829174-4b0af300-30a4-11ea-992e-1f1e5b04fbc3.png" src="https://user-images.githubusercontent.com/10011941/71829174-4b0af300-30a4-11ea-992e-1f1e5b04fbc3.png" />
@@ -195,7 +196,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="path_length_2.html" class="btn btn-neutral float-left" title="Path Length" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="project_point_to_line.html" class="btn btn-neutral float-right" title="Project points to line" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="project_point_to_line.html" class="btn btn-neutral float-right" title="Project Points to Line" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

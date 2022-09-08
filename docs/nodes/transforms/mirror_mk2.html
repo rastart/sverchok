@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mirror &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Mirror &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Symmetrize" href="symmetrize.html" />
-    <link rel="prev" title="Deform by formula" href="formula_deform_mk2.html" /> 
+    <link rel="prev" title="Deform by Formula" href="formula_deform_mk2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -60,13 +61,13 @@
 <li class="toctree-l3"><a class="reference internal" href="move_mk3.html">Move</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scale_mk3.html">Scale</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rotate_mk3.html">Rotate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apply.html">Matrix Apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apply.html">Matrix Apply (verts)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barycentric_transform.html">Barycentric Transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bend_along_path.html">Bend Object Along Path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bend_along_surface.html">Bend Object Along Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cast.html">Cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deform.html">Simple Deformation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="formula_deform_mk2.html">Deform by formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formula_deform_mk2.html">Deform by Formula</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Mirror</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -80,7 +81,7 @@
 <li class="toctree-l3"><a class="reference internal" href="noise_displace.html">Noise Displace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="texture_displace_mk2.html">Texture Displace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="randomize.html">Randomize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="align_mesh_by_mesh.html">Align mesh by mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="align_mesh_by_mesh.html">Align Mesh by Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="transform_mesh.html">Transform mesh</a></li>
 </ul>
 </li>
@@ -142,14 +143,14 @@
            <div itemprop="articleBody">
              
   <section id="mirror">
-<h1>Mirror<a class="headerlink" href="#mirror" title="Permalink to this headline">¶</a></h1>
+<h1>Mirror<a class="headerlink" href="#mirror" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node mirrors vertices relative to a specified point, axis or plane.
 Several ways of specifying the mirroring center are available.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul>
 <li><p><strong>Vertices</strong>. Vertices to be mirrored.</p></li>
@@ -186,7 +187,7 @@ parameter is set to <strong>Axis by point and direction</strong>.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul class="simple">
 <li><dl class="simple">
@@ -214,14 +215,14 @@ value is XZ.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. The mirrored vertices.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Suzanne mirrored around some random plane:</p>
 <img alt="https://user-images.githubusercontent.com/284644/70866839-782a2100-1f90-11ea-9682-9a7d66acc7bb.png" src="https://user-images.githubusercontent.com/284644/70866839-782a2100-1f90-11ea-9682-9a7d66acc7bb.png" />
 <p>Suzanne mirrored around an axis which goes through the <cite>(1, 1, 0)</cite> point parallel to the Z axis:</p>
@@ -233,7 +234,7 @@ value is XZ.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="formula_deform_mk2.html" class="btn btn-neutral float-left" title="Deform by formula" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="formula_deform_mk2.html" class="btn btn-neutral float-left" title="Deform by Formula" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="symmetrize.html" class="btn btn-neutral float-right" title="Symmetrize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

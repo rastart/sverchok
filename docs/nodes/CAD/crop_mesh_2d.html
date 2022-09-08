@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crop mesh 2D &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Crop Mesh 2D &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -61,7 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../modifier_change/modifier_change_index.html">Modifier Change</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modifier_make/modifier_make_index.html">Modifier Make</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="CAD_index.html">CAD</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Crop mesh 2D</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Crop Mesh 2D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#blender-mode">Blender mode</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#category">Category</a></li>
@@ -73,8 +74,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="edges_intersect_mk3.html">Intersect Edges</a></li>
-<li class="toctree-l3"><a class="reference internal" href="edges_to_faces_2d.html">Edges to faces 2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="merge_mesh_2d.html">Merge mesh 2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edges_to_faces_2d.html">Edges to Faces 2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="merge_mesh_2d.html">Merge Mesh 2d</a></li>
 <li class="toctree-l3"><a class="reference internal" href="merge_mesh_2d_lite.html">Merge mesh 2D lite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="inset_special_mk2.html">Inset Special</a></li>
 </ul>
@@ -122,7 +123,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="CAD_index.html">CAD</a> &raquo;</li>
-      <li>Crop mesh 2D</li>
+      <li>Crop Mesh 2D</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/CAD/crop_mesh_2d.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -133,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="crop-mesh-2d">
-<h1>Crop mesh 2D<a class="headerlink" href="#crop-mesh-2d" title="Permalink to this headline">¶</a></h1>
+<h1>Crop Mesh 2D<a class="headerlink" href="#crop-mesh-2d" title="Permalink to this heading">¶</a></h1>
 <img alt="https://user-images.githubusercontent.com/28003269/71086774-1b0eb500-21b4-11ea-91c0-37c932309d0a.png" src="https://user-images.githubusercontent.com/28003269/71086774-1b0eb500-21b4-11ea-91c0-37c932309d0a.png" />
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>The node takes two meshes determined by faces find them intersection and dependently of mode
 show either overlapping each other faces or faces of first mesh which has not overlapping.</p>
 <p>Differently to say crop mesh can crete holes in base mesh in outer mode or
@@ -157,16 +158,16 @@ It available only ind faces mode.</p>
 </ul>
 </section>
 <section id="blender-mode">
-<h2>Blender mode<a class="headerlink" href="#blender-mode" title="Permalink to this headline">¶</a></h2>
+<h2>Blender mode<a class="headerlink" href="#blender-mode" title="Permalink to this heading">¶</a></h2>
 <p>This mode is using internal Blender function so it is faster but can crash Blender.
 Also it works only with faces at this moment.</p>
 </section>
 <section id="category">
-<h2>Category<a class="headerlink" href="#category" title="Permalink to this headline">¶</a></h2>
+<h2>Category<a class="headerlink" href="#category" title="Permalink to this heading">¶</a></h2>
 <p>CAD -&gt; crop mesh 2d</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Vertices</strong> - vertices of base mesh</p></li>
 <li><p><strong>Faces</strong> or <strong>Edges</strong> - faces of base mesh (don’t try to plug edges)</p></li>
@@ -175,7 +176,7 @@ Also it works only with faces at this moment.</p>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Vertices</strong> - vertices, can produce new vertices</p></li>
 <li><p><strong>Faces</strong> or <strong>Edges</strong> - faces, also new edges can be added for showing holes</p></li>
@@ -183,7 +184,7 @@ Also it works only with faces at this moment.</p>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 23%" />
@@ -224,7 +225,7 @@ but there is some cases when the node can stuck in error and playing with the pa
 This parameter does not have any affect to performance in spite of its name.</p>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
 <p>Creating holes:</p>
 <img alt="https://user-images.githubusercontent.com/28003269/68539557-2eea1e80-039f-11ea-91d2-aabb4399a9db.png" src="https://user-images.githubusercontent.com/28003269/68539557-2eea1e80-039f-11ea-91d2-aabb4399a9db.png" />
 <p>Fit mesh inside mesh:</p>
@@ -235,7 +236,7 @@ This parameter does not have any affect to performance in spite of its name.</p>
 <img alt="https://user-images.githubusercontent.com/28003269/68532980-8e174700-033d-11ea-8134-8da6b13c8121.png" src="https://user-images.githubusercontent.com/28003269/68532980-8e174700-033d-11ea-8134-8da6b13c8121.png" />
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/28003269/68381924-1f36c400-016c-11ea-9984-07c4a27688d1.png" src="https://user-images.githubusercontent.com/28003269/68381924-1f36c400-016c-11ea-9984-07c4a27688d1.png" />
 </section>
 </section>

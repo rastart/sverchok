@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Combinatorics &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Combinatorics &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="filter empty lists" href="filter_empty_lists.html" />
+    <link rel="next" title="Find Closest Value" href="find_closest.html" />
     <link rel="prev" title="Polygon Sort" href="polygon_sort.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -73,6 +74,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="list_mutators_index.html">List Mutators</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="modifier.html">List Modifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="unique_items.html">Unique Items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filter_empty_lists.html">Filter Empty Objects</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polygon_sort.html">Polygon Sort</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Combinatorics</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
@@ -82,8 +84,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="filter_empty_lists.html">filter empty lists</a></li>
-<li class="toctree-l3"><a class="reference internal" href="find_closest.html">Find closest value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="find_closest.html">Find Closest Value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="multi_cache.html">Multi Cache</a></li>
 </ul>
 </li>
@@ -131,13 +132,13 @@
            <div itemprop="articleBody">
              
   <section id="combinatorics">
-<h1>Combinatorics<a class="headerlink" href="#combinatorics" title="Permalink to this headline">¶</a></h1>
+<h1>Combinatorics<a class="headerlink" href="#combinatorics" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Combinatorics node performs various combinatoric operations like: <strong>Product</strong>, <strong>Permutations</strong> and <strong>Combinations</strong>.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>The inputs to the node are a set of lists of any type and a set of control parameters.</p>
 <p>The list inputs in combination to the control parameter inputs (Repeat / Length) are vectorized and the control parameters accept either single or multiple values for vectorization.</p>
 <p>List inputs to the node:
@@ -149,7 +150,7 @@
 [1] : The multiple list inputs are available for the <strong>Product</strong> operation, all the other operations take one list input. For the <strong>Product</strong> operation as the last list input is connected a new empty input socket will appear to allow other lists to be connected.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>The <strong>Operation</strong> parameter allows to select one of following operations: Product, Permutations and Combinations.</p>
 <p>All parameters except <strong>Operation</strong> can be given as an external input.</p>
 <table class="docutils align-default">
@@ -207,7 +208,7 @@ operate on [2]</p></td>
 [3] : Additional lists inputs are available only for the <strong>Product</strong> operation.</p>
 </section>
 <section id="operations">
-<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this heading">¶</a></h2>
 <p><strong>Product</strong></p>
 <p>For this operation the node allows an arbitrary number of input lists to be product together as: A x B x .. x Z. The result of the product operation is a list of elements each of size equal to the number of input lists and has all the combinations of elements from the first list, followed by all elements in the second list etc.</p>
 <p>e.g. for two connected list inputs:</p>
@@ -261,7 +262,7 @@ L : 2</p>
 </div>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p><strong>Result</strong>
 The list of product, permutations or combinations.</p>
 <p>The results will be generated only when the <strong>Result</strong> output is connected.</p>
@@ -273,7 +274,7 @@ The list of product, permutations or combinations.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="polygon_sort.html" class="btn btn-neutral float-left" title="Polygon Sort" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="filter_empty_lists.html" class="btn btn-neutral float-right" title="filter empty lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="find_closest.html" class="btn btn-neutral float-right" title="Find Closest Value" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

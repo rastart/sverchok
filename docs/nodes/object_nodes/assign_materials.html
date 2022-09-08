@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assign Materials List &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Assign Materials List &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -80,9 +81,9 @@
 <li class="toctree-l3"><a class="reference internal" href="get_asset_properties_mk2.html">Object ID Selector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lattice_analyzer.html">Lattice Props</a></li>
 <li class="toctree-l3"><a class="reference internal" href="armature_analyzer.html">Armature Props</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sample_uv_color.html">Sample UV texture color on Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="select_mesh_verts.html">Select vertices of mesh Node</a></li>
-<li class="toctree-l3"><a class="reference internal" href="weightsmk2.html">Weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sample_uv_color.html">Sample UV Texture Color on Mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="select_mesh_verts.html">Select Object Vertices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weightsmk2.html">Vertex Group Weights</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getsetprop.html">Get Property / Set Property</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getsetprop_mk2.html">Get Property / Set Property</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Assign Materials List</a><ul>
@@ -94,10 +95,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="material_index.html">Set Material Index</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_custom_uv_map.html">Set custom UV map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_loop_normals.html">Set loop normals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_mesh_attribute.html">Set mesh attribute</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_collection.html">Set collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_custom_uv_map.html">Set Custom UV Map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_loop_normals.html">Set Loop Normals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_mesh_attribute.html">Set Mesh Attribute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_collection.html">Set Collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copy_modifiers.html">Copy Modifiers Node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="named_attribute.html">Named Attribute</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../layout/layout_index.html">Layout</a></li>
@@ -138,9 +141,9 @@
            <div itemprop="articleBody">
              
   <section id="assign-materials-list">
-<h1>Assign Materials List<a class="headerlink" href="#assign-materials-list" title="Permalink to this headline">¶</a></h1>
+<h1>Assign Materials List<a class="headerlink" href="#assign-materials-list" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>In Blender, each object can have a list of associated materials. Once the list
 of materials is assigned to the object, the material to be used for specific
 face can be identified by the index of the material in that list.</p>
@@ -151,7 +154,7 @@ faces by default.</p>
 <p>This node is most commonly used together with the <strong>Set Material Index</strong> node.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Object</strong>. The Blender object, for which the list of materials is to be
@@ -160,21 +163,21 @@ mandatory.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has only one parameter: the list of materials to be assigned to the
 object. One can add or remove items from this list by means of <strong>Plus</strong> /
 <strong>Minus</strong> buttons next to the list. Materials list can be rearranged by means
 of <strong>Up</strong> / <strong>Down</strong> buttons next to the list.</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>Object</strong>. The same object as in the input, but with material list already assigned.</p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>An example of usage in pair with the <strong>Set Material Index</strong> node:</p>
 <img alt="https://user-images.githubusercontent.com/284644/70449726-50d0e100-1ac4-11ea-8094-d73cb2cf0c76.png" src="https://user-images.githubusercontent.com/284644/70449726-50d0e100-1ac4-11ea-8094-d73cb2cf0c76.png" />
 </section>

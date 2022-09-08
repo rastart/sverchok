@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vector Field Formula &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Vector Field Formula &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -153,16 +154,16 @@
            <div itemprop="articleBody">
              
   <section id="vector-field-formula">
-<h1>Vector Field Formula<a class="headerlink" href="#vector-field-formula" title="Permalink to this headline">¶</a></h1>
+<h1>Vector Field Formula<a class="headerlink" href="#vector-field-formula" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates a Vector Field, defined by some user-provided formula.</p>
 <p>The formula should map the coordinates of the point in 3D space into some vector in 3D space. Both original points and the resulting vector can be expressed in one of supported coordinate systems.</p>
 <p>It is possible to use additional parameters in the formula, they will become inputs of the node.</p>
 <p>It is also possible to use the value of some other Vector Field in the same point in the formula.</p>
 </section>
 <section id="expression-syntax">
-<h2>Expression syntax<a class="headerlink" href="#expression-syntax" title="Permalink to this headline">¶</a></h2>
+<h2>Expression syntax<a class="headerlink" href="#expression-syntax" title="Permalink to this heading">¶</a></h2>
 <p>Syntax being used for formulas is standard Python’s syntax for expressions.
 For exact syntax definition, please refer to <a class="reference external" href="https://docs.python.org/3/reference/expressions.html">https://docs.python.org/3/reference/expressions.html</a>.</p>
 <p>In short, you can use usual mathematical operations (<cite>+</cite>, <cite>-</cite>, <cite>*</cite>, <cite>/</cite>, <cite>**</cite> for power), numbers, variables, parenthesis, and function call, such as <cite>sin(x)</cite>.</p>
@@ -194,7 +195,7 @@ pow, radians, sin, sinh, sqrt, tan, tanh, trunc;</p></li>
 </ul>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following input:</p>
 <ul class="simple">
 <li><p><strong>Field</strong>. A vector field, whose values can be used in the formula. This
@@ -204,7 +205,7 @@ input is required only if the formula involves the <strong>V</strong> variable.<
 also becomes additional input.</p>
 <p>The following variables are considered to be point coordinates:</p>
 <ul class="simple">
-<li><p>For Carthesian input mode: <cite>x</cite>, <cite>y</cite> and <cite>z</cite>;</p></li>
+<li><p>For Cartesian input mode: <cite>x</cite>, <cite>y</cite> and <cite>z</cite>;</p></li>
 <li><p>For Cylindrical input mode: <cite>rho</cite>, <cite>phi</cite> and <cite>z</cite>;</p></li>
 <li><p>For Spherical input mode: <cite>rho</cite>, <cite>phi</cite> and <cite>theta</cite>.</p></li>
 </ul>
@@ -214,12 +215,12 @@ point in space. So, <cite>V[0]</cite> is X coordinate of that field’s value, <
 it’s Y coordinate, and <cite>V[Z]</cite> is Z coordinate.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul class="simple">
 <li><p><strong>Input</strong>. This defines the coordinate system being used for the input
 points. The available values are <strong>Carhtesian</strong>, <strong>Cylindrical</strong> and
-<strong>Spherical</strong>. The default value is <strong>Carthesian</strong>.</p></li>
+<strong>Spherical</strong>. The default value is <strong>Cartesian</strong>.</p></li>
 <li><p><strong>Formula1</strong>, <strong>Formula2</strong>, <strong>Formula3</strong>. Three formulas defining the
 respective coordinate / components of the resulting vectors: X, Y, Z, or Rho,
 Phi, Z, or Rho, Phi, Theta, depending on the <strong>Output</strong> parameter. The
@@ -227,7 +228,7 @@ default formulas are <cite>-y</cite>, <cite>x</cite> and <cite>z</cite>, which d
 the whole space 90 degrees around the Z axis.</p></li>
 <li><p><strong>Output</strong>. This defines the coordinate system in which the resulting vectors
 are expressed. The available values are <strong>Carhtesian</strong>, <strong>Cylindrical</strong> and
-<strong>Spherical</strong>. The default value is <strong>Carthesian</strong>.</p></li>
+<strong>Spherical</strong>. The default value is <strong>Cartesian</strong>.</p></li>
 <li><p><strong>Vectorize</strong>. This parameter is available in the N panel only. If enabled,
 then to evaluate formulas for a series of input values, the node will use
 NumPy functions to perform several computations at a time; otherwise, the
@@ -239,14 +240,14 @@ disable this parameter.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Field</strong>. The generated vector field.</p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Some vector field defined by a formula in Spherical coordinates:</p>
 <img alt="https://user-images.githubusercontent.com/284644/79491540-0a722c80-8038-11ea-914f-0221e5e75f68.png" src="https://user-images.githubusercontent.com/284644/79491540-0a722c80-8038-11ea-914f-0221e5e75f68.png" />
 <p>Similar field applied to some box:</p>

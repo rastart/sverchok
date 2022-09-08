@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Mask In &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Mask Join In &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Mask Converter" href="mask_convert.html" />
-    <link rel="prev" title="List Mask Out" href="mask.html" /> 
+    <link rel="prev" title="List Mask (Out)" href="mask.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -70,8 +71,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../list_main/list_main_index.html">List Main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_masks_index.html">List Masks</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="mask.html">List Mask Out</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">List Mask In</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mask.html">List Mask (Out)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">List Mask Join In</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -81,7 +82,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mask_convert.html">Mask Converter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mask_to_index.html">Mask To Index</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index_to_mask.html">Mask To Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index_to_mask.html">Index To Mask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calc_mask.html">Calculate Mask</a></li>
 </ul>
 </li>
@@ -119,7 +120,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="list_masks_index.html">List Masks</a> &raquo;</li>
-      <li>List Mask In</li>
+      <li>List Mask Join In</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/list_masks/mask_join.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -129,10 +130,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="list-mask-in">
-<h1>List Mask In<a class="headerlink" href="#list-mask-in" title="Permalink to this headline">¶</a></h1>
+  <section id="list-mask-join-in">
+<h1>List Mask Join In<a class="headerlink" href="#list-mask-join-in" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188214090-da2fd597-c35c-4a90-8b96-b0b12d9c950e.png"><img alt="https://user-images.githubusercontent.com/14288520/188214090-da2fd597-c35c-4a90-8b96-b0b12d9c950e.png" src="https://user-images.githubusercontent.com/14288520/188214090-da2fd597-c35c-4a90-8b96-b0b12d9c950e.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node use the mask list i.e. 1,0,0,0 as switch to mix two data list together.</p>
 <p><strong>0</strong> means false, an item from the <strong>Data False</strong> will be appended to the output data;</p>
 <p><strong>1</strong> will be considered as true (actually any value that evaluate as true in python), an item from the <strong>Data True</strong> will be appended to the output data. If the mask list is not long enough to cover all the inputs, it will be repeated as the mask for the rest of inputs.</p>
@@ -140,22 +142,33 @@
 <p>The main design reason behind this node is to be able to conditionally apply operations to one a masked list, for example select vertices based on location and move them or as shown below, select numbers and negate them.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>Mask:</strong> Input socket for mask list.</p>
-<p><strong>Data True:</strong> Input socket for True Data list.</p>
-<p><strong>Data False:</strong> Input socket for False Data list.</p>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Mask:</strong> Input socket for mask list.</p></li>
+<li><p><strong>Data True:</strong> Input socket for True Data list.</p></li>
+<li><p><strong>Data False:</strong> Input socket for False Data list.</p></li>
+</ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p><strong>Level:</strong> Set the level at which the items to be masked.</p>
-<p><strong>Choice:</strong> Make length of out list the same as length of input list</p>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Level:</strong> Set the level at which the items to be masked.</p></li>
+<li><p><strong>Choice:</strong> Make length of out list the same as length of input list</p></li>
+</ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>Data:</strong> Mixed data of the incoming data, the length of Outputs depends on the  <strong>Data True</strong> and  <strong>Data False</strong> list length.</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Data:</strong> Mixed data of the incoming data, the length of Outputs depends on the  <strong>Data True</strong> and  <strong>Data False</strong> list length.</p></li>
+</ul>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188215041-1bc98399-0ce8-4381-917b-89c01ebc94f9.png"><img alt="https://user-images.githubusercontent.com/14288520/188215041-1bc98399-0ce8-4381-917b-89c01ebc94f9.png" src="https://user-images.githubusercontent.com/14288520/188215041-1bc98399-0ce8-4381-917b-89c01ebc94f9.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
 <img alt="ListMaskDemo.PNG" src="https://cloud.githubusercontent.com/assets/5409756/11457323/e7af5960-96e0-11e5-86e0-a9401f5e059e.png" />
 <img alt="Masked apply" src="https://cloud.githubusercontent.com/assets/6241382/11584560/2604eebe-9a65-11e5-9aff-8eb123167a6a.png" />
 </section>
@@ -165,7 +178,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mask.html" class="btn btn-neutral float-left" title="List Mask Out" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mask.html" class="btn btn-neutral float-left" title="List Mask (Out)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="mask_convert.html" class="btn btn-neutral float-right" title="Mask Converter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

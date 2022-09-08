@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smooth Lines &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Smooth Lines &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -54,7 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="box_rounded.html">Rounded box</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hilbert.html">Hilbert 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hilbert3d.html">Hilbert 3D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hilbert_image.html">Hilbert 3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hilbert_image.html">Hilbert Image</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pentagon_tiler.html">Pentagon Tiler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polygon_grid.html">Polygonal Grid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="regular_solid.html">Regular Solid</a></li>
@@ -139,13 +140,13 @@
            <div itemprop="articleBody">
              
   <section id="smooth-lines">
-<h1>Smooth Lines<a class="headerlink" href="#smooth-lines" title="Permalink to this headline">¶</a></h1>
+<h1>Smooth Lines<a class="headerlink" href="#smooth-lines" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This can transform the inputted polyline into a polyline with smooth/curved corners. The curve is generated currently via a bezier interpolation or trigonometric arc. This is an early preview, maybe more modes will be incorporated at a later stage.</p>
 </section>
 <section id="inputs-parameters">
-<h2>Inputs &amp; Parameters<a class="headerlink" href="#inputs-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs &amp; Parameters<a class="headerlink" href="#inputs-parameters" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 16%" />
@@ -184,11 +185,11 @@
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>verts and edges, representing the modified polyline with newly curved corners.</p>
 </section>
 <section id="examples-and-notes">
-<h2>Examples and Notes<a class="headerlink" href="#examples-and-notes" title="Permalink to this headline">¶</a></h2>
+<h2>Examples and Notes<a class="headerlink" href="#examples-and-notes" title="Permalink to this heading">¶</a></h2>
 <p>see the thread:  <a class="reference external" href="https://github.com/nortikin/sverchok/pull/2290">https://github.com/nortikin/sverchok/pull/2290</a></p>
 </section>
 </section>

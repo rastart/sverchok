@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pipe (Curve) &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Pipe Surface Along Curve &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,7 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="extrude_vector.html">Extrude Curve Along Vector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_point.html">Extrude to Point</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_curve.html">Extrude Curve Along Curve</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Pipe (Curve)</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pipe Surface Along Curve</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -160,7 +161,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="surface_index.html">Surface</a> &raquo;</li>
-      <li>Pipe (Curve)</li>
+      <li>Pipe Surface Along Curve</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/surface/pipe.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -170,10 +171,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pipe-curve">
-<h1>Pipe (Curve)<a class="headerlink" href="#pipe-curve" title="Permalink to this headline">¶</a></h1>
+  <section id="pipe-surface-along-curve">
+<h1>Pipe Surface Along Curve<a class="headerlink" href="#pipe-surface-along-curve" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates cylindrical “pipe” Surface along a given Curve; the result
 is the same as if you extruded circular profile curve along your curve.</p>
 <p>If you want more complex (not cylindrical) profile, or you want more control
@@ -203,7 +204,7 @@ for all extrusion curves. It will give better results with higher values of
 same as of “extrusion” curve.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Curve</strong>. The curve to build pipe around (the extrusion curve). This input
@@ -217,7 +218,7 @@ normal</strong>.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul>
 <li><p><strong>Algorithm</strong>. Profile curve rotation calculation algorithm. The available options are:</p>
@@ -237,14 +238,14 @@ vectors.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Surface</strong>. The generated pipe surface.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Build a pipe from cubic curve:</p>
 <img alt="https://user-images.githubusercontent.com/284644/84814573-1e7fdd80-b02b-11ea-82d9-572288d7a770.png" src="https://user-images.githubusercontent.com/284644/84814573-1e7fdd80-b02b-11ea-82d9-572288d7a770.png" />
 </section>

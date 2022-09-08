@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Viewer 2D &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Viewer 2D &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Viewer Draw" href="viewer_draw_mk4.html" />
-    <link rel="prev" title="Mesh viewer" href="mesh_viewer.html" /> 
+    <link rel="prev" title="Mesh Viewer" href="mesh_viewer.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -73,7 +74,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../list_mutators/list_mutators_index.html">List Mutators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dictionary/dictionary_index.html">Dictionary</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="viz_index.html">Viz</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_viewer.html">Mesh Viewer</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Viewer 2D</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modes">Modes</a></li>
@@ -82,9 +83,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_draw_mk4.html">Viewer Draw</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">vd matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Index Viewer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">Matrix View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Viewer Index+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_curves.html">Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_bezier_curve.html">Bezier Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_nurbs_curve.html">NURBS Curve Out Node</a></li>
@@ -146,20 +147,20 @@
            <div itemprop="articleBody">
              
   <section id="viewer-2d">
-<h1>Viewer 2D<a class="headerlink" href="#viewer-2d" title="Permalink to this headline">¶</a></h1>
+<h1>Viewer 2D<a class="headerlink" href="#viewer-2d" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node displays data it in the 2d view, using opengl and shaders. The node is intended to be a fast way to show you the result of your node tree. We’ve added various levels of refinements that you may find useful to better understand the virtual geometry you’ve created.</p>
 </section>
 <section id="modes">
-<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this headline">¶</a></h2>
+<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this heading">¶</a></h2>
 <p>Number: Displays graphically list of numbers</p>
 <p>Path: Displays paths using a vectors list</p>
 <p>Curve: Display Curves at desired resolution</p>
 <p>Mesh: Displays mesh data from vectors, edges and polygons list</p>
 </section>
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <p>Background: Display background under the mesh with desired color</p>
 <p>Working Plane: Projection is over XY, XZ or YZ plane</p>
 <p>Scale: Drawing scale</p>
@@ -171,7 +172,7 @@
 <p>Polygons Vertex Color:  Uses vertex color to colorize polygons</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/10011941/81240665-4d586c00-9008-11ea-8f2e-4d94a7a217fb.png" src="https://user-images.githubusercontent.com/10011941/81240665-4d586c00-9008-11ea-8f2e-4d94a7a217fb.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/81240916-1c2c6b80-9009-11ea-82be-4866380631af.png" src="https://user-images.githubusercontent.com/10011941/81240916-1c2c6b80-9009-11ea-82be-4866380631af.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/81241053-834a2000-9009-11ea-8bf5-b3e1fc8bbf71.png" src="https://user-images.githubusercontent.com/10011941/81241053-834a2000-9009-11ea-8bf5-b3e1fc8bbf71.png" />
@@ -187,7 +188,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mesh_viewer.html" class="btn btn-neutral float-left" title="Mesh viewer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mesh_viewer.html" class="btn btn-neutral float-left" title="Mesh Viewer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="viewer_draw_mk4.html" class="btn btn-neutral float-right" title="Viewer Draw" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Merge mesh 2d &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Merge Mesh 2d &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Merge mesh 2D lite" href="merge_mesh_2d_lite.html" />
-    <link rel="prev" title="Edges to faces 2D" href="edges_to_faces_2d.html" /> 
+    <link rel="prev" title="Edges to Faces 2D" href="edges_to_faces_2d.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -61,10 +62,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../modifier_change/modifier_change_index.html">Modifier Change</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modifier_make/modifier_make_index.html">Modifier Make</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="CAD_index.html">CAD</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="crop_mesh_2d.html">Crop mesh 2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crop_mesh_2d.html">Crop Mesh 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="edges_intersect_mk3.html">Intersect Edges</a></li>
-<li class="toctree-l3"><a class="reference internal" href="edges_to_faces_2d.html">Edges to faces 2D</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Merge mesh 2d</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="edges_to_faces_2d.html">Edges to Faces 2D</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Merge Mesh 2d</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#category">Category</a></li>
@@ -122,7 +123,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="CAD_index.html">CAD</a> &raquo;</li>
-      <li>Merge mesh 2d</li>
+      <li>Merge Mesh 2d</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/CAD/merge_mesh_2d.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -133,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="merge-mesh-2d">
-<h1>Merge mesh 2d<a class="headerlink" href="#merge-mesh-2d" title="Permalink to this headline">¶</a></h1>
+<h1>Merge Mesh 2d<a class="headerlink" href="#merge-mesh-2d" title="Permalink to this heading">¶</a></h1>
 <img alt="https://user-images.githubusercontent.com/28003269/68468490-91bda780-0231-11ea-8c7d-c37c6d4f372f.png" src="https://user-images.githubusercontent.com/28003269/68468490-91bda780-0231-11ea-8c7d-c37c6d4f372f.png" />
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node merging to input meshes in one with finding intersections and providing extra information about faces.</p>
 <p>Prefix 2D means that the node expects from input any kind of flatten mesh
 but it does not mean that the mesh should only lay on XY surface.
@@ -151,7 +152,7 @@ The algorithm will split polygon with holes into some pieces so holes lay on bou
 <p>The node can use information related with faces of initial meshes for assign them to new mesh.</p>
 </section>
 <section id="performance">
-<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this heading">¶</a></h2>
 <p>The node can handle with heavy meshes but there is important parameter as number of intersections
 to which the algorithm is sensitive.</p>
 <p>It is probably better to avoid using the node with heavy meshes when most parts of first mesh intersects
@@ -161,11 +162,11 @@ It is okay when most edges have several overlapping with each other,but performa
 if there is at least one edge which has a lot of overlapping with other edges.</p>
 </section>
 <section id="category">
-<h2>Category<a class="headerlink" href="#category" title="Permalink to this headline">¶</a></h2>
-<p>CAD -&gt; Merge mesh 2D</p>
+<h2>Category<a class="headerlink" href="#category" title="Permalink to this heading">¶</a></h2>
+<p>CAD -&gt; Merge Mesh 2D</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>VertsA</strong> - vertices of mesh 1</p></li>
 <li><p><strong>FacesA</strong> - faces of mesh 1</p></li>
@@ -174,7 +175,7 @@ if there is at least one edge which has a lot of overlapping with other edges.</
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Verts</strong> - vertices of merged mesh</p></li>
 <li><p><strong>Faces</strong> - faces of merged mesh</p></li>
@@ -185,7 +186,7 @@ if there is at least one edge which has a lot of overlapping with other edges.</
 </ul>
 </section>
 <section id="n-panel">
-<h2>N panel<a class="headerlink" href="#n-panel" title="Permalink to this headline">¶</a></h2>
+<h2>N panel<a class="headerlink" href="#n-panel" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 19%" />
@@ -218,7 +219,7 @@ but there is some cases when the node can stuck in error and playing with the pa
 This parameter does not have any affect to performance in spite of its name.</p>
 </section>
 <section id="masks-usage">
-<h2>Masks usage<a class="headerlink" href="#masks-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Masks usage<a class="headerlink" href="#masks-usage" title="Permalink to this heading">¶</a></h2>
 <p>For understanding what sockets maskA and maskB returns imagine merging of two squares.
 Result of merging will be 3 faces. MaskA will show result as on the picture below.
 Zero value means that the face  lays outside of the mesh A and one means inside.</p>
@@ -246,7 +247,7 @@ According with the fact that algorithm can handle with overlapping of faces even
 but for simplicity it returns only first face from list of overlapping faces inside one mesh (A or B).</p>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
 <p><strong>First of all it is possible just crop some mesh by contours of another:</strong></p>
 <img alt="https://user-images.githubusercontent.com/28003269/66644275-93478000-ec31-11e9-975d-d00276ec1d56.png" src="https://user-images.githubusercontent.com/28003269/66644275-93478000-ec31-11e9-975d-d00276ec1d56.png" />
 <p><strong>Or in a more complex way:</strong></p>
@@ -276,7 +277,7 @@ but for simplicity it returns only first face from list of overlapping faces ins
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="edges_to_faces_2d.html" class="btn btn-neutral float-left" title="Edges to faces 2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="edges_to_faces_2d.html" class="btn btn-neutral float-left" title="Edges to Faces 2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="merge_mesh_2d_lite.html" class="btn btn-neutral float-right" title="Merge mesh 2D lite" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

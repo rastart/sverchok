@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D View Properties &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>3D View Properties &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Collection Picker mk1" href="collection_picker_mk1.html" />
-    <link rel="prev" title="Object Remote" href="obj_remote_mk2.html" /> 
+    <link rel="prev" title="Object Remote (Control)" href="obj_remote_mk2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -77,22 +78,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../script/script_index.html">Script</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="scene_index.html">Scene</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="frame_info_mk2.html">Frame Info</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cache.html">cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="get_objects_data.html">Get Objects Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="objects_in_lite.html">objects in lite</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FCurve_in.html">FCurve In</a></li>
+<li class="toctree-l3"><a class="reference internal" href="objects_in_lite.html">Objects in Lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FCurve_in.html">FCurve Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCurve_in.html#none-of-that-made-sense">None of that made sense?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="curve_in.html">curve in</a></li>
-<li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html">Object Remote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curve_in.html">Curve Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html">Object Remote (Control)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html#implementation-details">Implementation details</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">3D View Properties</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#features">Features</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="collection_picker_mk1.html">Collection Picker mk1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="particles_MK2.html">particles MK2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="node_remote_mk2.html">node remote</a></li>
-<li class="toctree-l3"><a class="reference internal" href="selection_grabber_lite.html">selection grabber lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particles_MK2.html">Particles MK2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="node_remote_mk2.html">Node Remote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="selection_grabber_lite.html">Selection Grabber Lite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
 </ul>
 </li>
@@ -135,10 +136,10 @@
            <div itemprop="articleBody">
              
   <section id="d-view-properties">
-<h1>3D View Properties<a class="headerlink" href="#d-view-properties" title="Permalink to this headline">¶</a></h1>
+<h1>3D View Properties<a class="headerlink" href="#d-view-properties" title="Permalink to this heading">¶</a></h1>
 <img alt="3dview_props.PNG" src="https://cloud.githubusercontent.com/assets/619340/4186522/b22b2e48-3761-11e4-958e-3452eef7c466.PNG" />
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
 <p>Provides a convenient way to</p>
 <ul class="simple">
 <li><p>adjust the background colour and gradient of 3dview</p></li>
@@ -157,7 +158,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="obj_remote_mk2.html" class="btn btn-neutral float-left" title="Object Remote" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="obj_remote_mk2.html" class="btn btn-neutral float-left" title="Object Remote (Control)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="collection_picker_mk1.html" class="btn btn-neutral float-right" title="Collection Picker mk1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

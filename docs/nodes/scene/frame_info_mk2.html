@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Frame Info &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Frame Info &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="cache" href="cache.html" />
+    <link rel="next" title="Cache" href="cache.html" />
     <link rel="prev" title="Scene" href="scene_index.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -84,19 +85,19 @@
 <li class="toctree-l4"><a class="reference internal" href="#example-of-usage">Example of usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="cache.html">cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="get_objects_data.html">Get Objects Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="objects_in_lite.html">objects in lite</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FCurve_in.html">FCurve In</a></li>
+<li class="toctree-l3"><a class="reference internal" href="objects_in_lite.html">Objects in Lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FCurve_in.html">FCurve Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCurve_in.html#none-of-that-made-sense">None of that made sense?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="curve_in.html">curve in</a></li>
-<li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html">Object Remote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curve_in.html">Curve Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html">Object Remote (Control)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="obj_remote_mk2.html#implementation-details">Implementation details</a></li>
 <li class="toctree-l3"><a class="reference internal" href="3dview_props.html">3D View Properties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collection_picker_mk1.html">Collection Picker mk1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="particles_MK2.html">particles MK2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="node_remote_mk2.html">node remote</a></li>
-<li class="toctree-l3"><a class="reference internal" href="selection_grabber_lite.html">selection grabber lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particles_MK2.html">Particles MK2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="node_remote_mk2.html">Node Remote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="selection_grabber_lite.html">Selection Grabber Lite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
 </ul>
 </li>
@@ -139,22 +140,22 @@
            <div itemprop="articleBody">
              
   <section id="frame-info">
-<h1>Frame Info<a class="headerlink" href="#frame-info" title="Permalink to this headline">¶</a></h1>
+<h1>Frame Info<a class="headerlink" href="#frame-info" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Give the node graph access to the frame information. Some transport controls have been added since these images were made.</p>
 <img alt="https://cloud.githubusercontent.com/assets/6241382/4299390/e3793c12-3e35-11e4-86b7-094efda55b68.png" src="https://cloud.githubusercontent.com/assets/6241382/4299390/e3793c12-3e35-11e4-86b7-094efda55b68.png" />
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>None</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>None</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Current Frame,</p></li>
 <li><p>Start Frame,</p></li>
@@ -164,7 +165,7 @@ all wrapped to standard level.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <img alt="https://cloud.githubusercontent.com/assets/6241382/4299431/c494688e-3e36-11e4-9085-c5f71ef84767.png" src="https://cloud.githubusercontent.com/assets/6241382/4299431/c494688e-3e36-11e4-9085-c5f71ef84767.png" />
 <p>Usage with Map Range node to give percentage of current frame range.</p>
 </section>
@@ -175,7 +176,7 @@ all wrapped to standard level.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="scene_index.html" class="btn btn-neutral float-left" title="Scene" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cache.html" class="btn btn-neutral float-right" title="cache" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cache.html" class="btn btn-neutral float-right" title="Cache" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

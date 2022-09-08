@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wave Painter &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Wave Painter &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Origins" href="origins.html" />
-    <link rel="prev" title="Chess selection" href="chess_selection.html" /> 
+    <link rel="prev" title="Chess Selection" href="chess_selection.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -72,12 +73,12 @@
 <li class="toctree-l3"><a class="reference internal" href="intersect_circle_circle.html">Circle Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intersect_plane_plane.html">Plane Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_MK2.html">KDT Closest Verts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges_mk2.html">KDT Closest Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges.html">KDT Closest Edges</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_path.html">KDT Closest Path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linked_verts.html">Linked Verts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesh_filter.html">Mesh Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select mesh elements by location</a></li>
-<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select similar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select Mesh Elements by Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select Similar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="proportional.html">Proportional Edit Falloff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="normals_mk2.html">Calculate Normals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nearest_point_on_mesh.html">Nearest Point on Mesh</a></li>
@@ -85,11 +86,11 @@
 <li class="toctree-l3"><a class="reference internal" href="object_insolation.html">Insolation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="path_length_2.html">Path Length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="points_inside_mesh.html">Points Inside Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project points to line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project Points to Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="volume.html">Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycaster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="image_components.html">Image Decomposer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess Selection</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Wave Painter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -163,9 +164,9 @@
            <div itemprop="articleBody">
              
   <section id="wave-painter">
-<h1>Wave Painter<a class="headerlink" href="#wave-painter" title="Permalink to this headline">¶</a></h1>
+<h1>Wave Painter<a class="headerlink" href="#wave-painter" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node “paints” a wave pattern on either faces or vertices of the given mesh.</p>
 <p>The pattern is drawn by the following algorithm (see <a class="reference external" href="https://en.wikipedia.org/wiki/Lee_algorithm">Wikipedia</a>):</p>
 <ul class="simple">
@@ -177,7 +178,7 @@
 <p>Some faces (vertices) of the mesh can be marked as obstacles, so that the wave can not pass through them.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. Mesh vertices. Mandatory input.</p></li>
@@ -192,7 +193,7 @@ passable.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul>
 <li><p><strong>Mode</strong>. Painting mode. The following modes are available:</p>
@@ -214,21 +215,22 @@ passable.</p></li>
 <blockquote>
 <div><ul class="simple">
 <li><p><strong>By Edge</strong>. Faces that share an edge are considered to be neighbour.</p></li>
-<li><p><strong>By Vertex</strong>. Faces that share a vertex are considered to be neigbhour.</p></li>
+<li><p><strong>By Vertex</strong>. Faces that share a vertex are considered to be neighbour.</p></li>
 </ul>
 </div></blockquote>
 </li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>WaveFront</strong>. For each face (or vertex) of the mesh, this contains the
 number of steps which should be taken from initially selected faces
 (vertices), to take to this face (vertex), starting from 1 for initially
 selected faces. In other words, this is the number of the wave front. This
-output will contain 0 for obstacle faces / vertices.</p></li>
+output will contain 0 for obstacle faces / vertices and -1 if faces /
+vertices are unreachable from selected elements.</p></li>
 <li><p><strong>WaveDistance</strong>. For each face (or vertex) of the mesh, this contains the
 length of the shortest path from initially selected faces (vertices) to this
 face (vertex). The path is considered to be consisting of single steps from
@@ -236,14 +238,15 @@ one face / vertex to one of it’s neighbours. The length of step between
 neighbour vertices is the Euclidean distance between such vertices. The
 length of step between neighbour faces is calculated as Euclidean distance
 between the centers of such faces. This input will contain 0 for initially
-selected faces as well as for obstacle faces.</p></li>
+selected faces as well as for obstacle faces and -1 for elements which are
+unreachable from selected ones.</p></li>
 <li><p><strong>StartIdx</strong>. For each face (or vertex) of the mesh, this contains the index
 of one of initially selected faces / vertices, which is the nearest from this
 face / vertex, in terms of the shortest path described above.</p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Start a wave from some small area on the hexagonal grid; mark some vertices as obstacles. Note how the wave can not pass through the obstacle and has to go the long way around:</p>
 <img alt="https://user-images.githubusercontent.com/284644/71737930-e9197600-2e76-11ea-9382-02f07d6fe0e2.png" src="https://user-images.githubusercontent.com/284644/71737930-e9197600-2e76-11ea-9382-02f07d6fe0e2.png" />
 <p>Similar setup with a rectangular grid; use wave front number to select faces to be extruded:</p>
@@ -259,7 +262,7 @@ face / vertex, in terms of the shortest path described above.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="chess_selection.html" class="btn btn-neutral float-left" title="Chess selection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chess_selection.html" class="btn btn-neutral float-left" title="Chess Selection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="origins.html" class="btn btn-neutral float-right" title="Origins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

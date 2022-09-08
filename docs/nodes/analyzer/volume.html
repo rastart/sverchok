@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volume &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Volume &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Raycast" href="raycaster_lite.html" />
-    <link rel="prev" title="Project points to line" href="project_point_to_line.html" /> 
+    <link rel="next" title="Raycaster" href="raycaster_lite.html" />
+    <link rel="prev" title="Project Points to Line" href="project_point_to_line.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -72,12 +73,12 @@
 <li class="toctree-l3"><a class="reference internal" href="intersect_circle_circle.html">Circle Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intersect_plane_plane.html">Plane Intersection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_MK2.html">KDT Closest Verts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges_mk2.html">KDT Closest Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kd_tree_edges.html">KDT Closest Edges</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kd_tree_path.html">KDT Closest Path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linked_verts.html">Linked Verts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesh_filter.html">Mesh Filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select mesh elements by location</a></li>
-<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select similar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_select_mk2.html">Select Mesh Elements by Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="select_similar.html">Select Similar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="proportional.html">Proportional Edit Falloff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="normals_mk2.html">Calculate Normals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nearest_point_on_mesh.html">Nearest Point on Mesh</a></li>
@@ -85,7 +86,7 @@
 <li class="toctree-l3"><a class="reference internal" href="object_insolation.html">Insolation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="path_length_2.html">Path Length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="points_inside_mesh.html">Points Inside Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project points to line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="project_point_to_line.html">Project Points to Line</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Volume</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -93,9 +94,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="raycaster_lite.html">Raycaster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="image_components.html">Image Decomposer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chess_selection.html">Chess Selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wave_paint.html">Wave Painter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="origins.html">Origins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linear_approx.html">Linear Approximation</a></li>
@@ -162,27 +163,27 @@
            <div itemprop="articleBody">
              
   <section id="volume">
-<h1>Volume<a class="headerlink" href="#volume" title="Permalink to this headline">¶</a></h1>
+<h1>Volume<a class="headerlink" href="#volume" title="Permalink to this heading">¶</a></h1>
 <p><em>Alias: Volume</em></p>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Count Volume of every object. Output list of values</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Vers vertices of object(s)</p></li>
 <li><p>Pols polygons of object(s)</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Volume, corresponding to count of objects it outputs volumes in list.</p></li>
 </ul>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://cloud.githubusercontent.com/assets/5783432/18602915/2ecd75b0-7c7e-11e6-8f7a-ae9a39cfbf52.png" src="https://cloud.githubusercontent.com/assets/5783432/18602915/2ecd75b0-7c7e-11e6-8f7a-ae9a39cfbf52.png" />
 </section>
 </section>
@@ -191,8 +192,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="project_point_to_line.html" class="btn btn-neutral float-left" title="Project points to line" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="raycaster_lite.html" class="btn btn-neutral float-right" title="Raycast" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="project_point_to_line.html" class="btn btn-neutral float-left" title="Project Points to Line" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="raycaster_lite.html" class="btn btn-neutral float-right" title="Raycaster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nearest Point on Surface &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Nearest Point on Surface &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,7 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="extrude_vector.html">Extrude Curve Along Vector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_point.html">Extrude to Point</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_curve.html">Extrude Curve Along Curve</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe (Curve)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe Surface Along Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="coons_patch.html">Surface from Four Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="blend_surface.html">Blend Surfaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="minimal_surface.html">Minimal Surface</a></li>
@@ -172,13 +173,13 @@
            <div itemprop="articleBody">
              
   <section id="nearest-point-on-surface">
-<h1>Nearest Point on Surface<a class="headerlink" href="#nearest-point-on-surface" title="Permalink to this headline">¶</a></h1>
+<h1>Nearest Point on Surface<a class="headerlink" href="#nearest-point-on-surface" title="Permalink to this heading">¶</a></h1>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>This node requires <a class="reference external" href="https://scipy.org/">SciPy</a> library to work.</p>
 </section>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node searches for the point on the surface, which is the nearest (the
 closest) to the given point.</p>
 <p>Note that the search is implemented with a numeric algorithm, so it may be not
@@ -187,14 +188,14 @@ for your particular surface, that will be much faster. This node, on the other
 hand, is usable in cases when you do not know formulas for your surface - for
 example, it was received by some approximation.</p>
 <p>At the first step of it’s algorithm, this node evaluates the surface in points
-of a carthesian grid, and selects the closest of them. This point is then used
+of a cartesian grid, and selects the closest of them. This point is then used
 as an initial guess for the more precise algorithm.</p>
 <p>In case there are several points on the surface with equal distance to the
 original point, the node will return one of them (it is not guaranteed which
 one).</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Surface</strong>. The surface to find the nearest point on. This input is mandatory.</p></li>
@@ -202,7 +203,7 @@ one).</p>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul>
 <li><p><strong>Init Resolution</strong>. Number of samples to evaluate the surface in, for the
@@ -237,7 +238,7 @@ default.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>Point</strong>. The nearest point on the surface, in 3D space.</p></li>
@@ -247,7 +248,7 @@ to U and V.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/284644/87247996-782fc800-c470-11ea-8ccc-e15021b59591.png" src="https://user-images.githubusercontent.com/284644/87247996-782fc800-c470-11ea-8ccc-e15021b59591.png" />
 </section>
 </section>

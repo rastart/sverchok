@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NURBS to JSON &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>NURBS to JSON &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -91,14 +92,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="import_rw3dm_json.html">JSON to NURBS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bezier_in.html">Bezier In</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nurbs_in.html">NURBS In</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bezier_in.html">Bezier Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbs_in.html">NURBS Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="receive_from_sorcar.html">Receive From Sorcar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCStd_sketch.html">FCStd Sketch (Exchange)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCStd_spreadsheet.html">FCStd Spreadsheet (Exchange)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCStd_write.html">FCStd Write (Exchange)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FCStd_read.html">FCStd Read (Exchange)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gcode_exporter.html">G-code exporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FCStd_read_mod.html">FCStd Read Mod (Exchange)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcode_exporter.html">Export G-code</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../svg/svg_index.html">SVG</a></li>
@@ -135,19 +137,19 @@
            <div itemprop="articleBody">
              
   <section id="nurbs-to-json">
-<h1>NURBS to JSON<a class="headerlink" href="#nurbs-to-json" title="Permalink to this headline">¶</a></h1>
+<h1>NURBS to JSON<a class="headerlink" href="#nurbs-to-json" title="Permalink to this heading">¶</a></h1>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>This node requires <a class="reference external" href="https://onurraufbingol.com/NURBS-Python/">Geomdl</a> library to work.</p>
 </section>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node allows to export a set of <a class="reference external" href="https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline">NURBS</a> Curve or Surface objects to a
 JSON format, supported by <a class="reference external" href="https://github.com/orbingol/rw3dm">rw3dm</a> utility; that utility can be used to convert
-such JSON formath to Rhinoceros ® 3D format.</p>
+such JSON format to Rhinoceros ® 3D format.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Curves</strong>. List of NURBS curves to be exported. If passed curves are not
@@ -159,7 +161,7 @@ when <strong>Export</strong> parameter is set to <strong>Surfaces</strong>.</p><
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul class="simple">
 <li><p><strong>Export NURBS</strong>. This defines what kind of objects will be exported. The
@@ -170,7 +172,7 @@ JSON will be stored. The default value is <code class="docutils literal notransl
 </ul>
 </section>
 <section id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following operator button:</p>
 <ul class="simple">
 <li><p><strong>Export!</strong>. When this button is pressed, the node will take currently
@@ -179,7 +181,7 @@ format.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node does not have any outputs.</p>
 </section>
 </section>

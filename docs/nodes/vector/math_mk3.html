@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vector Math Node &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Vector Math Node &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -63,7 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../CAD/CAD_index.html">CAD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../number/number_index.html">Number</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="vector_index.html">Vector</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="attractor.html">Attraction Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="attractor.html">Vectors Attraction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axis_input_mk2.html">Vector X | Y | Z</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drop.html">Vector Drop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolation_stripes.html">Vector Interpolation Stripes</a></li>
@@ -75,7 +76,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#advanced-parameters">Advanced Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="noise_mk3.html">Vector Noise</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fractal.html">Fractal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fractal.html">Vector Fractal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lerp.html">Vector Lerp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector_rewire.html">Vector Rewire</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector_in.html">Vector In</a></li>
@@ -86,7 +87,7 @@
 <li class="toctree-l3"><a class="reference internal" href="vertices_sort.html">Vector Sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quad_grid.html">Sort Quad Grid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="variable_lacunarity.html">Variable Lacunarity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="turbulence.html">Turbulence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="turbulence.html">Vector Turbulence</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../matrix/matrix_index.html">Matrix</a></li>
@@ -141,7 +142,7 @@
            <div itemprop="articleBody">
              
   <section id="vector-math-node">
-<h1>Vector Math Node<a class="headerlink" href="#vector-math-node" title="Permalink to this headline">¶</a></h1>
+<h1>Vector Math Node<a class="headerlink" href="#vector-math-node" title="Permalink to this heading">¶</a></h1>
 <p>This is a versatile node. You can perform 1 operation on 1000’s of
 list-elements, or perform operations pairwise on two lists of 1000’s of
 elements, even if they are nested. It is therefore what we call
@@ -156,7 +157,7 @@ and two axis arrays for vectors with shape [n,3]</p>
 implementation and the “Output NumPy” parameter activated.
 (See advanced parameters)</p>
 <section id="input-and-output">
-<h2>Input and Output<a class="headerlink" href="#input-and-output" title="Permalink to this headline">¶</a></h2>
+<h2>Input and Output<a class="headerlink" href="#input-and-output" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 13%" />
@@ -180,7 +181,7 @@ implementation and the “Output NumPy” parameter activated.
 accommodate the expected inputs and outputs types</p>
 </section>
 <section id="modes">
-<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this headline">¶</a></h2>
+<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this heading">¶</a></h2>
 <p>Most operations are self explanatory,
 but in case they aren’t then here is a quick overview:</p>
 <table class="docutils align-default">
@@ -343,7 +344,7 @@ but in case they aren’t then here is a quick overview:</p>
 </section>
 </section>
 <section id="advanced-parameters">
-<h1>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this headline">¶</a></h1>
+<h1>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this heading">¶</a></h1>
 <p>In the N-Panel (and on the right-click menu) you can find:</p>
 <p><strong>Implementation</strong>: MathUtils or NumPy. NumPy is the default and is usually faster.</p>
 <p><strong>Output NumPy</strong>: Get NumPy arrays in stead of regular lists (makes the node faster). [Not available in the MathUtils implementation]</p>

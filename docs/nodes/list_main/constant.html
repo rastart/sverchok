@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Constant List &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Constant List &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Decompose" href="decompose.html" />
-    <link rel="prev" title="List Main" href="list_main_index.html" /> 
+    <link rel="next" title="List Zip" href="zip.html" />
+    <link rel="prev" title="List Join" href="join.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,6 +69,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_main_index.html">List Main</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="join.html">List Join</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Constant List</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -76,16 +78,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples-of-usage">Examples of usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
-<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="join.html">List Join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="zip.html">List Zip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="statistics.html">List Statistics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html">List index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">List Index</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
@@ -135,16 +136,17 @@
            <div itemprop="articleBody">
              
   <section id="constant-list">
-<h1>Constant List<a class="headerlink" href="#constant-list" title="Permalink to this headline">¶</a></h1>
+<h1>Constant List<a class="headerlink" href="#constant-list" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187515870-f8b16699-e1f4-49bd-b398-5077539e2aba.png"><img alt="https://user-images.githubusercontent.com/14288520/187515870-f8b16699-e1f4-49bd-b398-5077539e2aba.png" src="https://user-images.githubusercontent.com/14288520/187515870-f8b16699-e1f4-49bd-b398-5077539e2aba.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates a list by repeating a single constant (integer or
 floating-point) value. It is “vectorized”, so by putting some lists to it’s
 inputs it is possible to make lists consisting of different numbers repeated
 different count of times. Such lists can be useful as generated masks for some geometry.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>IntValue</strong> or <strong>FloatValue</strong> - either integer or floating-point value to be
@@ -157,7 +159,7 @@ lists of numbers). The default value is 3.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul class="simple">
 <li><p><strong>Type</strong>. This defines the type of the constant value. Available modes are
@@ -170,7 +172,7 @@ The default value is 2.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Data</strong>. Generated list. Nesting level of data in this output will be equal
@@ -178,22 +180,55 @@ to the value of the <strong>Output level</strong> parameter.</p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>A simple example:</p>
-<img alt="https://user-images.githubusercontent.com/284644/74590945-286de180-5035-11ea-8c88-949ce11beb1c.png" src="https://user-images.githubusercontent.com/284644/74590945-286de180-5035-11ea-8c88-949ce11beb1c.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187686031-a9e200c0-de63-4021-950f-c4cff8c855a9.png"><img alt="https://user-images.githubusercontent.com/14288520/187686031-a9e200c0-de63-4021-950f-c4cff8c855a9.png" src="https://user-images.githubusercontent.com/14288520/187686031-a9e200c0-de63-4021-950f-c4cff8c855a9.png" /></a>
+<ul class="simple">
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 <p>If <strong>Output level</strong> would be 1 in this setup, the result would be <cite>[0.06,
 0.06, 0.06]</cite>. If <strong>Output level</strong> would be 3, the result would be <cite>[[[0.06,
-0.06, 0.06]]]</cite>.</p>
+0.06, 0.06]]]</cite>:</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187686049-9e05a419-95f7-46c8-bc62-08beaee85589.png"><img alt="https://user-images.githubusercontent.com/14288520/187686049-9e05a419-95f7-46c8-bc62-08beaee85589.png" src="https://user-images.githubusercontent.com/14288520/187686049-9e05a419-95f7-46c8-bc62-08beaee85589.png" /></a>
+<ul class="simple">
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 <p>More complex example:</p>
-<img alt="https://user-images.githubusercontent.com/284644/74590944-27d54b00-5035-11ea-8d62-6aeeac135e6e.png" src="https://user-images.githubusercontent.com/284644/74590944-27d54b00-5035-11ea-8d62-6aeeac135e6e.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187686059-70276803-32bd-4855-8bc3-4e2616bb0e0e.png"><img alt="https://user-images.githubusercontent.com/14288520/187686059-70276803-32bd-4855-8bc3-4e2616bb0e0e.png" src="https://user-images.githubusercontent.com/14288520/187686059-70276803-32bd-4855-8bc3-4e2616bb0e0e.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 <p>If <strong>Output level</strong> would be 1 in this setup, the result would be <cite>[1, 1, 1, 2,
 2, 2, 2, 2]</cite>. If <strong>Output level</strong> would be 3, the result would be <cite>[[[1, 1, 1],
-[2, 2, 2, 2, 2]]]</cite>.</p>
+[2, 2, 2, 2, 2]]]</cite>:</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187686070-80366925-2893-470d-b6af-6651d6825b26.png"><img alt="https://user-images.githubusercontent.com/14288520/187686070-80366925-2893-470d-b6af-6651d6825b26.png" src="https://user-images.githubusercontent.com/14288520/187686070-80366925-2893-470d-b6af-6651d6825b26.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 <p>Another complex example:</p>
-<img alt="https://user-images.githubusercontent.com/284644/74590942-273cb480-5035-11ea-9ed7-84da04e3d590.png" src="https://user-images.githubusercontent.com/284644/74590942-273cb480-5035-11ea-9ed7-84da04e3d590.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187688679-f97b4d33-989f-4406-8fb7-fec0df09a056.png"><img alt="https://user-images.githubusercontent.com/14288520/187688679-f97b4d33-989f-4406-8fb7-fec0df09a056.png" src="https://user-images.githubusercontent.com/14288520/187688679-f97b4d33-989f-4406-8fb7-fec0df09a056.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>List-&gt;List Main-&gt; <a class="reference internal" href="join.html"><span class="doc">List Join</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 <p>If <strong>Output level</strong> would be 1 in this setup, the result would be <cite>[1, 1, 1, 2,
 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4]</cite>. If <strong>Output level</strong> would be 2, the
 result would be <cite>[[1, 1, 1], [2, 2, 2, 2, 2], [3, 3, 3], [4, 4, 4, 4, 4]]</cite>.</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187688692-bcf57546-26b8-4f01-85a6-280942092053.png"><img alt="https://user-images.githubusercontent.com/14288520/187688692-bcf57546-26b8-4f01-85a6-280942092053.png" src="https://user-images.githubusercontent.com/14288520/187688692-bcf57546-26b8-4f01-85a6-280942092053.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>List-&gt;List Main-&gt; <a class="reference internal" href="join.html"><span class="doc">List Join</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/shape.html"><span class="doc">Data Shape</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -201,8 +236,8 @@ result would be <cite>[[1, 1, 1], [2, 2, 2, 2, 2], [3, 3, 3], [4, 4, 4, 4, 4]]</
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="list_main_index.html" class="btn btn-neutral float-left" title="List Main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="decompose.html" class="btn btn-neutral float-right" title="List Decompose" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="join.html" class="btn btn-neutral float-left" title="List Join" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="zip.html" class="btn btn-neutral float-right" title="List Zip" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

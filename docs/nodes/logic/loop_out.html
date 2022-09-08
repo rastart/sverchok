@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loop Out &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Loop Out &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -67,7 +68,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../quaternion/quaternion_index.html">Quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="logic_index.html">Logic</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="logic_node.html">Logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logic_node.html">Logic Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neuro_elman.html">Neuro Elman 1 Layer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="evolver.html">Evolver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="genes_holder.html">Genes Holder</a></li>
@@ -133,26 +134,26 @@
            <div itemprop="articleBody">
              
   <section id="loop-out">
-<h1>Loop Out<a class="headerlink" href="#loop-out" title="Permalink to this headline">¶</a></h1>
+<h1>Loop Out<a class="headerlink" href="#loop-out" title="Permalink to this heading">¶</a></h1>
 <p>This node in conjunction with the Loop In node can create loops with nodes</p>
 <p>Offers two different modes ‘Range’ and ‘For Each’</p>
 <section id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this heading">¶</a></h2>
 <p><strong>Create Loop In</strong>: creates a Loop In node and links the Loop In - Loop Out socket.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p><strong>Loop Out</strong>: Socket to link with the Loop Out node.</p>
 <p><strong>Break</strong>: If a True value is inputted the loop will stop (Only if Loop In is in Range Mode).</p>
 <p><strong>Skip</strong>: If a True value is inputted the loop the result wont be added to the output, like a internal mask.  (Only if Loop In is in For Each Mode).</p>
-<p>Data0, Data1… if working on Range Mode inputs will be created coping the Loop in Outputs. If working in For Each mode they will be created when linking the Loop Out inputs</p>
+<p>Data0, Data1… if working on Range Mode inputs will be created copying the Loop in Outputs. If working in For Each mode they will be created when linking the Loop Out inputs</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p>Data0, Data1… In Range mode: inputs will be created coping the Loop in Outputs. In For Each mode they will be copy the Loop Out inputs.</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<p>Data0, Data1… In Range mode: inputs will be created copying the Loop in Outputs. In For Each mode they will be copy the Loop Out inputs.</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/10011941/101332093-22234d00-3875-11eb-819a-68e86ef8c2c2.png" src="https://user-images.githubusercontent.com/10011941/101332093-22234d00-3875-11eb-819a-68e86ef8c2c2.png" />
 <img alt="https://user-images.githubusercontent.com/10011941/101334215-e047d600-3877-11eb-89df-cfaaf73dd427.png" src="https://user-images.githubusercontent.com/10011941/101334215-e047d600-3877-11eb-89df-cfaaf73dd427.png" />
 </section>

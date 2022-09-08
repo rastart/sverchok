@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Turbulence &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Vector Turbulence &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -63,7 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../CAD/CAD_index.html">CAD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../number/number_index.html">Number</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="vector_index.html">Vector</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="attractor.html">Attraction Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="attractor.html">Vectors Attraction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axis_input_mk2.html">Vector X | Y | Z</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drop.html">Vector Drop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolation_stripes.html">Vector Interpolation Stripes</a></li>
@@ -71,7 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="math_mk3.html">Vector Math Node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="math_mk3.html#advanced-parameters">Advanced Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="noise_mk3.html">Vector Noise</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fractal.html">Fractal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fractal.html">Vector Fractal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lerp.html">Vector Lerp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector_rewire.html">Vector Rewire</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector_in.html">Vector In</a></li>
@@ -82,7 +83,7 @@
 <li class="toctree-l3"><a class="reference internal" href="vertices_sort.html">Vector Sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quad_grid.html">Sort Quad Grid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="variable_lacunarity.html">Variable Lacunarity</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Turbulence</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Vector Turbulence</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#inputs-parameters">Inputs &amp; Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#range-table">Range table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
@@ -133,7 +134,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="vector_index.html">Vector</a> &raquo;</li>
-      <li>Turbulence</li>
+      <li>Vector Turbulence</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/vector/turbulence.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -143,14 +144,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="turbulence">
-<h1>Turbulence<a class="headerlink" href="#turbulence" title="Permalink to this headline">¶</a></h1>
-<p>This Turbulence node takes a list of Vectors and outputs a list of equal length containing Floats in the range 0.0 to 1.0.
+  <section id="vector-turbulence">
+<h1>Vector Turbulence<a class="headerlink" href="#vector-turbulence" title="Permalink to this heading">¶</a></h1>
+<p>This Vector Turbulence node takes a list of Vectors and outputs a list of equal length containing Floats in the range 0.0 to 1.0.
 May output scalars or vectors.
 For some noise types, if your output goes to the texture viewer you need to remap them, otherwise your texture
 will be supersaturated or undersaturated. See below ‘range table’ for a detailed description.</p>
 <section id="inputs-parameters">
-<h2>Inputs &amp; Parameters<a class="headerlink" href="#inputs-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs &amp; Parameters<a class="headerlink" href="#inputs-parameters" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 18%" />
@@ -201,7 +202,7 @@ is hard (sharp transitions) or soft (smooth transitions).</p></td>
 </table>
 </section>
 <section id="range-table">
-<h2>Range table<a class="headerlink" href="#range-table" title="Permalink to this headline">¶</a></h2>
+<h2>Range table<a class="headerlink" href="#range-table" title="Permalink to this heading">¶</a></h2>
 <p>Scalar values from turbulence node with size(n.verts)=64x64, step=0.05, octaves=3, amplitude=0.5, frequency=2.0, random seed=0.
 Plug a map range node in the scalar output and map it to the desired range (min=0, max=1) as in the image below.</p>
 <table class="docutils align-default">
@@ -274,16 +275,16 @@ Plug a map range node in the scalar output and map it to the desired range (min=
 <img alt="https://cloud.githubusercontent.com/assets/1275858/23551043/81474db0-0014-11e7-9a40-233c30f75ce7.png" src="https://cloud.githubusercontent.com/assets/1275858/23551043/81474db0-0014-11e7-9a40-233c30f75ce7.png" />
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://cloud.githubusercontent.com/assets/1275858/22593143/744dbdae-ea1d-11e6-8945-16a8be9f597c.png" src="https://cloud.githubusercontent.com/assets/1275858/22593143/744dbdae-ea1d-11e6-8945-16a8be9f597c.png" />
 <p>Basic example with a Scalar output and Vector rewire node.</p>
 </section>
 <section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h2>
 <p>This documentation doesn’t do the full world of fractals any justice, feel free to send us layouts that you’ve made which rely on this node.</p>
 </section>
 <section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<h2>Links<a class="headerlink" href="#links" title="Permalink to this heading">¶</a></h2>
 <p>Fractals description from wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Fractal">https://en.wikipedia.org/wiki/Fractal</a></p>
 <p>A Perlin Noise and Turbulence description by Prof. Paul Bourke: <a class="reference external" href="http://paulbourke.net/texture_colour/perlin/">http://paulbourke.net/texture_colour/perlin/</a></p>
 <p>An introduction on Noise and Turbulence by Dr. Matthew O. Ward:  <a class="reference external" href="https://web.cs.wpi.edu/~matt/courses/cs563/talks/noise/noise.html">https://web.cs.wpi.edu/~matt/courses/cs563/talks/noise/noise.html</a></p>

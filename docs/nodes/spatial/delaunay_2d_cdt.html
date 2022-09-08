@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random points on mesh &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Delaunay 2D Cdt &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -57,7 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../solid/solid_index.html">Solids</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="spatial_index.html">Spatial</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="homogenous_vector_field.html">Vector P Field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="random_points_on_mesh.html">Random points on mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_points_on_mesh.html">Populate Mesh (Random points on mesh)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="field_random_probe.html">Field Random Probe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="populate_solid.html">Populate Solid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="populate_surface.html">Populate Surface</a></li>
@@ -65,7 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="delaunay_2d.html">Delaunay 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="voronoi3d.html">Voronoi 3D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="delaunay3d.html">Delaunay 3D</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Random points on mesh</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Delaunay 2D Cdt</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#category">Category</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -137,7 +138,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="spatial_index.html">Spatial</a> &raquo;</li>
-      <li>Random points on mesh</li>
+      <li>Delaunay 2D Cdt</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/spatial/delaunay_2d_cdt.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -147,11 +148,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="random-points-on-mesh">
-<h1>Random points on mesh<a class="headerlink" href="#random-points-on-mesh" title="Permalink to this headline">¶</a></h1>
+  <section id="delaunay-2d-cdt">
+<h1>Delaunay 2D Cdt<a class="headerlink" href="#delaunay-2d-cdt" title="Permalink to this heading">¶</a></h1>
 <img alt="https://user-images.githubusercontent.com/28003269/70866264-f088e600-1f80-11ea-91b2-f8b785c597a3.png" src="https://user-images.githubusercontent.com/28003269/70866264-f088e600-1f80-11ea-91b2-f8b785c597a3.png" />
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Computes the Constrained Delaunay Triangulation of a set of vertices,
 with edges and faces that must appear in the triangulation. Some triangles may be eaten away,
 or combined with other triangles, according to output type.
@@ -159,11 +160,11 @@ The returned verts may be in a different order from input verts, may be moved sl
 and may be merged with other nearby verts.</p>
 </section>
 <section id="category">
-<h2>Category<a class="headerlink" href="#category" title="Permalink to this headline">¶</a></h2>
-<p>Modifiers -&gt; Modifier make -&gt; Delaunay 2D cdt</p>
+<h2>Category<a class="headerlink" href="#category" title="Permalink to this heading">¶</a></h2>
+<p>Modifiers -&gt; Modifier make -&gt; Delaunay 2D Cdt</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Verts</strong> - vertices of given mesh(es)</p></li>
 <li><p><strong>Edges</strong> - edges of given mesh(es)</p></li>
@@ -172,7 +173,7 @@ and may be merged with other nearby verts.</p>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Verts</strong> - vertices, some can be deleted</p></li>
 <li><p><strong>Edges</strong> - new and old edges</p></li>
@@ -181,20 +182,20 @@ and may be merged with other nearby verts.</p>
 </ul>
 </section>
 <section id="modes">
-<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this headline">¶</a></h2>
+<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Convex</strong> - given mesh will be triangulated into bounding convex face</p></li>
 <li><p><strong>Inside</strong> - all parts outside given faces or closed edge loops will be ignored by triangulation algorithm</p></li>
 </ul>
 </section>
 <section id="n-panel">
-<h2>N panel<a class="headerlink" href="#n-panel" title="Permalink to this headline">¶</a></h2>
+<h2>N panel<a class="headerlink" href="#n-panel" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><strong>Epsilon</strong> - For nearness tests; number of figures after coma</p></li>
 </ul>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <p><strong>Combine of a line and random points into Delaunay triangulation:</strong></p>
 <img alt="https://user-images.githubusercontent.com/28003269/70866163-b10dca00-1f7f-11ea-9fb3-5af27c211b4a.png" src="https://user-images.githubusercontent.com/28003269/70866163-b10dca00-1f7f-11ea-9fb3-5af27c211b4a.png" />
 <p><strong>Triangulation of points inside given face:</strong></p>

@@ -1,6 +1,9 @@
 List Levels
 ===========
 
+.. image:: https://user-images.githubusercontent.com/14288520/188002611-0f681313-5bf5-4f83-a5c3-4221af3d83ae.png
+  :target: https://user-images.githubusercontent.com/14288520/188002611-0f681313-5bf5-4f83-a5c3-4221af3d83ae.png
+
 Functionality
 -------------
 
@@ -29,24 +32,18 @@ Each row of the table describes one nesting level of input data, and defines
 what do you want to do with data at this nesting level. The table has the
 following columns:
 
-* **Depth**. This shows the nesting depth of this level, i.e. how deeply nested
+* **Level**. This shows the nesting depth of this level, i.e. how deeply nested
   this data is, counting from the outermost list. Outermost list always has
-  depth of 0, one that is nested in it has depth of 1, and so on.
-* **Nesting**. This shows how many nesting levels are inside each item of data
-  at this level. At the innermost nesting level, each item of the list is an
-  "atomic object", for example it can be integer number, floating-point number,
-  surface or curve, and so on, but not a list or tuple. So, the innermost data
-  level has nesting level equal to 0 (zero). A list which consists of atomic
-  objects has nesting level of 1, and so on.
+  depth of 1, one that is nested in it has depth of 2, and so on.
 * **Shape**. This describes the shape of data at this level. For lists or
   tuples, it shows whether this is a list or tuple, and also the number of
   items in it, in square brackets. For atomic objects, it shows the type of the
   data ("float", or "int", or "SvSurface", and so on).
 * **Flatten**. This column contains a checkbox. If checked, the node will
   concatenate all lists contained in list at this nesting level. Obviously,
-  atomic objects (nesting of 0) do not contain any nested objects, so for the
+  atomic objects (integers, floats etc.) do not contain any nested objects, so for the
   innermost level this checkbox is not available. For lists that contain atomic
-  objects (nesting of 1), this checkbox is not available either, as there are
+  objects, this checkbox is not available either, as there are
   no nested lists too. This checkbox does transform data only at one level, it
   does not "go deeper" automatically. So, if you check this checkbox, you
   always decrease nesting level of whole data by 1. To give some examples,
@@ -72,33 +69,84 @@ Examples of Usage
 
 By default, all checkboxes are disabled, so the node does nothing:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129511959-8e17fe20-ce5e-4127-a88b-bb1dc84b916e.png
+.. image:: https://user-images.githubusercontent.com/14288520/188002648-3e992748-06d7-42a9-aeed-e917b183d1c5.png
+  :target: https://user-images.githubusercontent.com/14288520/188002648-3e992748-06d7-42a9-aeed-e917b183d1c5.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
 Let's wrap each number into a separate list (this is what "Graft" option of output socket menus does as well):
 
-.. image:: https://user-images.githubusercontent.com/9460236/129511970-6767616b-7f4f-4672-85d8-2ecf96cc4111.png
+.. image:: https://user-images.githubusercontent.com/14288520/188002682-f598ec87-90f5-46e3-a4c0-2ba0f4de3f23.png
+  :target: https://user-images.githubusercontent.com/14288520/188002682-f598ec87-90f5-46e3-a4c0-2ba0f4de3f23.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
 By enabling "Wrap" at the next level, we put each vertex into a separate list:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129513146-33f5e2c7-345b-414e-bbf6-561b3dacabd7.png
+.. image:: https://user-images.githubusercontent.com/14288520/188002711-0a43caf7-cf5a-4e89-9422-9eadd2de44c1.png
+  :target: https://user-images.githubusercontent.com/14288520/188002711-0a43caf7-cf5a-4e89-9422-9eadd2de44c1.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
 The next level - put each list of vertices (object) into a separate list:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129511986-c4bf1bac-f8a6-44a9-b187-b532210f89f8.png
+.. image:: https://user-images.githubusercontent.com/14288520/188002729-8e60dcd0-ac12-4d83-97cc-bd9534ffdfb5.png
+  :target: https://user-images.githubusercontent.com/14288520/188002729-8e60dcd0-ac12-4d83-97cc-bd9534ffdfb5.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
+
 
 And the outermost level - put the whole data structure into additional pair of square brackets:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129511989-bf1b69d4-b916-4771-a289-30d0761cf60c.png
+.. image:: https://user-images.githubusercontent.com/14288520/188002754-ff585102-c296-43ba-9041-6b9eb2285be1.png
+  :target: https://user-images.githubusercontent.com/14288520/188002754-ff585102-c296-43ba-9041-6b9eb2285be1.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
+
 
 By enabling "Flatten" at the deepest available level, we concatenate vertices data into lists of numbers:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129511997-5fe4d9bd-ce06-40cc-811e-f41de1ec3378.png
+.. image:: https://user-images.githubusercontent.com/14288520/188003925-ccf47ee0-07f1-4ee5-b1ad-4666f94fea9f.png
+  :target: https://user-images.githubusercontent.com/14288520/188003925-ccf47ee0-07f1-4ee5-b1ad-4666f94fea9f.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
+
 
 By flattening at the outermost level, we concatenate lists of vertices into a single list of vertices:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129512002-d194d402-d80f-4a4f-a3e6-4afb281fd191.png
+.. image:: https://user-images.githubusercontent.com/14288520/188003950-3bc52742-46e9-4dca-b508-44ba143604eb.png
+  :target: https://user-images.githubusercontent.com/14288520/188003950-3bc52742-46e9-4dca-b508-44ba143604eb.png
+
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
+
 
 If we enable both Flatten flags, we concatenate lists of vertices into lists of numbers, AND we concatenate lists of numbers into a single list of numbers:
 
-.. image:: https://user-images.githubusercontent.com/9460236/129512012-38d5314a-d799-4fb5-ad50-b6792e2907e4.png
+.. image:: https://user-images.githubusercontent.com/14288520/188003979-cbfcdc08-8477-4126-a1a2-f38c436fd3f1.png
+  :target: https://user-images.githubusercontent.com/14288520/188003979-cbfcdc08-8477-4126-a1a2-f38c436fd3f1.png
 
+* Number-> :doc:`List Input </nodes/number/list_input>`
+* Generator-> :doc:`Plane </nodes/generator/plane_mk3>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
+
+.. image:: https://user-images.githubusercontent.com/14288520/188002634-8ff0edf1-da21-4dd9-af2f-503a17ca4eba.png
+  :target: https://user-images.githubusercontent.com/14288520/188002634-8ff0edf1-da21-4dd9-af2f-503a17ca4eba.png
+
+* Number-> :doc:`Number Range </nodes/number/number_range>`
+* List->List Struct-> :doc:`List Split </nodes/list_struct/split>`
+* List->List Main-> :doc:`List Zip </nodes/list_main/zip>`
+* Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`

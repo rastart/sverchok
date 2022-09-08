@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hollow Solid &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Hollow Solid &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Mesh to Solid" href="mesh_to_solid.html" />
-    <link rel="prev" title="Solid Distance" href="slice_solid.html" /> 
+    <link rel="prev" title="Slice Solid" href="slice_solid.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -77,9 +78,9 @@
 <li class="toctree-l3"><a class="reference internal" href="revolve_face.html">Revolve Face (Solid)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sweep_face.html">Sweep Face (Solid)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="split_solid.html">Split Solid by Face</a></li>
-<li class="toctree-l3"><a class="reference internal" href="points_inside_solid.html">Points inside Solid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="points_inside_solid.html">Points Inside Solid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solid_distance.html">Solid Distance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice_solid.html">Solid Distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice_solid.html">Slice Solid</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Hollow Solid</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
@@ -91,7 +92,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mesh_to_solid.html">Mesh to Solid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solid_to_mesh_mk2.html">Solid to Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="solid_faces.html">Solid Faces (Curves)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solid_faces.html">Solid Faces (Surfaces)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solid_edges.html">Solid Edges (Curves)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solid_vertices.html">Solid Vertices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solid_select.html">Select Solid Elements</a></li>
@@ -169,13 +170,13 @@
            <div itemprop="articleBody">
              
   <section id="hollow-solid">
-<h1>Hollow Solid<a class="headerlink" href="#hollow-solid" title="Permalink to this headline">¶</a></h1>
+<h1>Hollow Solid<a class="headerlink" href="#hollow-solid" title="Permalink to this heading">¶</a></h1>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>This node requires <a class="reference external" href="../../solids.rst">FreeCAD</a> library to work.</p>
 </section>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node does the following procedure:</p>
 <ul class="simple">
 <li><p>takes a Solid object</p></li>
@@ -193,7 +194,7 @@ cone has already to be regarded as complex.</p></li>
 </ol>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Solid</strong>. Solid object to be operated on. This input is mandatory.</p></li>
@@ -205,7 +206,7 @@ Usage</strong> parameter, which is located near the input.</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node  has the following parameters:</p>
 <ul>
 <li><p><strong>Tolerance</strong>. Operation tolerance. The smaller this value is, the more
@@ -228,14 +229,14 @@ that are to be removed.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following output:</p>
 <ul class="simple">
 <li><p><strong>Solid</strong>. The generated Solid object.</p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>This node will be usually used together with “Select Solid Elements” node, to
 indicate which faces to use for the shell.</p>
 <p>Make a solid of revolution from a pentagon, then remove two of it’s faces on
@@ -250,7 +251,7 @@ the top, and make a hollow shell from other faces:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="slice_solid.html" class="btn btn-neutral float-left" title="Solid Distance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="slice_solid.html" class="btn btn-neutral float-left" title="Slice Solid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="mesh_to_solid.html" class="btn btn-neutral float-right" title="Mesh to Solid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Approximate Bezier Curve &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Approximate Bezier Curve &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -80,6 +81,7 @@
 <li class="toctree-l3"><a class="reference internal" href="length_rebuild.html">Naturally Parametrized Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curvature.html">Curve Curvature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="torsion.html">Curve Torsion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbs_curve_nodes.html">NURBS Curve Nodes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deconstruct_curve.html">Deconstruct Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_frame.html">Curve Frame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_frame_on_surface.html">Curve Frame on Surface</a></li>
@@ -98,8 +100,10 @@
 <li class="toctree-l3"><a class="reference internal" href="nurbs_curve.html">Build NURBS Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="approximate_nurbs_curve.html">Approximate NURBS Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolate_nurbs_curve.html">Interpolate NURBS Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="move_nurbs_curve_point.html">Move NURBS Curve Point</a></li>
 <li class="toctree-l3"><a class="reference internal" href="insert_knot.html">Insert Knot (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="remove_knot.html">Remove Knot (NURBS Curve)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="refine_nurbs_curve.html">Refine NURBS Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="remove_excessive_knots.html">Remove Excessive Knots (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adaptive_plot_nurbs.html">Adaptive Plot NURBS Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="catenary_curve.html">Catenary Curve</a></li>
@@ -190,18 +194,18 @@
            <div itemprop="articleBody">
              
   <section id="approximate-bezier-curve">
-<h1>Approximate Bezier Curve<a class="headerlink" href="#approximate-bezier-curve" title="Permalink to this headline">¶</a></h1>
+<h1>Approximate Bezier Curve<a class="headerlink" href="#approximate-bezier-curve" title="Permalink to this heading">¶</a></h1>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>This node requires <a class="reference external" href="https://scipy.org/">SciPy</a> library to work.</p>
 </section>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node builds a <a class="reference external" href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Bezier</a> Curve object, which approximate the given set of
 points, i.e. goes as close to them as possible while remaining a smooth curve.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. The points to be approximated. This input is mandatory.</p></li>
@@ -209,7 +213,7 @@ points, i.e. goes as close to them as possible while remaining a smooth curve.</
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following parameter:</p>
 <ul class="simple">
 <li><p><strong>Metric</strong>. This parameter is available in the N panel only. It defines the
@@ -219,7 +223,7 @@ have to adjust this parameter.</p></li>
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>Curve</strong>. The generated Bezier Curve object.</p></li>
@@ -227,7 +231,7 @@ have to adjust this parameter.</p></li>
 </ul>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>Take points from Greasepencil drawing and approximate them with a smooth curve:</p>
 <img alt="https://user-images.githubusercontent.com/284644/86514558-7fc9ee00-be2c-11ea-8399-811e14ba38b7.png" src="https://user-images.githubusercontent.com/284644/86514558-7fc9ee00-be2c-11ea-8399-811e14ba38b7.png" />
 </section>

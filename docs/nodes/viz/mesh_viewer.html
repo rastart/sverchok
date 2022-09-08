@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mesh viewer &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Mesh Viewer &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,6 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -73,7 +74,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../list_mutators/list_mutators_index.html">List Mutators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dictionary/dictionary_index.html">Dictionary</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="viz_index.html">Viz</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Mesh viewer</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Mesh Viewer</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#category">Category</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -85,9 +86,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_2d.html">Viewer 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_draw_mk4.html">Viewer Draw</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">vd matrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Index Viewer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vd_matrix.html">Matrix View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viewer_idx28.html">Viewer Index+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyline_viewer.html">Polyline Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_curves.html">Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_bezier_curve.html">Bezier Curve Viewer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viewer_nurbs_curve.html">NURBS Curve Out Node</a></li>
@@ -138,7 +139,7 @@
       <li><a href="../../main.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../nodes.html">Nodes</a> &raquo;</li>
           <li><a href="viz_index.html">Viz</a> &raquo;</li>
-      <li>Mesh viewer</li>
+      <li>Mesh Viewer</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/nodes/viz/mesh_viewer.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -149,20 +150,20 @@
            <div itemprop="articleBody">
              
   <section id="mesh-viewer">
-<h1>Mesh viewer<a class="headerlink" href="#mesh-viewer" title="Permalink to this headline">¶</a></h1>
+<h1>Mesh Viewer<a class="headerlink" href="#mesh-viewer" title="Permalink to this heading">¶</a></h1>
 <img alt="https://user-images.githubusercontent.com/28003269/91057173-ec48b880-e637-11ea-9933-b9cef83aac65.png" src="https://user-images.githubusercontent.com/28003269/91057173-ec48b880-e637-11ea-9933-b9cef83aac65.png" />
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Similar to ViewerDraw but instead of using OpenGL calls to display geometry this Node <em>writes</em> or <em>updates</em> Blender Meshes on every geometry update. The bonus is that this geometry is renderable without an extra bake step. We can use Blender’s Modifier stack to affect the mesh. The only exception to the modifiers is the Skin Modifier but we aren’t entirely sure why, maybe because BMview invalidates the BMesh between updates.</p>
 <p><em>Note:</em> The performance of the node can be increased significantly by putting vertices in <cite>numpy.float32</cite> format
 in case if topology of the mesh remains unchanged.</p>
 </section>
 <section id="category">
-<h2>Category<a class="headerlink" href="#category" title="Permalink to this headline">¶</a></h2>
-<p>Viz -&gt; Mesh viewer</p>
+<h2>Category<a class="headerlink" href="#category" title="Permalink to this heading">¶</a></h2>
+<p>Viz -&gt; Mesh Viewer</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Verts</p></li>
 <li><p>Edges</p></li>
@@ -172,7 +173,7 @@ in case if topology of the mesh remains unchanged.</p>
 </ul>
 </section>
 <section id="parameters-features">
-<h2>Parameters &amp; Features<a class="headerlink" href="#parameters-features" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters &amp; Features<a class="headerlink" href="#parameters-features" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 18%" />
@@ -242,19 +243,19 @@ cases. So it should be disabled</p></td>
 <p><em>Note: Some features are placed in the `N-Panel` / `Properties Panel`.</em></p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Objects</p></li>
 </ul>
 </section>
 <section id="d-panel">
-<h2>3D panel<a class="headerlink" href="#d-panel" title="Permalink to this headline">¶</a></h2>
+<h2>3D panel<a class="headerlink" href="#d-panel" title="Permalink to this heading">¶</a></h2>
 <p>The node can show its properties on 3D panel.
 For this parameter <cite>Show in 3D panel</cite> should be enabled.
 After that you can press <cite>scan for props</cite> button on 3D panel for showing the node properties on 3D panel.</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <img alt="https://user-images.githubusercontent.com/28003269/91072892-4141fa00-e64b-11ea-8f6a-0a59e9c1b61e.png" src="https://user-images.githubusercontent.com/28003269/91072892-4141fa00-e64b-11ea-8f6a-0a59e9c1b61e.png" />
 <p><strong>Unlock origin feature:</strong></p>
 <img alt="https://user-images.githubusercontent.com/28003269/91182715-93425880-e6fb-11ea-9ff5-393bbcb41490.gif" src="https://user-images.githubusercontent.com/28003269/91182715-93425880-e6fb-11ea-9ff5-393bbcb41490.gif" />

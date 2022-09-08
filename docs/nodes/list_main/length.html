@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Length &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Length &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Delete Levels" href="levels.html" />
-    <link rel="prev" title="List Join" href="join.html" /> 
+    <link rel="next" title="List Summa" href="sum_mk2.html" />
+    <link rel="prev" title="List Delete Levels" href="levels.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,10 +69,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_main_index.html">List Main</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
-<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="join.html">List Join</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zip.html">List Zip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Length</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -80,12 +81,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="zip.html">List Zip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="statistics.html">List Statistics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html">List index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">List Index</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
@@ -135,28 +136,41 @@
            <div itemprop="articleBody">
              
   <section id="list-length">
-<h1>List Length<a class="headerlink" href="#list-length" title="Permalink to this headline">¶</a></h1>
+<h1>List Length<a class="headerlink" href="#list-length" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187519011-8e55b053-801f-43f1-9d45-727a11633ca1.png"><img alt="https://user-images.githubusercontent.com/14288520/187519011-8e55b053-801f-43f1-9d45-727a11633ca1.png" src="https://user-images.githubusercontent.com/14288520/187519011-8e55b053-801f-43f1-9d45-727a11633ca1.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>The Node equivalent of the Python <code class="docutils literal notranslate"><span class="pre">len()</span></code> function. The length is inspected at the Level needed.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>Takes any kind of data.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p><strong>Level:</strong> Set the level at which to observe the List.</p>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Level:</strong> Set the level at which to observe the List. Min Level is 0.</p></li>
+</ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p>Depends on incoming data and can be nested. Level 0 is top level (totally zoomed out), higher levels get more granular (zooming in) until no higher level is found (atomic). The length of the most atomic level will be 1, for instance single ints or float or characters. The output will reflect the nestedness of the incoming data.</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <p>Often a few experiments with input hooked-up to a debug node will make the exact working of this Node instantly clearer than any explanation.</p>
-<img alt="ListLengthDemo1.PNG" src="https://cloud.githubusercontent.com/assets/619340/4186453/1a375026-3761-11e4-8e41-11b57736be1a.PNG" />
-<img alt="ListLengthDemo2.PNG" src="https://cloud.githubusercontent.com/assets/619340/4186454/1a3de7b0-3761-11e4-9520-79b331ad6822.PNG" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187696438-05bf888a-086e-4a49-a6e6-0752ce3ef475.png"><img alt="ListLengthDemo1.PNG" src="https://user-images.githubusercontent.com/14288520/187696438-05bf888a-086e-4a49-a6e6-0752ce3ef475.png" /></a>
+<ul class="simple">
+<li><p>Vector-&gt; <a class="reference internal" href="../vector/axis_input_mk2.html"><span class="doc">Vector X/Y/Z</span></a></p></li>
+<li><p>Number-&gt; <a class="reference internal" href="../number/number_range.html"><span class="doc">Number Range</span></a></p></li>
+<li><p>Matrix-&gt; <a class="reference internal" href="../matrix/matrix_in_mk4.html"><span class="doc">Matrix In</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187696469-0fba9dff-0423-406c-9a19-7ef0d607d996.png"><img alt="ListLengthDemo2.PNG" src="https://user-images.githubusercontent.com/14288520/187696469-0fba9dff-0423-406c-9a19-7ef0d607d996.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/number_range.html"><span class="doc">Number Range</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -164,8 +178,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="join.html" class="btn btn-neutral float-left" title="List Join" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="levels.html" class="btn btn-neutral float-right" title="List Delete Levels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="levels.html" class="btn btn-neutral float-left" title="List Delete Levels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sum_mk2.html" class="btn btn-neutral float-right" title="List Summa" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

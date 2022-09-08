@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sweep Modulator &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>Sweep Modulator &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,11 +15,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="csg boolean mk2" href="csg_booleanMK2.html" />
+    <link rel="next" title="CSG Boolean MK2" href="csg_booleanMK2.html" />
     <link rel="prev" title="Clip Vertices" href="clip_verts.html" /> 
 </head>
 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -71,13 +72,13 @@
 <li class="toctree-l3"><a class="reference internal" href="solidify_mk2.html">Solidify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uv_connect.html">UV Connection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wafel.html">Wafel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="join_tris.html">join tris</a></li>
-<li class="toctree-l3"><a class="reference internal" href="framework.html">Framework node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="join_tris.html">Join Triangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="framework.html">Framework</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wireframe.html">Wireframe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bevel_curve.html">Bevel a Curve (Mesh)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="contour2D.html">Contour 2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dual_mesh.html">Dual Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="diamond_mesh.html">Diamond Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clip_verts.html">Clip Vertices</a></li>
@@ -89,7 +90,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#example-of-usage">Example of usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">csg boolean mk2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">CSG Boolean MK2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../CAD/CAD_index.html">CAD</a></li>
@@ -147,16 +148,16 @@
            <div itemprop="articleBody">
              
   <section id="sweep-modulator">
-<h1>Sweep Modulator<a class="headerlink" href="#sweep-modulator" title="Permalink to this headline">¶</a></h1>
+<h1>Sweep Modulator<a class="headerlink" href="#sweep-modulator" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node is not massively/extensively tested yet. Consider it a proof of concept. It’s not even coded for efficiency.</p>
 <p>behind the scenes this node takes a given trajectory, and two shape curves, and duplicates the trajectory two times, and attaches a bevel object (shape A and B) to the individual trajectories. Then using the factors property, it will interpolate (mix) between the two “extrusions” (of Lofted / Swept ) objects.</p>
 <p>Because it’s a pain to figure out how many points are in the trajectory (so that you can match the number of factors to pass), the node will automatically extend/trim the input Factor sequence, or even interpolate linearly. When the node is adjusting the values found in Factors to match the required length, the Interpolate button will show as alerted.</p>
 <p>currently the node will not hide the “dummy objects”, you can do that in the outliner.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
 <p>It’s not vectorized, meaning it does not accept multiple factor lists, or multiple object lists / trajectories.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -195,7 +196,7 @@ a polyline node.</p></td>
 </table>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 22%" />
@@ -231,11 +232,11 @@ using the supplied values as a guide.</p></td>
 </table>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
 <p><strong>Vertices</strong> and <strong>Edges</strong> and <strong>Poly</strong> will be generated.</p>
 </section>
 <section id="example-of-usage">
-<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>See the progress of how this node came to life <a class="reference external" href="https://github.com/nortikin/sverchok/pull/2864">here</a> (gifs, screenshots)
 and a discussion about other techniques for producing similar results: <a class="reference external" href="https://github.com/nortikin/sverchok/issues/2863">here2</a> (gifs, screenshots)</p>
 </section>
@@ -246,7 +247,7 @@ and a discussion about other techniques for producing similar results: <a class=
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="clip_verts.html" class="btn btn-neutral float-left" title="Clip Vertices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="csg_booleanMK2.html" class="btn btn-neutral float-right" title="csg boolean mk2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="csg_booleanMK2.html" class="btn btn-neutral float-right" title="CSG Boolean MK2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Zip &mdash; Sverchok 1, 0, 1 documentation</title>
+  <title>List Zip &mdash; Sverchok 1, 1, 0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
@@ -15,12 +15,13 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Statistics" href="statistics.html" />
-    <link rel="prev" title="List Summa" href="sum_mk2.html" /> 
+    <link rel="next" title="List Delete Levels" href="levels.html" />
+    <link rel="prev" title="Constant List" href="constant.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +33,7 @@
             <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1, 0, 1
+                1, 1, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -68,23 +69,24 @@
 <li class="toctree-l2"><a class="reference internal" href="../color/color_index.html">Color</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_main_index.html">List Main</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
-<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
 <li class="toctree-l3"><a class="reference internal" href="join.html">List Join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant.html">Constant List</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Zip</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#properties">Properties</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Delete Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="length.html">List Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sum_mk2.html">List Summa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="match.html">List Match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="func.html">List Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decompose.html">List Decompose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="statistics.html">List Statistics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html">List index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">List Index</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_struct/list_struct_index.html">List Structure</a></li>
@@ -134,30 +136,48 @@
            <div itemprop="articleBody">
              
   <section id="list-zip">
-<h1>List Zip<a class="headerlink" href="#list-zip" title="Permalink to this headline">¶</a></h1>
+<h1>List Zip<a class="headerlink" href="#list-zip" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187516998-eb8d150a-ef02-480b-bb8b-739ed20c4049.png"><img alt="https://user-images.githubusercontent.com/14288520/187516998-eb8d150a-ef02-480b-bb8b-739ed20c4049.png" src="https://user-images.githubusercontent.com/14288520/187516998-eb8d150a-ef02-480b-bb8b-739ed20c4049.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>Making pairs of data to mix togather as zip function.</p>
 <p>x = [[[1,2],[3,4]]]
 y = [[[5,6],[7,8]]]</p>
-<p>out level 1 =       [[[[1, 2], [5, 6]], [[3, 4], [7, 8]]]]
-out level 1 unwrap = [[[1, 2], [5, 6]], [[3, 4], [7, 8]]]
-out level 2 =       [[[[1, 3], [2, 4]], [[5, 7], [6, 8]]]]
-out level 2 unwrap = [[[1, 3], [2, 4]], [[5, 7], [6, 8]]]
-out level 3 =       [[[[], []], [[], []]]]</p>
+<p>out level 1 =       [[[[1, 2], [5, 6]], [[3, 4], [7, 8]]]]</p>
+<p>out level 1 unwrap = [[[1, 2], [5, 6]], [[3, 4], [7, 8]]]</p>
+<p>out level 2 =       [[[[1, 3], [2, 4]], [[5, 7], [6, 8]]]]</p>
+<p>out level 2 unwrap = [[[1, 3], [2, 4]], [[5, 7], [6, 8]]]</p>
+<p>out level 3 =       [[[[], []], [[], []]]]</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>data</strong> multisocket</p>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>data</strong> multisocket</p></li>
+</ul>
 </section>
 <section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
-<p><strong>level</strong> integer to operate level of conjunction
-<strong>unwrap</strong> boolean to unwrap from additional level, added when zipped</p>
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>level</strong> integer to operate level of conjunction</p></li>
+<li><p><strong>unwrap</strong> boolean to unwrap from additional level, added when zipped</p></li>
+</ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
-<p><strong>data</strong> adaptable socket</p>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>data</strong> adaptable socket</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187518702-482dd7e7-0b67-46b8-a68c-c8ad60f4111d.png"><img alt="https://user-images.githubusercontent.com/14288520/187518702-482dd7e7-0b67-46b8-a68c-c8ad60f4111d.png" src="https://user-images.githubusercontent.com/14288520/187518702-482dd7e7-0b67-46b8-a68c-c8ad60f4111d.png" /></a>
+<ul class="simple">
+<li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
+<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="../list_struct/levels.html"><span class="doc">List Levels</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/simple_text.html"><span class="doc">Simple Text</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/string_tools.html"><span class="doc">String Tools</span></a></p></li>
+<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+</ul>
 </section>
 </section>
 
@@ -165,8 +185,8 @@ out level 3 =       [[[[], []], [[], []]]]</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sum_mk2.html" class="btn btn-neutral float-left" title="List Summa" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="statistics.html" class="btn btn-neutral float-right" title="List Statistics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="constant.html" class="btn btn-neutral float-left" title="Constant List" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="levels.html" class="btn btn-neutral float-right" title="List Delete Levels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
