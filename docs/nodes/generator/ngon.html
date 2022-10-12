@@ -17,11 +17,12 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Box" href="box_mk2.html" />
-    <link rel="prev" title="Plane" href="plane_mk3.html" /> 
+    <link rel="next" title="Plane" href="plane_mk3.html" />
+    <link rel="prev" title="Line" href="line_mk4.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,9 +52,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../../data_structure/data_structure_index.html">Data structure</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../nodes.html">Nodes</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="generator_index.html">Generators</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic_3pt_arc.html">3 Point Arc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_spline.html">2 Point Spline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="box_mk2.html">Box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bricks.html">Bricks Grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="circle.html">Circle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cricket.html">cricket</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylinder_mk2.html">Cylinder MK2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formula_shape.html">Formula Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icosphere.html">IcoSphere Node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image.html">Image</a></li>
 <li class="toctree-l3"><a class="reference internal" href="line_mk4.html">Line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="segment.html">Segment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plane_mk3.html">Plane</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">NGon</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -62,21 +71,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="box_mk2.html">Box</a></li>
-<li class="toctree-l3"><a class="reference internal" href="circle.html">Circle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cylinder_mk2.html">Cylinder MK2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sphere.html">Sphere</a></li>
-<li class="toctree-l3"><a class="reference internal" href="icosphere.html">IcoSphere Node</a></li>
-<li class="toctree-l3"><a class="reference internal" href="torus_mk2.html">Torus</a></li>
-<li class="toctree-l3"><a class="reference internal" href="suzanne.html">Suzanne Node</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cricket.html">cricket</a></li>
-<li class="toctree-l3"><a class="reference internal" href="basic_spline.html">2 Point Spline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plane_mk3.html">Plane</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quad_spline.html">Quadratic Spline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="basic_3pt_arc.html">3 Point Arc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="random_vector_mk3.html">Random Vector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="image.html">Image</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bricks.html">Bricks Grid</a></li>
-<li class="toctree-l3"><a class="reference internal" href="formula_shape.html">Formula Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="segment.html">Segment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere.html">Sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="suzanne.html">Suzanne Node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torus_mk2.html">Torus</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../generators_extended/generators_extended_index.html">Generators Extended</a></li>
@@ -146,6 +147,7 @@
   <section id="ngon">
 <h1>NGon<a class="headerlink" href="#ngon" title="Permalink to this heading">¶</a></h1>
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188597852-51e09d66-5fea-4ef2-9700-4d8e1f0b9dfa.png"><img alt="https://user-images.githubusercontent.com/14288520/188597852-51e09d66-5fea-4ef2-9700-4d8e1f0b9dfa.png" src="https://user-images.githubusercontent.com/14288520/188597852-51e09d66-5fea-4ef2-9700-4d8e1f0b9dfa.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/191228034-f2f0d435-f3ad-42d4-bc3b-b9f2871bb416.png"><img alt="https://user-images.githubusercontent.com/14288520/191228034-f2f0d435-f3ad-42d4-bc3b-b9f2871bb416.png" src="https://user-images.githubusercontent.com/14288520/191228034-f2f0d435-f3ad-42d4-bc3b-b9f2871bb416.png" /></a>
 <section id="functionality">
 <h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>NGon generator creates regular (or not exactly, see below) polygons of given
@@ -199,22 +201,25 @@ This node has the following inputs:</p>
 <tr class="row-even"><td><p><strong>Radius</strong></p></td>
 <td><p>Float</p></td>
 <td><p>1.00</p></td>
-<td><p>Radius of escribed circle. When <code class="docutils literal notranslate"><span class="pre">RandomR</span></code> is zero,
-then all vertices will be at this distance from origin.</p></td>
+<td><p>Radius of escribed circle. When <code class="docutils literal notranslate"><span class="pre">RandomR</span></code> is zero,</p>
+<p>then all vertices will be at this distance from origin.</p>
+</td>
 </tr>
 <tr class="row-odd"><td><p><strong>N Sides</strong></p></td>
 <td><p>Int</p></td>
 <td><p>5</p></td>
-<td><p>Number of sides of polygon to generate. With higher
-values and <code class="docutils literal notranslate"><span class="pre">Shift</span></code> = 0, <code class="docutils literal notranslate"><span class="pre">RandomR</span></code> = 0, <code class="docutils literal notranslate"><span class="pre">RandomPhi</span></code>
-= 0, you will get the same output as from Circle node.</p></td>
+<td><p>Number of sides of polygon to generate. With higher</p>
+<p>values and <code class="docutils literal notranslate"><span class="pre">Shift</span></code> = 0, <code class="docutils literal notranslate"><span class="pre">RandomR</span></code> = 0, <code class="docutils literal notranslate"><span class="pre">RandomPhi</span></code></p>
+<p>= 0, you will get the same output as from Circle node.</p>
+</td>
 </tr>
 <tr class="row-even"><td><p><strong>Divisions</strong></p></td>
 <td><p>Int</p></td>
 <td><p>1</p></td>
-<td><p>Divide each side of the polygon to specified number of
-segments. For example, with <code class="docutils literal notranslate"><span class="pre">Divisions</span></code> = 2, there will
-be an additional vertex at the middle of each side.</p></td>
+<td><p>Divide each side of the polygon to specified number of</p>
+<p>segments. For example, with <code class="docutils literal notranslate"><span class="pre">Divisions</span></code> = 2, there will</p>
+<p>be an additional vertex at the middle of each side.</p>
+</td>
 </tr>
 <tr class="row-odd"><td><p><strong>RandomR</strong></p></td>
 <td><p>Float</p></td>
@@ -235,10 +240,11 @@ be an additional vertex at the middle of each side.</p></td>
 <tr class="row-even"><td><p><strong>Shift</strong></p></td>
 <td><p>Int</p></td>
 <td><p>0</p></td>
-<td><p>Also known as “star factor”. When this is zero, each vertex
-is connected by edge to next one, and you will get usual
-polygon. Otherwise, n’th vertex will be connected to
-(n+shift+1)’th. In this case, you will get sort of star.</p></td>
+<td><p>Also known as “star factor”. When this is zero, each vertex</p>
+<p>is connected by edge to next one, and you will get usual</p>
+<p>polygon. Otherwise, n’th vertex will be connected to</p>
+<p>(n+shift+1)’th. In this case, you will get sort of star.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -276,8 +282,8 @@ node does not create degenerated polygons.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="plane_mk3.html" class="btn btn-neutral float-left" title="Plane" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="box_mk2.html" class="btn btn-neutral float-right" title="Box" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="line_mk4.html" class="btn btn-neutral float-left" title="Line" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plane_mk3.html" class="btn btn-neutral float-right" title="Plane" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

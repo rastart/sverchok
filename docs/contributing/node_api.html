@@ -17,10 +17,11 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="next" title="Sverchok API Documentation" href="api_documentation.html" />
     <link rel="prev" title="Adding new Node" href="add_new_node.html" /> 
 </head>
 
@@ -92,6 +93,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api_documentation.html">Sverchok API Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="testing.html">Testing</a></li>
 </ul>
 </li>
@@ -125,7 +127,9 @@
   <section id="node-api">
 <h1>Node API<a class="headerlink" href="#node-api" title="Permalink to this heading">¶</a></h1>
 <p>This page claims to define all aspects of node creation. A brief introduction
-to node creation is represented <a class="reference internal" href="add_new_node.html"><span class="doc">on this page</span></a>.</p>
+to node creation is represented <a class="reference internal" href="add_new_node.html"><span class="doc">on this page</span></a>. Api
+documentation of base class of all nodes can be found
+<a class="reference external" href="http://nortikin.github.io/sverchok/apidocs/sverchok/node_tree.html">here</a></p>
 <p>The Code of a new node should be created in a separate file. The file should be placed in
 one of the available categories in the <code class="docutils literal notranslate"><span class="pre">nodes</span></code> folder.</p>
 <p>Usually the structure of the file looks like:</p>
@@ -251,7 +255,7 @@ return boolean value.</p>
     <span class="n">draft_properties_mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">some_mode</span> <span class="o">=</span> <span class="s1">&#39;some_mode_draft&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">does_support_draft_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </section>
@@ -331,9 +335,9 @@ operator calls the same <code class="docutils literal notranslate"><span class="
 argument as True.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">Show3DProperties</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">draw_buttons_3dpanel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">in_menu</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">draw_buttons_3dpanel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">in_menu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">in_menu</span><span class="p">:</span>
-            <span class="n">menu</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s1">&#39;node.popup_3d_menu&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;Show: &quot;{self.label or self.name}&quot;&#39;</span><span class="p">)</span>
+            <span class="n">menu</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s1">&#39;node.popup_3d_menu&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Show: &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="n">menu</span><span class="o">.</span><span class="n">tree_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_data</span><span class="o">.</span><span class="n">name</span>
             <span class="n">menu</span><span class="o">.</span><span class="n">node_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
@@ -363,7 +367,7 @@ in <code class="docutils literal notranslate"><span class="pre">default_property
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">sv_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="n">socket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Size&quot;</span><span class="p">)</span>
-        <span class="n">socket</span><span class="o">.</span><span class="n">use_prop</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">use_prop</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">socket</span><span class="o">.</span><span class="n">default_float_property</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;SvVerticesSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Verts&quot;</span><span class="p">)</span>
 </pre></div>
@@ -373,7 +377,7 @@ in <code class="docutils literal notranslate"><span class="pre">default_property
 <p>Alternative way of creating input sockets is using <code class="docutils literal notranslate"><span class="pre">sv_new_input</span></code> method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">sv_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sv_new_input</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="n">use_prop</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sv_new_input</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Size&quot;</span><span class="p">,</span> <span class="n">use_prop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                           <span class="n">default_float_property</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -427,7 +431,7 @@ to add a button to a node which would recreate sockets explicitly.</p>
     <span class="n">mode</span><span class="p">:</span> <span class="n">BoolProperty</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="n">mode_update</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">sv_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">use_prop</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">use_prop</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;SvStringsSocket&#39;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">sv_update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -473,7 +477,7 @@ creating nodes during dragging a link from a socket in Blender 3.1.</p>
         <span class="k">def</span> <span class="nf">on_selected</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">socket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;In this method the node should be created and linked to the socket&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;KEY&#39;</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -562,7 +566,7 @@ such optimization is execution system.</p>
 saving result. It expects only one parameter - data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;My Socket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sv_get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">deepcopy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;My Socket&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sv_get</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">handle_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
@@ -612,7 +616,7 @@ sense to repeat it.</p>
 <code class="docutils literal notranslate"><span class="pre">data_structure</span></code> module. Generators are preferable before functions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">sv_get</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[[]])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">sv_get</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[[]])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">]</span>
         <span class="n">max_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span>  <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">max_len</span><span class="p">),</span> <span class="o">*</span><span class="n">make_repeaters</span><span class="p">(</span><span class="n">params</span><span class="p">)):</span>
@@ -809,13 +813,8 @@ module with Node class.</p>
 Without it, in most cases, users will hardly able to use the node and also
 it can be difficult to distinguish a bug because the desired behaviour was not
 proclaimed.</p>
-<p>To add documentation to a node two things should be done:</p>
-<ul class="simple">
-<li><p>file with documentation (name_of_the_node.rst) should be added to the
-<code class="docutils literal notranslate"><span class="pre">docs.nodes.node_category</span></code> folder</p></li>
-<li><p>Name of the file should be add to list inside
-<code class="docutils literal notranslate"><span class="pre">docs.nodes.node_category.node_category_index.rst</span></code> file</p></li>
-</ul>
+<p>To add documentation to a node file with documentation (name_of_the_node.rst)
+should be added to the <code class="docutils literal notranslate"><span class="pre">docs.nodes.node_category</span></code> folder.</p>
 <p>For generating documentation <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx library</a> is used. Also
 <a class="reference external" href="https://github.com/readthedocs/sphinx_rtd_theme">Read the Docs</a> Sphinx theme is used. So both libraries should be available
 if you want to build documentation locally. There is <code class="docutils literal notranslate"><span class="pre">docs/make.bat</span></code> file
@@ -870,14 +869,14 @@ Dummy nodes do nothing but display information that a library is not installed.<
 Also such nodes dose not apper in the Add node menu.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sverchok.dependencies</span> <span class="kn">import</span> <span class="n">FreeCAD</span>
 
-<span class="k">if</span> <span class="n">FreeCAD</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">FreeCAD</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">utils</span><span class="o">.</span><span class="n">dummy_nodes</span><span class="o">.</span><span class="n">add_dummy</span><span class="p">(</span><span class="s1">&#39;SvSolidAreaNode&#39;</span><span class="p">,</span> <span class="s1">&#39;Solid Area&#39;</span><span class="p">,</span> <span class="s1">&#39;FreeCAD&#39;</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">SvSolidAreaNode</span><span class="p">:</span>
     <span class="o">...</span>
 
 <span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">FreeCAD</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">FreeCAD</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bpy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">register_class</span><span class="p">(</span><span class="n">SvSolidAreaNode</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1008,7 +1007,7 @@ links creation.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="add_new_node.html" class="btn btn-neutral float-left" title="Adding new Node" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="testing.html" class="btn btn-neutral float-right" title="Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api_documentation.html" class="btn btn-neutral float-right" title="Sverchok API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

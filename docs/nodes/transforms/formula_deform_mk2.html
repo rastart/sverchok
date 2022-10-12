@@ -17,6 +17,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -58,9 +59,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../solid/solid_index.html">Solids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../spatial/spatial_index.html">Spatial</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="transforms_index.html">Transforms</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="move_mk3.html">Move</a></li>
-<li class="toctree-l3"><a class="reference internal" href="scale_mk3.html">Scale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rotate_mk3.html">Rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="align_mesh_by_mesh.html">Align Mesh by Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="apply.html">Matrix Apply (verts)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barycentric_transform.html">Barycentric Transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bend_along_path.html">Bend Object Along Path</a></li>
@@ -75,13 +74,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mirror_mk2.html">Mirror</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symmetrize.html">Symmetrize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transform_select.html">Transform Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="move_mk3.html">Move</a></li>
 <li class="toctree-l3"><a class="reference internal" href="noise_displace.html">Noise Displace</a></li>
-<li class="toctree-l3"><a class="reference internal" href="texture_displace_mk2.html">Texture Displace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="randomize.html">Randomize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="align_mesh_by_mesh.html">Align Mesh by Mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rotate_mk3.html">Rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scale_mk3.html">Scale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symmetrize.html">Symmetrize Mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texture_displace_mk2.html">Texture Displace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="transform_mesh.html">Transform mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transform_select.html">Transform Select</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../analyzer/analyzer_index.html">Analyzers</a></li>
@@ -143,6 +144,7 @@
              
   <section id="deform-by-formula">
 <h1>Deform by Formula<a class="headerlink" href="#deform-by-formula" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/194043208-cd11b020-2ef5-45d0-b382-ee56fdad8d4e.png"><img alt="https://user-images.githubusercontent.com/14288520/194043208-cd11b020-2ef5-45d0-b382-ee56fdad8d4e.png" src="https://user-images.githubusercontent.com/14288520/194043208-cd11b020-2ef5-45d0-b382-ee56fdad8d4e.png" /></a>
 <section id="functionality">
 <h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>available variables: <strong>x</strong>, <strong>y</strong>, <strong>z</strong> for access to initial (xyz) coordinates.
@@ -166,7 +168,13 @@ resulted vertices to X,Y,Z elements of which was applied expression.</p>
 </section>
 <section id="example-of-usage">
 <h2>Example of usage<a class="headerlink" href="#example-of-usage" title="Permalink to this heading">¶</a></h2>
-<img alt="https://user-images.githubusercontent.com/22656834/34645578-6feb7138-f373-11e7-87e7-54d4307c9b0a.png" src="https://user-images.githubusercontent.com/22656834/34645578-6feb7138-f373-11e7-87e7-54d4307c9b0a.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/194045265-39a79b9c-3a71-46d1-81e4-2bbdfde44277.png"><img alt="https://user-images.githubusercontent.com/14288520/194045265-39a79b9c-3a71-46d1-81e4-2bbdfde44277.png" src="https://user-images.githubusercontent.com/14288520/194045265-39a79b9c-3a71-46d1-81e4-2bbdfde44277.png" /></a>
+<ul class="simple">
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/cylinder_mk2.html"><span class="doc">Cylinder</span></a></p></li>
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/circle.html"><span class="doc">Circle</span></a></p></li>
+<li><p>Matrix-&gt; <a class="reference internal" href="../matrix/matrix_in_mk4.html"><span class="doc">Matrix In</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
+</ul>
 </section>
 </section>
 

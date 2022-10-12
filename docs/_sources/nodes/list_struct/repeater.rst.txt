@@ -54,7 +54,7 @@ Trying various inputs, adjusting the parameters, and piping the output to a *Deb
   :target: https://user-images.githubusercontent.com/14288520/187932385-97321a1c-8a75-41bc-982a-59c420226aec.png
 
 * List->List Main-> :doc:`List Join </nodes/list_main/join>`
-* Curve->Bezier-> :doc:`Bezier Spline (Curve) </nodes/curve/bezier_spline>`
+* Curves->Bezier-> :doc:`Bezier Spline (Curve) </nodes/curve/bezier_spline>`
 * Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
 A practical reason to use the node is when you need a series of copies of edge or polygon lists. Usually in conjunction with `Matrix Apply`, which outputs a series of `vertex lists` as a result of transform parameters.
@@ -69,7 +69,7 @@ A practical reason to use the node is when you need a series of copies of edge o
 * Number-> :doc:`Number Range </nodes/number/number_range>`
 * Matrix-> :doc:`Matrix In </nodes/matrix/matrix_in_mk4>`
 * Transforms-> :doc:`Matrix Apply (verts) </nodes/transforms/apply>`
-* List->List Struct-> :doc:`List Length </nodes/list_main/length>`
+* List->List Main-> :doc:`List Length </nodes/list_main/length>`
 * Modifier->Modifier Change :doc:`Mesh Join </nodes/modifier_change/mesh_join_mk2>`
 * Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 * Viz-> :doc:`Viewer Draw </nodes/viz/viewer_draw_mk4>`

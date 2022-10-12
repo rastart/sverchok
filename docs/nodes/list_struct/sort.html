@@ -17,11 +17,12 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Flip" href="flip.html" />
-    <link rel="prev" title="List Shuffle" href="shuffle.html" /> 
+    <link rel="next" title="List Split" href="split.html" />
+    <link rel="prev" title="List Slice Lite" href="slice_lite.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -70,15 +71,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../list_main/list_main_index.html">List Main</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_struct_index.html">List Structure</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
-<li class="toctree-l3"><a class="reference internal" href="repeater.html">List Repeater</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice.html">List Slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="split.html">List Split</a></li>
-<li class="toctree-l3"><a class="reference internal" href="start_end.html">List First &amp; Last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="item.html">List Item</a></li>
 <li class="toctree-l3"><a class="reference internal" href="item_insert.html">List Item Insert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repeater.html">List Repeater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reverse.html">List Reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shuffle.html">List Shuffle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice.html">List Slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">List Slice Lite</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Sort</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -87,9 +89,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">List Slice Lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split.html">List Split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="start_end.html">List First &amp; Last</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_masks/list_masks_index.html">List Masks</a></li>
@@ -190,7 +191,7 @@
 <p>Sorting a List of Objects:</p>
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_01.png" /></a>
 <ul class="simple">
-<li><p>Scene-&gt; <a class="reference internal" href="../scene/objects_in_lite.html"><span class="doc">Objects In</span></a></p></li>
+<li><p>Scene-&gt; <a class="reference internal" href="../scene/objects_in_lite.html"><span class="doc">Objects In Lite</span></a></p></li>
 <li><p>Number-&gt; <a class="reference internal" href="../number/list_input.html"><span class="doc">List Input</span></a></p></li>
 <li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
 </ul>
@@ -198,7 +199,7 @@
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png"><img alt="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png" src="https://raw.githubusercontent.com/vicdoval/sverchok/docs_images/images_for_docs/list_struct/sort/list_sort_sverchok_blender_example_02.png" /></a>
 <ul class="simple">
 <li><p>Generator-&gt; <a class="reference internal" href="../generator/suzanne.html"><span class="doc">Suzanne</span></a></p></li>
-<li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
+<li><p>CA: Faces Center: Analyzers-&gt; <a class="reference internal" href="../analyzer/component_analyzer.html"><span class="doc">Component Analyzer</span></a></p></li>
 <li><p>Vector-&gt; <a class="reference internal" href="../vector/vector_out.html"><span class="doc">Vector Out</span></a></p></li>
 <li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
 </ul>
@@ -217,8 +218,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="shuffle.html" class="btn btn-neutral float-left" title="List Shuffle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="flip.html" class="btn btn-neutral float-right" title="List Flip" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="slice_lite.html" class="btn btn-neutral float-left" title="List Slice Lite" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="split.html" class="btn btn-neutral float-right" title="List Split" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

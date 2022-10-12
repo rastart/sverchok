@@ -17,11 +17,12 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="List Slice" href="slice.html" />
-    <link rel="prev" title="List Shift" href="shift_mk2.html" /> 
+    <link rel="next" title="List Reverse" href="reverse.html" />
+    <link rel="prev" title="List Levels" href="levels.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -70,7 +71,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../logic/logic_index.html">Logic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../list_main/list_main_index.html">List Main</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="list_struct_index.html">List Structure</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="item.html">List Item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="item_insert.html">List Item Insert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="levels.html">List Levels</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">List Repeater</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -79,17 +83,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="reverse.html">List Reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shift_mk2.html">List Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shuffle.html">List Shuffle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="slice.html">List Slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">List Slice Lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sort.html">List Sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="split.html">List Split</a></li>
 <li class="toctree-l3"><a class="reference internal" href="start_end.html">List First &amp; Last</a></li>
-<li class="toctree-l3"><a class="reference internal" href="item.html">List Item</a></li>
-<li class="toctree-l3"><a class="reference internal" href="item_insert.html">List Item Insert</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reverse.html">List Reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="shuffle.html">List Shuffle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sort.html">List Sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="flip.html">List Flip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="levels.html">List Levels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="slice_lite.html">List Slice Lite</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../list_masks/list_masks_index.html">List Masks</a></li>
@@ -191,7 +192,7 @@
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/187932385-97321a1c-8a75-41bc-982a-59c420226aec.png"><img alt="https://user-images.githubusercontent.com/14288520/187932385-97321a1c-8a75-41bc-982a-59c420226aec.png" src="https://user-images.githubusercontent.com/14288520/187932385-97321a1c-8a75-41bc-982a-59c420226aec.png" /></a>
 <ul class="simple">
 <li><p>List-&gt;List Main-&gt; <a class="reference internal" href="../list_main/join.html"><span class="doc">List Join</span></a></p></li>
-<li><p>Curve-&gt;Bezier-&gt; <a class="reference internal" href="../curve/bezier_spline.html"><span class="doc">Bezier Spline (Curve)</span></a></p></li>
+<li><p>Curves-&gt;Bezier-&gt; <a class="reference internal" href="../curve/bezier_spline.html"><span class="doc">Bezier Spline (Curve)</span></a></p></li>
 <li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
 </ul>
 <p>A practical reason to use the node is when you need a series of copies of edge or polygon lists. Usually in conjunction with <cite>Matrix Apply</cite>, which outputs a series of <cite>vertex lists</cite> as a result of transform parameters.</p>
@@ -203,7 +204,7 @@
 <li><p>Number-&gt; <a class="reference internal" href="../number/number_range.html"><span class="doc">Number Range</span></a></p></li>
 <li><p>Matrix-&gt; <a class="reference internal" href="../matrix/matrix_in_mk4.html"><span class="doc">Matrix In</span></a></p></li>
 <li><p>Transforms-&gt; <a class="reference internal" href="../transforms/apply.html"><span class="doc">Matrix Apply (verts)</span></a></p></li>
-<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="../list_main/length.html"><span class="doc">List Length</span></a></p></li>
+<li><p>List-&gt;List Main-&gt; <a class="reference internal" href="../list_main/length.html"><span class="doc">List Length</span></a></p></li>
 <li><p>Modifier-&gt;Modifier Change <a class="reference internal" href="../modifier_change/mesh_join_mk2.html"><span class="doc">Mesh Join</span></a></p></li>
 <li><p>Text-&gt; <a class="reference internal" href="../text/stethoscope_v28.html"><span class="doc">Stethoscope</span></a></p></li>
 <li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
@@ -215,8 +216,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="shift_mk2.html" class="btn btn-neutral float-left" title="List Shift" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="slice.html" class="btn btn-neutral float-right" title="List Slice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="levels.html" class="btn btn-neutral float-left" title="List Levels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reverse.html" class="btn btn-neutral float-right" title="List Reverse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

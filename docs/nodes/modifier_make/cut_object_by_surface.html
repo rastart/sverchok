@@ -17,11 +17,12 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Adaptative Edges" href="edges_adaptative.html" />
-    <link rel="prev" title="Cross Section" href="cross_section.html" /> 
+    <link rel="next" title="Diamond Mesh" href="diamond_mesh.html" />
+    <link rel="prev" title="CSG Boolean MK2" href="csg_booleanMK2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -61,36 +62,37 @@
 <li class="toctree-l2"><a class="reference internal" href="../analyzer/analyzer_index.html">Analyzers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modifier_change/modifier_change_index.html">Modifier Change</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="modifier_make_index.html">Modifier Make</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adaptive_polygons_mk3.html">Adaptive Polygons Mk2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bevel_curve.html">Bevel a Curve (Mesh)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bisect.html">Bisect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clip_verts.html">Clip Vertices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contour2D.html">Contour 2D</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cross_section.html">Cross Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">CSG Boolean MK2</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Cut Object by Surface</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-parameters">Advanced Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples-of-usage">Examples of usage</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="diamond_mesh.html">Diamond Mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dual_mesh.html">Dual Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="edges_adaptative.html">Adaptative Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="framework.html">Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="join_tris.html">Join Triangles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lathe.html">Lathe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="matrix_tube.html">Matrix Tube</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pipe_tubes.html">Pipe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="adaptive_polygons_mk3.html">Adaptive Polygons Mk2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="solidify_mk2.html">Solidify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_modulator.html">Sweep Modulator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="uv_connect.html">UV Connection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wafel.html">Wafel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="join_tris.html">Join Triangles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="framework.html">Framework</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wireframe.html">Wireframe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="offset_line.html">Offset Line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bevel_curve.html">Bevel a Curve (Mesh)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contour2D.html">Contour 2D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="fractal_curve.html">Fractal Curve</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dual_mesh.html">Dual Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="diamond_mesh.html">Diamond Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="clip_verts.html">Clip Vertices</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sweep_modulator.html">Sweep Modulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="csg_booleanMK2.html">CSG Boolean MK2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../CAD/CAD_index.html">CAD</a></li>
@@ -158,13 +160,20 @@ that are the result of cutting. This is similar to “Cross Section” and “Bi
 nodes, but it operates with any surface, not just with plane. In a sense, this
 operation can be considered as a very simple analog of Boolean operations, but
 it finds intersections of <strong>edges</strong>, not intersections of volumes.</p>
-<p><strong>Implementation restriction</strong>: the node requires that of each face of “object”
-mesh, only two edges intersect the “surface” mesh. So, each face can be cut
-only in two pieces, not in three or more.</p>
+<p><strong>Implementation restriction</strong>: when generating cut surface or making cut pieces,
+the node requires that of each face of “object” mesh, only two edges intersect
+the “surface” mesh. So, each face can be cut only in two pieces, not in three or more.
+The node will not crash, just ignore these options and simply output intersection points.</p>
+<p><strong>Developer notes</strong> : for those interested in removing this limitation, a general idea
+on how to proceed, with its limitations, is included in the code as comments.
+If multiple points are detected for a single real intersection point,
+see comments in the code for a solution on how to solve it.</p>
 <p>Faces made by this node at places of cut will be usually NGons, so they may be
 non-planar. It may be good idea to pass the output of this node through the
 <strong>Split faces</strong> node (in <strong>split non-planar faces</strong> mode), or maybe through
-<strong>Make faces planar</strong> node.</p>
+<strong>Make faces planar</strong> node. Furthermore, the cut surface do not follow the surface
+mesh, it just connects the intersection points (the aforementioned limitation-solving
+idea would solve this too).</p>
 <p>Note that this node outputs “cut pieces” mesh always as one merged object (not
 split into pieces). If you need these pieces in separate, you can pass the
 output of this node through the <strong>Separate Loose Parts</strong> node.</p>
@@ -197,6 +206,15 @@ will not be filled. Unchecked by default.</p></li>
 are formed by cutting the “object” mesh. If not checked, the node will
 calculate only cut surfaces - the surfaces of intersection of the “object”
 and the “surface”. Unchecked by default.</p></li>
+</ul>
+</section>
+<section id="advanced-parameters">
+<h2>Advanced Parameters<a class="headerlink" href="#advanced-parameters" title="Permalink to this heading">¶</a></h2>
+<p>In the N-Panel (and on the right-click menu) you can find:</p>
+<ul class="simple">
+<li><p><strong>All triangles</strong>. Boolean to work with triangularized surface mesh (makes the node faster).</p></li>
+<li><p><strong>Block</strong>. Boolean to define whether or not the node should raise an error when more than
+two intersections by face are found</p></li>
 </ul>
 </section>
 <section id="outputs">
@@ -245,8 +263,8 @@ big face where the boolean operation would make a part of sphere.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cross_section.html" class="btn btn-neutral float-left" title="Cross Section" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="edges_adaptative.html" class="btn btn-neutral float-right" title="Adaptative Edges" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="csg_booleanMK2.html" class="btn btn-neutral float-left" title="CSG Boolean MK2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diamond_mesh.html" class="btn btn-neutral float-right" title="Diamond Mesh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
