@@ -8,7 +8,7 @@ from sverchok.dependencies import FreeCAD
 from sverchok.utils.sv_operator_mixins import SvGenericNodeLocator
 
 if FreeCAD is not None:
-    # june '22
+    # june '22 #edited november '22
     # modified version of FCStd_read includes changes by rastart, zeffii, et al
     # please feed changes back to the Sverchok issue tracker.
     F = FreeCAD
@@ -41,10 +41,11 @@ def LabelReader(operator):
     # \/ does not appear to be available from the items= func
     # node = self.get_node(context)
     #
-    if node.read_features: module_filter.append('PartDesign')
+    if node.read_subItems:
+        if node.read_features: module_filter.append('PartDesign')
     if node.read_part: module_filter.append('Part')
     if node.read_body: module_filter.append('PartDesign::Body')
-    if node.merge_linked: module_filter.append('App::Link')
+    if node.read_linked: module_filter.append('App::Link')
 
     labels = [('', '', '')]
 
@@ -108,7 +109,8 @@ class SvReadFCStdModNode(SverchCustomTreeNode, bpy.types.Node):
     scale_factor : FloatProperty(name="unit factor", default=1, update=updateNode)
     selected_label : StringProperty( default= 'Select FC Part')
     selected_part : StringProperty( default='', update=updateNode)
-    merge_linked : BoolProperty(name="merge_linked", default=False, update=updateNode)
+    read_linked : BoolProperty(name="read_linked", default=False, update=updateNode)
+    read_subItems : BoolProperty(name="read_subItems", default=False, update=updateNode)
     READ_ALL : BoolProperty(name="read all", default=False, update=updateNode)
 
     def draw_buttons(self, context, layout):
@@ -123,12 +125,13 @@ class SvReadFCStdModNode(SverchCustomTreeNode, bpy.types.Node):
         col.prop(self, 'read_update', text='global update')
         col.prop(self, 'read_body')
         col.prop(self, 'read_part')
-        col.prop(self, 'tool_parts')
-        if self.tool_parts:
+        col.prop(self,'read_subItems')
+        if self.read_subItems:
+            col.prop(self, 'tool_parts')
             col.prop(self, 'read_features')
-        col.prop(self, 'inv_filter')
-        col.prop(self, 'merge_linked')
+        col.prop(self, 'read_linked')
         col.prop(self,'READ_ALL')
+        col.prop(self, 'inv_filter')
         col.prop(self, 'scale_factor')
         self.wrapper_tracked_ui_draw_op(layout, "node.sv_read_fcstd_operator_mod", icon='FILE_REFRESH', text="UPDATE")
 
@@ -151,7 +154,6 @@ class SvReadFCStdModNode(SverchCustomTreeNode, bpy.types.Node):
 
         if (L1_Filter := node.inputs['Label1 Filter']).is_linked:
             raw_filter = L1_Filter.sv_get()[0]
-
             if len(raw_filter) == 1 and ',' in raw_filter[0]:
                 raw_filter = raw_filter[0].split(',')
 
@@ -159,13 +161,15 @@ class SvReadFCStdModNode(SverchCustomTreeNode, bpy.types.Node):
                 label_1_tags.append(i) if '#' in i else label_1_filter.append(i)
 
         if (L2_Filter := node.inputs['Label2 Filter']).is_linked:
+    
             raw_filter = L2_Filter.sv_get()[0]
+            if not raw_filter[0] == '':
 
-            if len(raw_filter) == 1 and ',' in raw_filter[0]:
-                raw_filter = raw_filter[0].split(',')
+                if len(raw_filter) == 1 and ',' in raw_filter[0]:
+                    raw_filter = raw_filter[0].split(',')
 
-            for i in raw_filter:
-                label_2_tags.append(i) if '#' in i else label_2_filter.append(i)
+                for i in raw_filter:
+                    label_2_tags.append(i) if '#' in i else label_2_filter.append(i)
 
         #ADD TO LABEL 1 FILTER THE DROPDOWN ENTRY IF SELECTED
         if node.selected_part != '' and not node.selected_part in label_1_filter:
@@ -184,7 +188,7 @@ class SvReadFCStdModNode(SverchCustomTreeNode, bpy.types.Node):
                 self.scale_factor, fname,
                 label_1_filter, label_1_tags, label_2_filter, label_2_tags,
                 module_filter, node.tool_parts,
-                node.inv_filter, self.READ_ALL, self.merge_linked )
+                node.inv_filter, self.READ_ALL, self.read_linked, self.read_subItems )
 
             for s, ident in S:
                 solids.append(s)
@@ -209,7 +213,7 @@ def LoadSolid(
     scale_factor, fc_file,
     label_1_filter, label_1_tags, label_2_filter, label_2_tags,
     module_filter, tool_parts,
-    inv_filter, READ_ALL, merge_linked):
+    inv_filter, READ_ALL, read_linked, read_subItems):
 
     objs = set()
     sel_objs = set()
@@ -228,12 +232,12 @@ def LoadSolid(
                 #for child in obj.Links:
                     #outList.add(child)
 
-        if merge_linked: module_filter.append('App::Link')
+        if read_linked: module_filter.append('App::Link')
 
         for obj in doc.Objects:
-            #print ('START',obj)
+
             '''
-            if merge_linked and obj.TypeId == 'App::Link':
+            if read_linked and obj.TypeId == 'App::Link':
 
                 if obj.LinkedObject.Module in ('Part', 'PartDesign'):
                     if len(obj.LinkedObject.Shape.Solids)>0:
@@ -247,6 +251,13 @@ def LoadSolid(
                         except:
                             print ('ERROR',obj)
             '''
+            if obj.TypeId == ('Part::FeaturePython'):
+                continue
+            
+            #if not read_subItems:
+                #if len(obj.InList) > 0 and obj.TypeId != 'App::Link':
+                    #continue
+                
             if obj.Module in module_filter or obj.TypeId in module_filter:
                 objs.add (obj)
 
@@ -276,18 +287,16 @@ def LoadSolid(
             if READ_ALL: 
                 sel_objs.add( obj )
 
-            elif len(label_1_filter)>0:
+            elif len(label_1_filter)>0 and label_2_filter:
                 if obj.Label in label_1_filter:
+                    if obj.Label2 in label_2_filter: sel_objs.add(obj)       
 
-                    if len(label_2_filter)>0:
-                        if obj.Label2 in label_2_filter:
-                            sel_objs.add(obj)
+            elif len(label_1_filter)>0:
+                if obj.Label in label_1_filter: sel_objs.add(obj)
 
-                    else:
-                        sel_objs.add(obj)
-
-            elif len(label_1_filter)==0 and len(label_2_filter)>0:
+            elif len(label_2_filter)>0:
                 if obj.Label2 in label_2_filter: sel_objs.add(obj)
+
 
 
 
@@ -302,7 +311,7 @@ def LoadSolid(
                 new_shape.Placement = obj.Placement
                 solids.add( new_shape ) 
             ''' 
-            obj_info = obj.FullName, obj.Name, obj.Label
+            obj_info = obj.Name, obj.Label, obj.Label2 #obj.FullName, obj.Name, obj.Label
             if scale_factor != 1:
                 if len(obj.Shape.Solids) > 0:
                     M = F.Matrix()
@@ -317,7 +326,7 @@ def LoadSolid(
     finally:
         #del doc
         F.closeDocument(doc.Name)
-
+        
     return solids
 
 def unitCheck(solid, scale_factor):
