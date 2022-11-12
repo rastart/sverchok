@@ -1,11 +1,11 @@
 from sverchok.dependencies import FreeCAD
-from sverchok.utils.dummy_nodes import add_dummy
+#from sverchok.utils.dummy_nodes import add_dummy
 from sverchok.utils.sv_operator_mixins import SvGenericNodeLocator
 
-if FreeCAD is None:
-    add_dummy('SvWriteFCStdNode', 'SvWriteFCStdNode', 'FreeCAD')
+#if FreeCAD is None:
+    #add_dummy('SvWriteFCStdNode', 'SvWriteFCStdNode', 'FreeCAD')
 
-else:
+if FreeCAD is not None:
     F = FreeCAD
     import bpy
     from bpy.props import StringProperty, BoolProperty,EnumProperty
