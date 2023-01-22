@@ -131,7 +131,7 @@
 to node creation is represented <a class="reference internal" href="add_new_node.html"><span class="doc">on this page</span></a>. Api
 documentation of base class of all nodes can be found
 <a class="reference external" href="http://nortikin.github.io/sverchok/apidocs/sverchok/node_tree.html">here</a>.
-Also read the <a class="reference internal" href="#alpha-beta-node-state">Alpha/Beta Node State</a> section before creating new ndoe.</p>
+Also read the <a class="reference internal" href="#alpha-beta-node-state">Alpha/Beta Node State</a> section before creating new node.</p>
 <p>The Code of a new node should be created in a separate file. The file should be placed in
 one of the available categories in the <code class="docutils literal notranslate"><span class="pre">nodes</span></code> folder.</p>
 <p>Usually the structure of the file looks like:</p>
@@ -188,7 +188,7 @@ variable. All custom icons are stored in the <code class="docutils literal notra
 format. The variable value should repeat the png file name without extension
 and in upper case.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SvSetMeshAttributeNode</span><span class="p">(</span><span class="n">SverchCustomTreeNode</span><span class="p">,</span> <span class="n">bpy</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Triggers: set mesh attribute</span>
 <span class="sd">    Tooltip: It adds an attribute to a mesh</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -339,7 +339,7 @@ argument as True.</p>
 
     <span class="k">def</span> <span class="nf">draw_buttons_3dpanel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">in_menu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">in_menu</span><span class="p">:</span>
-            <span class="n">menu</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s1">&#39;node.popup_3d_menu&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Show: &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">menu</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s1">&#39;node.popup_3d_menu&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Show: &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="n">menu</span><span class="o">.</span><span class="n">tree_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_data</span><span class="o">.</span><span class="n">name</span>
             <span class="n">menu</span><span class="o">.</span><span class="n">node_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
@@ -472,12 +472,12 @@ creating nodes during dragging a link from a socket in Blender 3.1.</p>
     <span class="k">class</span> <span class="nc">MenuHandler</span><span class="p">:</span>
         <span class="nd">@classmethod</span>
         <span class="k">def</span> <span class="nf">get_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">socket</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Return list of extra options for the menu&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Return list of extra options for the menu&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;KEY&#39;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">),</span> <span class="p">]</span>
 
         <span class="nd">@classmethod</span>
         <span class="k">def</span> <span class="nf">on_selected</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">socket</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;In this method the node should be created and linked to the socket&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;In this method the node should be created and linked to the socket&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;KEY&#39;</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
 </pre></div>
@@ -655,7 +655,7 @@ and so they can’t be recommended for use for now.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In future vectorization should leve the nodes area and arrive to execution
+<p>In future vectorization should leave the nodes area and arrive to execution
 system. In this case nodes only have to add information to sockets to give to
 execution system to know how to match data.</p>
 </div>
@@ -1017,7 +1017,7 @@ assigned to <code class="docutils literal notranslate"><span class="pre">sv_icon
 </div>
 <p>It’s recommended to mark new nodes and new version of existing node with
 <em>in development</em> state if there are doubts in robustness of the nodes. A node
-should loos the state when new Sverchok’s release is introduced.</p>
+should lose the state when new Sverchok’s release is introduced.</p>
 </section>
 </section>
 </section>
@@ -1033,7 +1033,7 @@ should loos the state when new Sverchok’s release is introduced.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014...2022, sverchok team.</p>
+    <p>&#169; Copyright 2014...2023, sverchok team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

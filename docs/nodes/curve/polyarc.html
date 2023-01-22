@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Polyline" href="polyline.html" />
-    <link rel="prev" title="Ortho Project on Curve" href="ortho_project.html" /> 
+    <link rel="prev" title="Single-Point Curve" href="point_curve.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -66,6 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="blend_curves.html">Blend Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cast_curve.html">Cast Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="catenary_curve.html">Catenary Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="catmull_rom.html">Catmull-Rom Spline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="circlify.html">Circlify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="concat_curves.html">Concatenate Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cubic_spline.html">Cubic Spline</a></li>
@@ -86,9 +87,11 @@
 <li class="toctree-l3"><a class="reference internal" href="eval_curve.html">Evaluate Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extend_curve.html">Extend Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extremes.html">Curve Extremes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fillet_curve.html">Fillet Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fillet_polyline.html">Fillet Polyline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flip_curve.html">Flip Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="freecad_helix.html">Helix (FreeCAD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generate_knotvector.html">Generate Knotvector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="insert_knot.html">Insert Knot (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolate_frame.html">Interpolate Curve Frame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolate_nurbs_curve.html">Interpolate NURBS Curve</a></li>
@@ -108,6 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="offset_mk2.html">Offset Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="offset_on_surface.html">Offset Curve on Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ortho_project.html">Ortho Project on Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_curve.html">Single-Point Curve</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Poly Arc</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs">Inputs</a></li>
@@ -197,6 +201,7 @@
              
   <section id="poly-arc">
 <h1>Poly Arc<a class="headerlink" href="#poly-arc" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205465202-a89e0877-a7e3-4528-bce0-d69302bfd21b.png"><img alt="https://user-images.githubusercontent.com/14288520/205465202-a89e0877-a7e3-4528-bce0-d69302bfd21b.png" src="https://user-images.githubusercontent.com/14288520/205465202-a89e0877-a7e3-4528-bce0-d69302bfd21b.png" /></a>
 <section id="functionality">
 <h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
 <p>This node generates a Curve, which goes through the specified points, made of
@@ -204,6 +209,7 @@ series of circular arcs and straight line segments. Arcs are created so that
 they touch smoothly in their meeting points. User can specify the tangent
 vector of the curve at it’s starting point. If such tangent vector is not
 specified, the node will calculate it automatically by some algorithm.</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205465625-aa629471-e74d-445f-8dd4-24f692b53b3e.png"><img alt="https://user-images.githubusercontent.com/14288520/205465625-aa629471-e74d-445f-8dd4-24f692b53b3e.png" src="https://user-images.githubusercontent.com/14288520/205465625-aa629471-e74d-445f-8dd4-24f692b53b3e.png" /></a>
 </section>
 <section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
@@ -213,6 +219,7 @@ specified, the node will calculate it automatically by some algorithm.</p>
 <li><p><strong>Tangent</strong>. Tangent vector of the curve at it’s starting point. This input
 is optional. If not connected, the node will calculate it on it’s own.</p></li>
 </ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205465780-d781149b-192b-44c9-9a92-0097b3e6b3fd.png"><img alt="https://user-images.githubusercontent.com/14288520/205465780-d781149b-192b-44c9-9a92-0097b3e6b3fd.png" src="https://user-images.githubusercontent.com/14288520/205465780-d781149b-192b-44c9-9a92-0097b3e6b3fd.png" /></a>
 </section>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
@@ -221,9 +228,15 @@ is optional. If not connected, the node will calculate it on it’s own.</p></li
 <li><p><strong>Concatenate</strong>. If checked, the node will concatenate all arcs into one
 Curve object. Otherwise, it will output separate Curve object for each arc.
 Checked by default.</p></li>
+</ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205465992-e11a23e4-74c1-4cfb-8a6e-ff15d11daba0.png"><img alt="https://user-images.githubusercontent.com/14288520/205465992-e11a23e4-74c1-4cfb-8a6e-ff15d11daba0.png" src="https://user-images.githubusercontent.com/14288520/205465992-e11a23e4-74c1-4cfb-8a6e-ff15d11daba0.png" /></a>
+<ul class="simple">
 <li><p><strong>Cyclic</strong>. If checked, the node will generate closed (cyclic) curve, by
 connecting the last vertex to the first. Note that the curve will most
 probably be not smooth at that closing point. Unchecked by default.</p></li>
+</ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205466107-c279ab63-402a-487f-b0bd-c71c68f30a8b.gif"><img alt="https://user-images.githubusercontent.com/14288520/205466107-c279ab63-402a-487f-b0bd-c71c68f30a8b.gif" src="https://user-images.githubusercontent.com/14288520/205466107-c279ab63-402a-487f-b0bd-c71c68f30a8b.gif" /></a>
+<ul class="simple">
 <li><p><strong>NURBS output</strong>. This parameter is available in the N panel only. If
 checked, the node will output a NURBS curve. Built-in NURBS maths
 implementation will be used. If not checked, the node will output generic
@@ -233,6 +246,7 @@ to use NURBS-specific API methods with generated curve, or if you want to
 output the result in file format that understands NURBS only. Unchecked by
 default.</p></li>
 </ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205466224-98d5b3bb-f7a6-4fa6-829b-8d19bade3da0.png"><img alt="https://user-images.githubusercontent.com/14288520/205466224-98d5b3bb-f7a6-4fa6-829b-8d19bade3da0.png" src="https://user-images.githubusercontent.com/14288520/205466224-98d5b3bb-f7a6-4fa6-829b-8d19bade3da0.png" /></a>
 </section>
 <section id="outputs">
 <h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
@@ -243,15 +257,34 @@ default.</p></li>
 <li><p><strong>Radius</strong>. Radiuses of generated circular arcs.</p></li>
 <li><p><strong>Angle</strong>. Angles of generated circular arcs, in radians.</p></li>
 </ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205466946-b95685e8-d714-44cc-a270-eefbc56e0dac.png"><img alt="https://user-images.githubusercontent.com/14288520/205466946-b95685e8-d714-44cc-a270-eefbc56e0dac.png" src="https://user-images.githubusercontent.com/14288520/205466946-b95685e8-d714-44cc-a270-eefbc56e0dac.png" /></a>
 </section>
 <section id="examples-of-usage">
 <h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
 <p>A simple example with specified starting tangent vector:</p>
-<img alt="https://user-images.githubusercontent.com/284644/83325996-3533df80-a28a-11ea-9e72-7e4c46fa4097.png" src="https://user-images.githubusercontent.com/284644/83325996-3533df80-a28a-11ea-9e72-7e4c46fa4097.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205482369-0e1d819d-738f-477d-9708-d326c4c1753b.png"><img alt="https://user-images.githubusercontent.com/14288520/205482369-0e1d819d-738f-477d-9708-d326c4c1753b.png" src="https://user-images.githubusercontent.com/14288520/205482369-0e1d819d-738f-477d-9708-d326c4c1753b.png" /></a>
+<ul class="simple">
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/ngon.html"><span class="doc">NGon</span></a></p></li>
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/segment.html"><span class="doc">Segment</span></a></p></li>
+<li><p>Vector-&gt; <a class="reference internal" href="../vector/vector_polar_in.html"><span class="doc">Vector Polar Input</span></a></p></li>
+<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="../list_struct/item.html"><span class="doc">List Item</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_curve.html"><span class="doc">Viewer Draw Curve</span></a></p></li>
+</ul>
+<hr class="docutils" />
 <p>An example of closed polyarc curve (note that it is not smooth at the closing point):</p>
-<img alt="https://user-images.githubusercontent.com/284644/83328220-e6db0c80-a29a-11ea-9997-ebd3affd43eb.png" src="https://user-images.githubusercontent.com/284644/83328220-e6db0c80-a29a-11ea-9997-ebd3affd43eb.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205482545-7f3a5c5f-7049-4763-a8e9-74be477ea7bc.png"><img alt="https://user-images.githubusercontent.com/14288520/205482545-7f3a5c5f-7049-4763-a8e9-74be477ea7bc.png" src="https://user-images.githubusercontent.com/14288520/205482545-7f3a5c5f-7049-4763-a8e9-74be477ea7bc.png" /></a>
+<ul class="simple">
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/ngon.html"><span class="doc">NGon</span></a></p></li>
+<li><p>Generator-&gt; <a class="reference internal" href="../generator/segment.html"><span class="doc">Segment</span></a></p></li>
+<li><p>Vector-&gt; <a class="reference internal" href="../vector/vector_polar_in.html"><span class="doc">Vector Polar Input</span></a></p></li>
+<li><p>List-&gt;List Struct-&gt; <a class="reference internal" href="../list_struct/item.html"><span class="doc">List Item</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
+<li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_curve.html"><span class="doc">Viewer Draw Curve</span></a></p></li>
+</ul>
+<hr class="docutils" />
 <p>The curve is not necessarily should be flat:</p>
-<img alt="https://user-images.githubusercontent.com/284644/83325998-36fda300-a28a-11ea-88a4-abbe05f10a7a.png" src="https://user-images.githubusercontent.com/284644/83325998-36fda300-a28a-11ea-88a4-abbe05f10a7a.png" />
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205482896-94434842-8621-4eda-96b2-752e0beef814.gif"><img alt="https://user-images.githubusercontent.com/14288520/205482896-94434842-8621-4eda-96b2-752e0beef814.gif" src="https://user-images.githubusercontent.com/14288520/205482896-94434842-8621-4eda-96b2-752e0beef814.gif" /></a>
 </section>
 </section>
 
@@ -259,14 +292,14 @@ default.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ortho_project.html" class="btn btn-neutral float-left" title="Ortho Project on Curve" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="point_curve.html" class="btn btn-neutral float-left" title="Single-Point Curve" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="polyline.html" class="btn btn-neutral float-right" title="Polyline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014...2022, sverchok team.</p>
+    <p>&#169; Copyright 2014...2023, sverchok team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

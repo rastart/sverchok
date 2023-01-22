@@ -66,6 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="blend_curves.html">Blend Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cast_curve.html">Cast Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="catenary_curve.html">Catenary Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="catmull_rom.html">Catmull-Rom Spline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="circlify.html">Circlify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="concat_curves.html">Concatenate Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cubic_spline.html">Cubic Spline</a></li>
@@ -86,9 +87,11 @@
 <li class="toctree-l3"><a class="reference internal" href="eval_curve.html">Evaluate Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extend_curve.html">Extend Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extremes.html">Curve Extremes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fillet_curve.html">Fillet Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fillet_polyline.html">Fillet Polyline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flip_curve.html">Flip Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="freecad_helix.html">Helix (FreeCAD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generate_knotvector.html">Generate Knotvector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="insert_knot.html">Insert Knot (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolate_frame.html">Interpolate Curve Frame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interpolate_nurbs_curve.html">Interpolate NURBS Curve</a></li>
@@ -115,6 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="offset_mk2.html">Offset Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="offset_on_surface.html">Offset Curve on Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ortho_project.html">Ortho Project on Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_curve.html">Single-Point Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyarc.html">Poly Arc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyline.html">Polyline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="project_curve_surface.html">Project Curve to Surface (NURBS)</a></li>
@@ -197,6 +201,7 @@
              
   <section id="nearest-point-on-curve">
 <h1>Nearest Point on Curve<a class="headerlink" href="#nearest-point-on-curve" title="Permalink to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/211775155-aaa814c0-b5d1-4a9f-8301-da1e60a9a97c.png"><img alt="https://user-images.githubusercontent.com/14288520/211775155-aaa814c0-b5d1-4a9f-8301-da1e60a9a97c.png" src="https://user-images.githubusercontent.com/14288520/211775155-aaa814c0-b5d1-4a9f-8301-da1e60a9a97c.png" /></a>
 <section id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>This node requires <a class="reference external" href="https://scipy.org/">SciPy</a> library to work.</p>
@@ -217,6 +222,7 @@ algorithm.</p>
 <p>In case there are several points on the curve with equal distance to the
 original point, the node will return one of them (it is not guaranteed which
 one).</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/211776462-f01c0f6f-d6bd-41f6-9758-fd590ebb0666.png"><img alt="https://user-images.githubusercontent.com/14288520/211776462-f01c0f6f-d6bd-41f6-9758-fd590ebb0666.png" src="https://user-images.githubusercontent.com/14288520/211776462-f01c0f6f-d6bd-41f6-9758-fd590ebb0666.png" /></a>
 </section>
 <section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
@@ -234,12 +240,16 @@ one).</p>
 the first step of algorithm. The higher values will lead to more precise
 initial guess, so the precise algorithm will be faster; but that can require
 more evaluations at the first stage. The default value is 50. In many cases,
-you do not have to change this value.</p></li>
+you do not have to change this value.</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/212115819-a1b732f4-b294-45e6-a360-24718dce1518.png"><img alt="https://user-images.githubusercontent.com/14288520/212115819-a1b732f4-b294-45e6-a360-24718dce1518.png" src="https://user-images.githubusercontent.com/14288520/212115819-a1b732f4-b294-45e6-a360-24718dce1518.png" /></a>
+</li>
 <li><p><strong>Precise</strong>. If not checked, then the precise calculation step will not be
 executed, and the node will just output the nearest point out of points
 generated at the first step - so it will be “roughly nearest point”. So, if
 this parameter is not checked, higher values of <strong>Init resolution</strong> parameter
-will lead to more precise output. Checked by default.</p></li>
+will lead to more precise output. Checked by default.</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/212117620-5ab3eb5f-bfb2-4cbb-95e3-a77d29a60c72.gif"><img alt="https://user-images.githubusercontent.com/14288520/212117620-5ab3eb5f-bfb2-4cbb-95e3-a77d29a60c72.gif" src="https://user-images.githubusercontent.com/14288520/212117620-5ab3eb5f-bfb2-4cbb-95e3-a77d29a60c72.gif" /></a>
+</li>
 <li><p><strong>Method</strong>. This parameter is available in the N panel only. This defines the
 algorithm to be used. In simple cases, all algorithms will give the same
 result; in more complex cases, you will have to try all and select the one
@@ -257,6 +267,7 @@ preferable to use the Brent method.</p></li>
 </div></blockquote>
 </li>
 </ul>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/212128791-d00c63bd-be86-4dc0-979e-0eb51361862b.png"><img alt="https://user-images.githubusercontent.com/14288520/212128791-d00c63bd-be86-4dc0-979e-0eb51361862b.png" src="https://user-images.githubusercontent.com/14288520/212128791-d00c63bd-be86-4dc0-979e-0eb51361862b.png" /></a>
 </section>
 <section id="outputs">
 <h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
@@ -279,7 +290,7 @@ preferable to use the Brent method.</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014...2022, sverchok team.</p>
+    <p>&#169; Copyright 2014...2023, sverchok team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
