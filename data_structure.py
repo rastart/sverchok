@@ -40,11 +40,7 @@ from sverchok.utils.logging import debug
 import numpy as np
 
 
-DEBUG_MODE = False
 RELOAD_EVENT = False
-
-# this is set correctly later.
-SVERCHOK_NAME = "sverchok"
 
 cache_viewer_baker = {}
 
@@ -1204,35 +1200,6 @@ def extend_blender_class(cls):
 
 
 #####################################################
-############### debug settings magic ################
-#####################################################
-
-
-def sverchok_debug(mode):
-    """
-    set debug mode to mode
-    """
-    global DEBUG_MODE
-    DEBUG_MODE = mode
-    return DEBUG_MODE
-
-
-def setup_init():
-    """
-    setup variables needed for sverchok to function
-    """
-    global DEBUG_MODE
-    global SVERCHOK_NAME
-    import sverchok
-    SVERCHOK_NAME = sverchok.__name__
-    addon = bpy.context.preferences.addons.get(SVERCHOK_NAME)
-    if addon:
-        DEBUG_MODE = addon.preferences.show_debug
-    else:
-        print("Setup of preferences failed")
-
-
-#####################################################
 ############### update system magic! ################
 #####################################################
 
@@ -1357,8 +1324,9 @@ def replace_socket(socket, new_type, new_name=None, new_pos=None):
         inputs = socket.node.inputs
         from_socket = socket.links[0].from_socket if socket.is_linked else None
 
+        identifier = socket.identifier  # It's important for Geo Nodes Viewer
         inputs.remove(socket)
-        new_socket = inputs.new(new_type, socket_name)
+        new_socket = inputs.new(new_type, socket_name, identifier=identifier)
         inputs.move(len(inputs)-1, socket_pos)
 
         if from_socket:

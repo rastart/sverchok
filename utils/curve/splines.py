@@ -25,7 +25,7 @@ class SvSplineCurve(SvCurve):
 
     @classmethod
     def from_points(cls, points, metric=None, is_cyclic=False):
-        if not points or len(points) < 2:
+        if points is None or len(points) < 2:
             raise Exception("At least two points are required")
         if len(points) < 3:
             return SvLine.from_two_points(points[0], points[1])
@@ -103,4 +103,13 @@ class SvSplineCurve(SvCurve):
 
     def cut_segment(self, new_t_min, new_t_max, rescale=False):
         return self.to_nurbs().cut_segment(new_t_min, new_t_max, rescale=rescale)
+
+    def is_polyline(self):
+        return self.spline.get_degree() == 1
+
+    def get_polyline_vertices(self):
+        if self.spline.get_degree() == 1:
+            return self.spline.pts
+        else:
+            raise Exception("Curve is not a polyline")
 

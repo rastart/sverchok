@@ -3,13 +3,11 @@ import numpy as np
 
 import bpy
 from bpy.props import FloatProperty, EnumProperty, BoolProperty, IntProperty
+from mathutils import Vector
 
 from sverchok.node_tree import SverchCustomTreeNode
 from sverchok.data_structure import updateNode, zip_long_repeat, repeat_last_for_length, ensure_nesting_level
-from sverchok.utils.logging import info, exception
-from sverchok.utils.curve import SvLine
-from sverchok.utils.fillet import calc_fillet
-from sverchok.utils.curve.algorithms import concatenate_curves
+from sverchok.utils.curve.fillet import FILLET_ARC, FILLET_BEZIER, fillet_polyline_from_vertices
 
 class SvFilletPolylineNode(SverchCustomTreeNode, bpy.types.Node):
     """
@@ -23,17 +21,26 @@ class SvFilletPolylineNode(SverchCustomTreeNode, bpy.types.Node):
 
     radius : FloatProperty(
         name = "Radius",
+        description = "Fillet arc radius",
         min = 0.0,
         default = 0.2,
         update = updateNode)
 
+    clamp : BoolProperty(
+        name = "Clamp",
+        description = "If checked, fillet will be limited to the maximum radius",
+        default = False,
+        update = updateNode)
+
     concat : BoolProperty(
         name = "Concatenate",
+        description = "If checked, then all straight and arc segments will be concatenated into a single curve. Otherwise, each segment will be output as a separate curve object",
         default = True,
         update = updateNode)
     
     cyclic : BoolProperty(
         name = "Cyclic",
+        description = "If checked, the node will generate a cyclic (closed) curve",
         default = False,
         update = updateNode)
 
@@ -50,24 +57,27 @@ class SvFilletPolylineNode(SverchCustomTreeNode, bpy.types.Node):
         update = updateNode)
 
     arc_modes = [
-            ('ARC', "Circular arc", "Circular arc", 0),
-            ('BEZIER2', "Quadratic Bezier arc", "Quadratic Bezier curve segment", 1)
+            (FILLET_ARC, "Circular arc", "Circular arc", 0),
+            (FILLET_BEZIER, "Quadratic Bezier arc", "Quadratic Bezier curve segment", 1)
         ]
 
     arc_mode : EnumProperty(
         name = "Fillet mode",
         description = "Type of curve to generate for fillets",
         items = arc_modes,
-        default = 'ARC',
+        default = FILLET_ARC,
         update = updateNode)
 
     def draw_buttons(self, context, layout):
         layout.label(text='Fillet mode:')
         layout.prop(self, 'arc_mode', text='')
         layout.prop(self, "concat")
+
         if self.concat:
             layout.prop(self, "scale_to_unit")
         layout.prop(self, "cyclic")
+
+        layout.prop(self,'clamp')
 
     def draw_buttons_ext(self, context, layout):
         self.draw_buttons(context, layout)
@@ -78,58 +88,6 @@ class SvFilletPolylineNode(SverchCustomTreeNode, bpy.types.Node):
         self.inputs.new('SvStringsSocket', "Radius").prop_name = 'radius'
         self.outputs.new('SvCurveSocket', "Curve")
         self.outputs.new('SvMatrixSocket', "Centers")
-
-    def make_curve(self, vertices, radiuses):
-        if self.cyclic:
-            last_fillet = calc_fillet(vertices[-1], vertices[0], vertices[1], radiuses[0])
-            prev_edge_start = vertices[0] if last_fillet is None else last_fillet.p2
-            radiuses = radiuses[1:] + [radiuses[0]]
-            corners = list(zip(vertices, vertices[1:], vertices[2:], radiuses))
-            corners.append((vertices[-2], vertices[-1], vertices[0], radiuses[-1]))
-            corners.append((vertices[-1], vertices[0], vertices[1], radiuses[0]))
-        else:
-            prev_edge_start = vertices[0]
-            corners = zip(vertices, vertices[1:], vertices[2:], radiuses)
-
-        curves = []
-        centers = []
-        for v1, v2, v3, radius in corners:
-            fillet = calc_fillet(v1, v2, v3, radius)
-            if fillet is not None:
-                edge_direction = np.array(fillet.p1) - np.array(prev_edge_start)
-                edge_len = np.linalg.norm(edge_direction)
-                edge = SvLine(prev_edge_start, edge_direction / edge_len)
-                edge.u_bounds = (0.0, edge_len)
-                if self.arc_mode == 'ARC':
-                    arc = fillet.get_circular_arc()
-                else:
-                    arc = fillet.get_bezier_arc()
-                prev_edge_start = fillet.p2
-                curves.append(edge)
-                curves.append(arc)
-                centers.append(fillet.matrix)
-            else:
-                edge = SvLine.from_two_points(prev_edge_start, v2)
-                prev_edge_start = v2
-                curves.append(edge)
-
-        if not self.cyclic:
-            edge_direction = np.array(vertices[-1]) - np.array(prev_edge_start)
-            edge_len = np.linalg.norm(edge_direction)
-            edge = SvLine(prev_edge_start, edge_direction / edge_len)
-            edge.u_bounds = (0.0, edge_len)
-            curves.append(edge)
-
-        if self.make_nurbs:
-            if self.concat:
-                curves = [curve.to_nurbs().elevate_degree(target=2) for curve in curves]
-            else:
-                curves = [curve.to_nurbs() for curve in curves]
-        if self.concat:
-            concat = concatenate_curves(curves, scale_to_unit = self.scale_to_unit)
-            return concat, centers
-        else:
-            return curves, centers
 
     def process(self):
         if not any(socket.is_linked for socket in self.outputs):
@@ -147,7 +105,13 @@ class SvFilletPolylineNode(SverchCustomTreeNode, bpy.types.Node):
             if len(vertices) < 3:
                 raise Exception("At least three vertices are required to make a fillet")
             radiuses = repeat_last_for_length(radiuses, len(vertices))
-            curve, centers = self.make_curve(vertices, radiuses)
+            curve, centers, _ = fillet_polyline_from_vertices(vertices, radiuses,
+                                cyclic = self.cyclic,
+                                concat = self.concat,
+                                clamp = self.clamp,
+                                arc_mode = self.arc_mode,
+                                scale_to_unit = self.scale_to_unit,
+                                make_nurbs = self.make_nurbs)
             curves_out.append(curve)
             centers_out.append(centers)
         

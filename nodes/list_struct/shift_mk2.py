@@ -102,8 +102,6 @@ class ShiftNodeMK2(SverchCustomTreeNode, bpy.types.Node):
                         d.rotate(number)
                         sub_output.append(list(d))
                     output.append(sub_output)
-
-
         self.outputs['data'].sv_set(output)
 
 

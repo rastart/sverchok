@@ -98,37 +98,40 @@ class SvNurbsCurve(SvCurve):
         return self._bounding_box
 
     def concatenate(self, curve2, tolerance=1e-6, remove_knots=False):
-        if tolerance is None:
-            tolerance = 1e-6
 
         curve1 = self
         curve2 = SvNurbsCurve.to_nurbs(curve2)
         if curve2 is None:
             raise UnsupportedCurveTypeException("second curve is not NURBS")
         
-        c1_end = curve1.get_u_bounds()[1]
-        c2_start = curve2.get_u_bounds()[0]
-        if sv_knotvector.is_clamped(curve1.get_knotvector(), curve1.get_degree(), check_start=True, check_end=False):
-            pt1 = curve1.get_control_points()[-1]
-        else:
-            pt1 = curve1.evaluate(c1_end)
-        if sv_knotvector.is_clamped(curve2.get_knotvector(), curve2.get_degree(), check_start=False, check_end=True):
-            pt2 = curve2.get_control_points()[0]
-        else:
-            pt2 = curve2.evaluate(c2_start)
-        dpt = np.linalg.norm(pt1 - pt2)
-        if dpt > tolerance:
-            raise UnsupportedCurveTypeException(f"Curve end points do not match: C1({c1_end}) = {pt1} != C2({c2_start}) = {pt2}, distance={dpt}")
+        if tolerance is not None:
+            c1_end = curve1.get_u_bounds()[1]
+            c2_start = curve2.get_u_bounds()[0]
+            if sv_knotvector.is_clamped(curve1.get_knotvector(), curve1.get_degree(), check_start=True, check_end=False):
+                pt1 = curve1.get_control_points()[-1]
+            else:
+                pt1 = curve1.evaluate(c1_end)
+            if sv_knotvector.is_clamped(curve2.get_knotvector(), curve2.get_degree(), check_start=False, check_end=True):
+                pt2 = curve2.get_control_points()[0]
+            else:
+                pt2 = curve2.evaluate(c2_start)
+            dpt = np.linalg.norm(pt1 - pt2)
+            if dpt > tolerance:
+                raise UnsupportedCurveTypeException(f"Curve end points do not match: C1({c1_end}) = {pt1} != C2({c2_start}) = {pt2}, distance={dpt}")
 
-        cp1 = curve1.get_control_points()[-1]
-        cp2 = curve2.get_control_points()[0]
-        if np.linalg.norm(cp1 - cp2) > tolerance:
-            raise UnsupportedCurveTypeException("End control points do not match")
+            #cp1 = curve1.get_control_points()[-1]
+            #cp2 = curve2.get_control_points()[0]
+            #if np.linalg.norm(cp1 - cp2) > tolerance:
+            #    raise UnsupportedCurveTypeException("End control points do not match")
 
+        if tolerance is None:
+            tolerance = 1e-6
         w1 = curve1.get_weights()[-1]
         w2 = curve2.get_weights()[0]
         if abs(w1 - w2) > tolerance:
-            raise UnsupportedCurveTypeException(f"Weights at endpoints do not match: {w1} != {w2}")
+            coef = w1 / w2
+            curve2 = curve2.copy(weights = curve2.get_weights() * coef)
+            #raise UnsupportedCurveTypeException(f"Weights at endpoints do not match: {w1} != {w2}")
 
         p1, p2 = curve1.get_degree(), curve2.get_degree()
         if p1 > p2:
@@ -560,6 +563,29 @@ class SvNurbsCurve(SvCurve):
             curve = curve.reparametrize(0, 1)
         return curve
 
+    def split_at_ts(self, ts):
+        segments = []
+        rest = self
+        for t in ts:
+            s1, rest = rest.split_at(t)
+            segments.append(s1)
+        segments.append(rest)
+        return segments
+
+    def get_start_point(self):
+        if sv_knotvector.is_clamped(self.get_knotvector(), self.get_degree()):
+            return self.get_control_points()[0]
+        else:
+            u_min = self.get_u_bounds()[0]
+            return self.evaluate(u_min)
+
+    def get_end_point(self):
+        if sv_knotvector.is_clamped(self.get_knotvector(), self.get_degree()):
+            return self.get_control_points()[-1]
+        else:
+            u_max = self.get_u_bounds()[1]
+            return self.evaluate(u_max)
+
     def get_end_points(self):
         if sv_knotvector.is_clamped(self.get_knotvector(), self.get_degree()):
             cpts = self.get_control_points()
@@ -569,6 +595,14 @@ class SvNurbsCurve(SvCurve):
             begin = self.evaluate(u_min)
             end = self.evaluate(u_max)
             return begin, end
+
+    def get_start_tangent(self):
+        cpts = self.get_control_points()
+        return cpts[1] - cpts[0]
+
+    def get_end_tangent(self):
+        cpts = self.get_control_points()
+        return cpts[-1] - cpts[-2]
 
     def is_line(self, tolerance=0.001):
         """
@@ -818,6 +852,76 @@ class SvNurbsCurve(SvCurve):
         if len(segments) > 1:
             return False
         return segments[0].bezier_has_one_nearest_point(src_point)
+
+    def is_polyline(self, tolerance = 1e-6):
+        if self.get_degree() == 1:
+            return True
+
+        segments = self.split_at_fracture_points()
+        return all(s.is_line(tolerance) for s in segments)
+
+    def get_polyline_vertices(self):
+        segments = self.split_at_fracture_points()
+        points = [s.get_end_points()[0] for s in segments]
+        points.append(segments[-1].get_end_points()[1])
+        return np.array(points)
+
+    def split_at_fracture_points(self, order=1, direction_only = True, or_worse = True, tangent_tolerance = 1e-6, return_details = False):
+
+        if order not in {1,2,3}:
+            raise Exception(f"Unsupported discontinuity order: {order}")
+
+        def is_fracture(segment1, segment2):
+            if order == 1:
+                tangent1 = segment1.get_end_tangent()
+                tangent2 = segment2.get_start_tangent()
+            else:
+                u1_max = segment1.get_u_bounds()[1]
+                u2_min = segment2.get_u_bounds()[0]
+                tangent1 = segment1.nth_derivative(order, u1_max)
+                tangent2 = segment2.nth_derivative(order, u2_min)
+
+            if direction_only:
+                tangent1 = tangent1 / np.linalg.norm(tangent1)
+                tangent2 = tangent2 / np.linalg.norm(tangent2)
+            delta = np.linalg.norm(tangent1 - tangent2)
+            return delta >= tangent_tolerance
+
+        def concatenate_non_fractured(segments, start_ts):
+            prev_segment = segments[0]
+            new_segments = []
+            split_ts = []
+            split_points = []
+            for segment, split_t in zip(segments[1:], start_ts):
+                if is_fracture(prev_segment, segment):
+                    new_segments.append(prev_segment)
+                    split_ts.append(split_t)
+                    split_points.append(prev_segment.get_end_point())
+                    prev_segment = segment
+                else:
+                    prev_segment = prev_segment.concatenate(segment)
+
+            new_segments.append(prev_segment)
+            return split_ts, split_points, new_segments
+
+        p = self.get_degree()
+
+        if or_worse:
+            def is_possible_fracture(multiplicity):
+                return multiplicity >= p - order + 1
+        else:
+            def is_possible_fracture(multiplicity):
+                return multiplicity == p - order + 1
+
+        kv = self.get_knotvector()
+        ms = sv_knotvector.to_multiplicity(kv)[1:-1]
+        possible_fracture_ts = [t for t, s in ms if is_possible_fracture(s)]
+        segments = self.split_at_ts(possible_fracture_ts)
+        split_ts, split_points, segments = concatenate_non_fractured(segments, possible_fracture_ts)
+        if return_details:
+            return split_ts, split_points, segments
+        else:
+            return segments
 
 class SvGeomdlCurve(SvNurbsCurve):
     """

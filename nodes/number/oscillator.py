@@ -58,7 +58,7 @@ def oscillator(params, constant, matching_f):
             res = amplitude - amplitude * (((val / period + phase) * 2) % 2) + offset
 
         elif mode == 'Triangular':
-            mask = ((val / period + phase) * 2) % 2 > 1
+            mask = ((val / period + phase) * 2) % 2 >= 1
             res = 2 * amplitude * (((val / period + phase)*2) % 1) - amplitude
             res[mask] *= -1
             res += offset
@@ -104,7 +104,7 @@ class SvOscillatorNode(SverchCustomTreeNode, bpy.types.Node):
         items=wave_interp_modes, update=updateNode)
 
     knot_modes = [('MANHATTAN', 'Manhattan', "Manhattan distance metric", 0),
-                  ('DISTANCE', 'Euclidan', "Eudlcian distance metric", 1),
+                  ('DISTANCE', 'Euclidean', "Euclidean distance metric", 1),
                   ('POINTS', 'Points', "Points based", 2),
                   ('CHEBYSHEV', 'Chebyshev', "Chebyshev distance", 3)]
 

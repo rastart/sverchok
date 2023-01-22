@@ -1,4 +1,3 @@
-from itertools import chain
 from pathlib import Path
 from typing import Iterator
 
@@ -19,9 +18,7 @@ from sverchok import old_nodes
 from sverchok.data_structure import get_data_nesting_level
 from sverchok.core.socket_data import get_output_socket_data
 from sverchok.core.sv_custom_exceptions import SvNoDataError
-from sverchok.utils.logging import debug, info, exception
-from sverchok.utils.context_managers import sv_preferences
-from sverchok.utils.modules_inspection import iter_submodule_names
+from sverchok.utils.logging import debug, info, setLevel
 from sverchok.utils.sv_json_import import JSONImporter
 
 try:
@@ -203,7 +200,7 @@ def get_tests_path():
     tests_dir = join(dirname(sv_init), "tests")
     return tests_dir
 
-def run_all_tests(pattern=None):
+def run_all_tests(pattern=None, log_file = 'sverchok_tests.log', log_level = None, verbosity=2, failfast=False):
     """
     Run all existing test cases.
     Test cases are looked up under tests/ directory.
@@ -212,14 +209,17 @@ def run_all_tests(pattern=None):
     if pattern is None:
         pattern = "*_tests.py"
 
+    if log_level is not None:
+        setLevel(log_level)
+
     tests_path = get_tests_path()
-    log_handler = logging.FileHandler(join(tests_path, "sverchok_tests.log"), mode='w')
+    log_handler = logging.FileHandler(join(tests_path, log_file), mode='w')
     logging.getLogger().addHandler(log_handler)
     try:
         loader = unittest.TestLoader()
         suite = loader.discover(start_dir = tests_path, pattern = pattern)
         buffer = StringIO()
-        runner = unittest.TextTestRunner(stream = buffer, verbosity=2)
+        runner = unittest.TextTestRunner(stream = buffer, verbosity=verbosity, failfast=failfast)
         old_nodes.register_all()
         with coverage_report():
             result = runner.run(suite)
@@ -295,6 +295,15 @@ class SverchokTestCase(unittest.TestCase):
             yield get_node_tree(tree_name)
         finally:
             remove_node_tree(tree_name)
+
+    def getLogger(self):
+        return logging.getLogger(self.__class__.__name__)
+
+    def debug(self, *args):
+        self.getLogger().debug(*args)
+
+    def info(self, *args):
+        self.getLogger().info(*args)
 
     def serialize_json(self, data):
         """
@@ -811,143 +820,40 @@ def interactive_only(func):
 def requires(module):
     return unittest.skipIf(module is None, "This test requires a module which is not currently available")
 
-######################################################
-# UI operator and panel classes
-######################################################
-
-class SvRunTests(bpy.types.Operator):
-    """
-    Run all tests.
-    """
-
-    bl_idname = "node.sv_testing_run_tests"
-    bl_label = "Run tests"
-    bl_options = {'INTERNAL'}
-
-    test_module: bpy.props.EnumProperty(
-        name="Module to test",
-        description="Pick up which module to test",
-        items=[(i, i, '') for i in 
-               chain(['All'], iter_submodule_names(Path(sverchok.__file__).parent / 'tests', depth=1))])
-
-    def execute(self, context):
-        if self.test_module == 'All':
-            # making self.report after all tests lead to strange error, so no report for testing all
-            run_all_tests()
-        else:
-            test_result = run_test_from_file(self.test_module + '.py')
-            self.report(type={'ERROR'} if test_result != 'OK' else {'INFO'}, message=test_result)
-        return {'FINISHED'}
-
-    def invoke(self, context, event):
-        wm = context.window_manager
-        return wm.invoke_props_dialog(self)
-
-
-class SvDumpNodeDef(bpy.types.Operator):
-    """
-    Print definition of selected node to stdout.
-    This works correctly only for simple cases!
-    """
-
-    bl_idname = "node.sv_testing_dump_node_def"
-    bl_label = "Dump node definition"
-    bl_options = {'INTERNAL'}
-
-    @classmethod
-    def poll(cls, context):
-        return bool(context.space_data.edit_tree)
-
-    def execute(self, context):
-        ntree = context.space_data.node_tree
-        selection = list(filter(lambda n: n.select, ntree.nodes)) if ntree else []
-        if len(selection) != 1:
-            self.report({'ERROR'}, "Exactly one node must be selected!")
-            return {'CANCELLED'}
-
-        node = selection[0]
-        print(generate_node_definition(node))
-        self.report({'INFO'}, "See console")
-
-        return {'FINISHED'}
-
-class SvListOldNodes(bpy.types.Operator):
-    """
-    Print names and bl_idnames of all
-    deprecated nodes (old_nodes) in the current
-    node tree.
-    """
-
-    bl_idname = "node.sv_testing_list_old_nodes"
-    bl_label = "List old nodes"
-    bl_options = {'INTERNAL'}
-
-    @classmethod
-    def poll(cls, context):
-        return bool(context.space_data.edit_tree)
-
-    def execute(self, context):
-        ntree = context.space_data.node_tree
-
-        for node in ntree.nodes:
-            if old_nodes.is_old(node):
-                info("Deprecated node: `%s' (%s)", node.name, node.bl_idname)
-
-        self.report({'INFO'}, "See logs")
-        return {'FINISHED'}
-
-class SV_PT_TestingPanel(bpy.types.Panel):
-    bl_idname = "SV_PT_TestingPanel"
-    bl_label = "SV Testing"
-    bl_space_type = 'NODE_EDITOR'
-    bl_region_type = 'UI'
-    bl_category = 'Sverchok'
-    bl_order = 8
-    use_pin = True
-
-    @classmethod
-    def poll(cls, context):
-        try:
-            if context.space_data.tree_type != 'SverchCustomTreeType':
-                return False
-            with sv_preferences() as prefs:
-                return prefs.developer_mode
-        except:
-            return False
-
-    def draw(self, context):
-        layout = self.layout
-        layout.operator("node.sv_testing_run_tests")
-        layout.operator("node.sv_testing_list_old_nodes")
-        layout.operator("node.sv_testing_dump_node_def")
-
-classes = [SvRunTests, SvDumpNodeDef, SvListOldNodes, SV_PT_TestingPanel]
-
-def register():
-    for clazz in classes:
-        try:
-            bpy.utils.register_class(clazz)
-        except Exception as e:
-            exception("Can't register class %s: %s", clazz, e)
-
-def unregister():
-    for clazz in reversed(classes):
-        try:
-            bpy.utils.unregister_class(clazz)
-        except Exception as e:
-            exception("Can't unregister class %s: %s", clazz, e)
 
 if __name__ == "__main__":
     import sys
+    import argparse
     try:
         #register()
         argv = sys.argv
-        argv = argv[argv.index("--")+1:]
-        if argv:
-            pattern = argv[0]
+        if bpy.app.binary_path:
+            argv = argv[argv.index("--")+1:]
         else:
-            pattern = None
-        result = run_all_tests(pattern=pattern)
+            argv = argv[1:]
+
+        parser = argparse.ArgumentParser(prog = "testing.py", description = "Run Sverchok tests")
+        parser.add_argument('pattern', metavar='*.PY', nargs='?', default = '*_tests.py', help="Test case files pattern")
+        #parser.add_argument('-t', '--test', nargs='+', default = argparse.SUPPRESS)
+        parser.add_argument('-o', '--output', metavar='FILE.log', default='sverchok_tests.log', help="Path to output log file")
+        parser.add_argument('-f', '--fail-fast', action='store_true', help="Stop after first failing test")
+        parser.add_argument('-v', '--verbose', action='count', default=2, help="Set the verbosity level")
+        parser.add_argument('-q', '--quiet', dest='verbose', action='store_const', const=0, help="Be quiet")
+        parser.add_argument('--debug', dest='log_level', action='store_const', const='DEBUG', help="Enable debug logging")
+        parser.add_argument('--info', dest='log_level', action='store_const', const='INFO', help="Log only information messages")
+
+        args = parser.parse_args(argv)
+        #print(args)
+
+        if not bpy.app.binary_path:
+            bpy.ops.wm.read_userpref()
+
+        log_level = getattr(args, 'log_level', None)
+        result = run_all_tests(pattern = args.pattern,
+                    log_file = args.output,
+                    log_level = log_level,
+                    verbosity = args.verbose,
+                    failfast = args.fail_fast)
         if not result.wasSuccessful():
             # We have to raise an exception for Blender to exit with specified exit code.
             raise Exception("Some tests failed")

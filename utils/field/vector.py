@@ -38,6 +38,12 @@ class SvVectorField(object):
     def evaluate_grid(self, xs, ys, zs):
         raise Exception("not implemented")
 
+    def evaluate_array(self, points):
+        xs = points[:,0]
+        ys = points[:,1]
+        zs = points[:,2]
+        return self.evaluate_grid(xs, ys, zs)
+
 class SvMatrixVectorField(SvVectorField):
 
     def __init__(self, matrix):
@@ -703,7 +709,7 @@ class SvSelectVectorField(SvVectorField):
             selected = np.argmax(norms, axis=1)
         all_points = list(range(n))
         vectors = vectors[all_points, selected, :]
-        print(vectors.shape)
+        #print(vectors.shape)
         return vectors.T
 
 class SvVectorFieldTangent(SvVectorField):
@@ -1050,8 +1056,8 @@ class SvBendAlongSurfaceField(SvVectorField):
         return R[0], R[1], R[2]
 
     def evaluate(self, x, y, z):
-        xs, ys, zs = self.evaluate_grid(np.array([[[x]]]), np.array([[[y]]]), np.array([[[z]]]))
-        return np.array([xs, ys, zs])
+        xs, ys, zs = self.evaluate_grid(np.array([x]), np.array([y]), np.array([z]))
+        return np.array([xs[0], ys[0], zs[0]])
 
 class SvVoronoiVectorField(SvVectorField):
 

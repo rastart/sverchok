@@ -20,6 +20,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from pathlib import Path
 from typing import Iterator, Union, TypeVar, Optional
+import shutil
 
 import bl_operators
 import bpy
@@ -28,8 +29,11 @@ from bpy.props import StringProperty
 from sverchok.ui.sv_icons import node_icon, icon, get_icon_switch
 from sverchok.ui import presets
 from sverchok.ui.presets import apply_default_preset
+from sverchok.ui.utils import get_menu_preset_path
+from sverchok.utils.context_managers import sv_preferences
 from sverchok.utils import yaml_parser
 from sverchok.utils.modules_inspection import iter_classes_from_module
+from sverchok.utils.logging import info, debug
 
 
 """
@@ -49,7 +53,7 @@ registered. And un-registration is not needed because they will be reloaded
 during reloading Sverchok add-on (extensions can't be reloaded without reloading
 Sverchok)
 
-The module parses `index.yaml` file and creates tre like data structure `Category`
+The module parses `index.yaml` file and creates a tree-like data structure `Category`
 which is used for adding nodes in different areas of user interface. Also it
 contains `CallPartialMenu` which shows alternative menus by pressing 1, 2, 3, 4, 5.
 It's possible to add categories to the menus by adding `- extra_menu: menu_name`
@@ -276,6 +280,16 @@ class Category(MenuItem):
             if hasattr(elem, 'walk_categories'):
                 yield from elem.walk_categories()
 
+    def get_submenus_for_extra_menu(self, extra_menu_name):
+        if getattr(self, 'extra_menu', '') == extra_menu_name:
+            yield self
+        for elem in self.menu_cls.draw_data:
+            if hasattr(elem, 'get_submenus_for_extra_menu'):
+                yield from elem.get_submenus_for_extra_menu(extra_menu_name)
+            elif isinstance(elem, CustomMenu):
+                if getattr(elem, 'extra_menu', '') == extra_menu_name:
+                    yield elem
+
     def get_category(self, node_idname) -> Optional['Category']:
         """The search is O(len(sverchok_nodes))"""
         for cat in self.walk_categories():
@@ -322,7 +336,7 @@ class Category(MenuItem):
         - `'SomeNode'` - String of node `bl_idname` to define Add Node operator.
         - `{'Sub category name': [option, menu_item, ...]}` - Dictionary of
           a subcategory.
-        - `{'Operator name': [option, ...]}` - Dictionary of a custom opeartor
+        - `{'Operator name': [option, ...]}` - Dictionary of a custom operator
           to call. Options for operator call are not supported currently.
         - `{'Menu name': [option, ...]}` - Custom menu to show.
 
@@ -354,7 +368,7 @@ class Category(MenuItem):
 
         The example of format can be found in the `sverchok/index.yaml` file.
 
-        Extra_props should have keys oly from the __init__ method of `MenuItem`
+        Extra_props should have keys only from the __init__ method of `MenuItem`
         subclasses.
         """
         parsed_items = []
@@ -418,8 +432,15 @@ class Category(MenuItem):
         It should be called before registration functions
         """
         new_categories = []
+        top_menu_names = {c.name for c in self if getattr(c, 'name', None)}
         for cat in config:
             cat_name = list(cat.keys())[0]
+
+            # if extension is reloaded before Sverchok it can add the same menu
+            # twice, this condition should prevent it
+            if cat_name in top_menu_names:
+                continue
+
             items = list(cat.values())[0]
             new_categories.append(self.from_config(items, cat_name))
         self.menu_cls.draw_data.extend(new_categories)
@@ -428,7 +449,7 @@ class Category(MenuItem):
 class SverchokContext:
     @classmethod
     def poll(cls, context):
-        tree_type = context.space_data.tree_type
+        tree_type = getattr(context.space_data, 'tree_type', None)
         if tree_type in sv_tree_types:
             return True
 
@@ -448,10 +469,36 @@ class CategoryMenuTemplate(SverchokContext):
         for elem in self.draw_data:
             elem.draw(self.layout)
 
+add_node_menu = None
 
-menu_file = Path(__file__).parents[1] / 'index.yaml'
-add_node_menu = Category.from_config(yaml_parser.load(menu_file), 'All Categories', icon_name='RNA')
+def setup_add_menu():
+    global add_node_menu
+    datafiles = Path(bpy.utils.user_resource('DATAFILES', path='sverchok', create=True))
 
+    default_menu_file = Path(__file__).parents[1] / 'index.yaml'
+
+    with sv_preferences() as prefs:
+        if prefs is None:
+            raise Exception("Internal error: Sverchok preferences are not initialized yet at the moment of loading the menu")
+        if prefs.menu_preset_usage == 'COPY':
+            default_menu_file = get_menu_preset_path(prefs.menu_preset)
+            menu_file = datafiles / 'index.yaml'
+            use_preset_copy = True
+        else:
+            menu_file = get_menu_preset_path(prefs.menu_preset)
+            use_preset_copy = False
+
+    if use_preset_copy and not menu_file.exists():
+        info(f"Applying menu preset {default_menu_file} at startup")
+        shutil.copy(default_menu_file, menu_file)
+    debug(f"Using menu preset file: {menu_file}")
+    add_node_menu = Category.from_config(yaml_parser.load(menu_file), 'All Categories', icon_name='RNA')
+
+def get_add_node_menu():
+    global add_node_menu
+    if add_node_menu is None:
+        setup_add_menu()
+    return add_node_menu
 
 class AddNodeOp(bl_operators.node.NodeAddOperator):
     extra_description: StringProperty()
@@ -510,9 +557,8 @@ class CallPartialMenu(SverchokContext, bpy.types.Operator):
     def execute(self, context):
 
         def draw(_self, context):
-            for cat in add_node_menu:
-                if getattr(cat, 'extra_menu', '') == self.menu_name:
-                    cat.draw(_self.layout)
+            for cat in add_node_menu.get_submenus_for_extra_menu(self.menu_name):
+                cat.draw(_self.layout)
 
         context.window_manager.popup_menu(draw, title=self.menu_name, icon='BLANK1')
         return {'FINISHED'}
@@ -638,7 +684,7 @@ def register():
     for class_name in classes:
         bpy.utils.register_class(class_name)
     bpy.types.NODE_MT_add.append(sv_draw_menu)
-    add_node_menu.register()
+    get_add_node_menu().register()
 
 
 def unregister():

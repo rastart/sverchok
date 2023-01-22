@@ -92,13 +92,17 @@ class EnterExitGroupNodes(bpy.types.Operator):
         node = context.active_node
         if node and hasattr(node, 'node_tree'):
             bpy.ops.node.edit_group_tree({'node': node})
+        elif node and hasattr(node, 'gn_tree'):  # GN Viewer
+            bpy.ops.node.sv_edit_gn_tree(
+                tree_name=node.id_data.name, node_name=node.name)
         elif len(context.space_data.path) > 1:
             context.space_data.path.pop()
         return {'FINISHED'}
 
     @classmethod
     def poll(cls, context):
-        if context.space_data.tree_type in {'SverchCustomTreeType', 'SvGroupTree'}:
+        if getattr(context.space_data, 'tree_type', None) \
+                in {'SverchCustomTreeType', 'SvGroupTree'}:
             return True
         else:
             return False
@@ -107,6 +111,7 @@ class EnterExitGroupNodes(bpy.types.Operator):
 class PressingEscape(bpy.types.Operator):
     bl_idname = 'node.sv_abort_nodes_updating'
     bl_label = 'Abort nodes updating'
+    bl_options = {'INTERNAL'}
 
     def execute(self, context):
         if ts.tasks:

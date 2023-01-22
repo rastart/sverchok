@@ -42,12 +42,11 @@ Examples of usage
   :target: https://user-images.githubusercontent.com/14288520/199548730-05e2c86a-4b2e-447e-b75e-cf7999f485dc.png
 
 * Generator->Generator Extended-> :doc:`Polygon Grid </nodes/generators_extended/polygon_grid>`
-* Modifier->Modifier Change-> :doc:`Mask Vertices </nodes/modifier_change/vertices_mask>`
+* Modifiers->Modifier Change-> :doc:`Mask Vertices </nodes/modifier_change/vertices_mask>`
 * Number-> :doc:`List Input </nodes/number/list_input>`
 * Number-> :doc:`Random Num Gen </nodes/number/random_num_gen>`
 * Number-> :doc:`Number Range </nodes/number/number_range>`
-* List->List Struct-> :doc:`List Length </nodes/list_main/length>`
-* List->List Struct-> :doc:`List Length </nodes/list_main/length>`
+* List->List Main-> :doc:`List Length </nodes/list_main/length>`
 * Color-> :doc:`Color In </nodes/color/color_in_mk1>`
 * Viz-> :doc:`Viewer Draw </nodes/viz/viewer_draw_mk4>`
 
@@ -70,4 +69,4 @@ Simple:
 * CAD-> :doc:`Smooth Lines </nodes/generators_extended/smooth_lines>`
 * Number-> :doc:`Random Num Gen </nodes/number/random_num_gen>`
 * List-> :doc:`List Mask (Out) </nodes/list_masks/mask>`
-* List->List Struct-> :doc:`List Length </nodes/list_main/length>`
+* List->List Main-> :doc:`List Length </nodes/list_main/length>`

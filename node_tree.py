@@ -26,6 +26,7 @@ a file (or probably even between files =).
 
 
 import inspect
+import sys
 import time
 from contextlib import contextmanager
 from itertools import chain, cycle
@@ -39,14 +40,12 @@ from bpy.types import NodeTree, NodeSocket
 import sverchok
 from sverchok.core.sv_custom_exceptions import SvNoDataError, DependencyError
 import sverchok.core.events as ev
-import sverchok.dependencies as sv_deps
 from sverchok.core.event_system import handle_event
 from sverchok.data_structure import classproperty, post_load_call
-from sverchok.utils import get_node_class_reference
 from sverchok.utils.sv_node_utils import recursive_framed_location_finder
 from sverchok.utils.docstring import SvDocstring
 import sverchok.utils.logging
-from sverchok.utils.logging import debug, catch_log_error
+from sverchok.utils.logging import debug, catch_log_error, is_enabled_for
 
 from sverchok.ui import color_def
 from sverchok.ui.nodes_replacement import set_inputs_mapping, set_outputs_mapping
@@ -509,19 +508,24 @@ class NodeUtils:
         return sverchok.utils.logging.getLogger(name)
 
     def debug(self, msg, *args, **kwargs):
-        self.get_logger().debug(msg, *args, **kwargs)
+        if is_enabled_for('DEBUG'):
+            self.get_logger().debug(msg, *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self.get_logger().info(msg, *args, **kwargs)
+        if is_enabled_for('INFO'):
+            self.get_logger().info(msg, *args, **kwargs)
 
     def warning(self, msg, *args, **kwargs):
-        self.get_logger().warning(msg, *args, **kwargs)
+        if is_enabled_for('WARNING'):
+            self.get_logger().warning(msg, *args, **kwargs)
 
     def error(self, msg, *args, **kwargs):
-        self.get_logger().error(msg, *args, **kwargs)
+        if is_enabled_for('ERROR'):
+            self.get_logger().error(msg, *args, **kwargs)
 
     def exception(self, msg, *args, **kwargs):
-        self.get_logger().exception(msg, *args, **kwargs)
+        if is_enabled_for('EXCEPTION'):
+            self.get_logger().exception(msg, *args, **kwargs)
 
     def wrapper_tracked_ui_draw_op(self, layout_element, operator_idname, **keywords):
         """
@@ -623,7 +627,7 @@ class NodeDependencies:
         """Returns True if any of dependent libraries are not installed"""
         if cls._missing_dependency is None:
             for dep in cls.sv_dependencies:
-                if getattr(sv_deps, dep) is None:
+                if dep not in sys.modules:
                     cls._missing_dependency = True
                     break
             else:
@@ -674,7 +678,7 @@ class NodeDocumentation:
     def get_doc_link(self, link_type='ONLINE') -> Optional[str]:
         """Returns URL to online documentation of the node, or to GitHub
         documentation, or path to a documentation file of the node, or None.
-        This method can be overriden by Sverchok's extensions to implement
+        This method can be overridden by Sverchok's extensions to implement
         their own way to generate the links."""
         *_, node_file_name = self.__module__.rpartition('.')
         node_docs = Path(sverchok.__file__).parent / 'docs' / 'nodes'
@@ -716,12 +720,15 @@ class SverchCustomTreeNode(UpdateNodes, NodeUtils, NodeDependencies, NodeDocumen
         generated automatically. To display elements specific to certain nodes
         use `SverchCustomTreeNode.sv_draw_buttons`."""
         if self.id_data.bl_idname == SverchCustomTree.bl_idname:
-            row = layout.row(align=True)
+            row = None  # should be initialized lazily to safe space
             if self.is_animation_dependent:
+                row = row or layout.row(align=True)
                 row.prop(self, 'is_animatable', icon='ANIM', icon_only=True)
             if self.is_scene_dependent:
+                row = row or layout.row(align=True)
                 row.prop(self, 'is_interactive', icon='SCENE_DATA', icon_only=True)
             if self.is_animation_dependent or self.is_scene_dependent:
+                row = row or layout.row(align=True)
                 row.prop(self, 'refresh', icon='FILE_REFRESH')
         self.sv_draw_buttons(context, layout)
 
@@ -831,7 +838,7 @@ class SverchCustomTreeNode(UpdateNodes, NodeUtils, NodeDependencies, NodeDocumen
         """
         if hasattr(self, "replacement_nodes"):
             for bl_idname, inputs_mapping, outputs_mapping in self.replacement_nodes:
-                node_class = get_node_class_reference(bl_idname)
+                node_class = bpy.types.Node.bl_rna_get_subclass_py(bl_idname)
                 if node_class:
                     text = "Replace with {}".format(node_class.bl_label)
                     op = layout.operator("node.sv_replace_node", text=text)

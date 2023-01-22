@@ -27,11 +27,11 @@ class SvOffsetCurveMk2Node(SverchCustomTreeNode, bpy.types.Node):
         ]
 
     algorithms = [
-        (FRENET, "Frenet", "Frenet / native rotation", 0),
-        (ZERO, "Zero-twist", "Zero-twist rotation", 1),
+        (FRENET, "Frenet", "Frenet / native rotation. Rotate the profile curve according to Frenet frame of the extrusion curve", 0),
+        (ZERO, "Zero-twist", "Zero-twist rotation. Rotate the profile curve according to “zero-twist” frame of the extrusion curve", 1),
         (HOUSEHOLDER, "Householder", "Use Householder reflection matrix", 2),
-        (TRACK, "Tracking", "Use quaternion-based tracking", 3),
-        (DIFF, "Rotation difference", "Use rotational difference calculation", 4),
+        (TRACK, "Tracking", "Use quaternion-based tracking. Use the same algorithm as in Blender’s “TrackTo” kinematic constraint. This node currently always uses X as the Up axis", 3),
+        (DIFF, "Rotation difference", "Use rotational difference calculation. Calculate rotation as rotation difference between two vectors", 4),
         (TRACK_NORMAL, "Track normal", "Try to maintain constant normal direction by tracking along curve", 5),
         (NORMAL_DIR, "Specified plane", "Offset in plane defined by normal vector in Vector input; i.e., offset in direction perpendicular to Vector input", 6)
     ]
@@ -67,11 +67,13 @@ class SvOffsetCurveMk2Node(SverchCustomTreeNode, bpy.types.Node):
 
     resolution : IntProperty(
         name = "Resolution",
+        description = "The more the number is, the more precise the calculation is, but the slower",
         min = 10, default = 50,
         update = updateNode)
 
     offset : FloatProperty(
             name = "Offset",
+            description = "Offset amount",
             default = 0.1,
             update = updateNode)
 
@@ -132,9 +134,9 @@ class SvOffsetCurveMk2Node(SverchCustomTreeNode, bpy.types.Node):
             for curve, offset, offset_curve, vector, resolution in zip_long_repeat(curves, offsets, offset_curves, vectors, resolutions):
                 if self.algorithm != NORMAL_DIR:
                     if self.mode == 'X':
-                        vector = [offset, 0, 0]
+                        vector = [1, 0, 0]
                     elif self.mode == 'Y':
-                        vector = [0, offset, 0]
+                        vector = [0, 1, 0]
                 if vector is not None:
                     vector = np.array(vector)
 

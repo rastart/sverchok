@@ -18,14 +18,16 @@
 
 import os
 import importlib.util as getutil
+import re
+
 import bpy
+from bpy.props import StringProperty
 
 import sverchok
-from sverchok.utils import get_node_class_reference
 from sverchok.utils.logging import error
 from sverchok.utils.docstring import SvDocstring
 from sverchok.utils.sv_default_macros import macros, DefaultMacros
-from sverchok.ui.nodeview_space_menu import add_node_menu
+from sverchok.ui.nodeview_space_menu import get_add_node_menu
 
 
 addon_name = sverchok.__name__
@@ -99,7 +101,7 @@ def gather_items(context):
     fx = []
     idx = 0
 
-    for cat in add_node_menu.walk_categories():
+    for cat in get_add_node_menu().walk_categories():
         for item in cat:
             if not hasattr(item, 'bl_idname'):
                 continue
@@ -107,7 +109,7 @@ def gather_items(context):
             if item.bl_idname == 'NodeReroute':
                 continue
 
-            nodetype = get_node_class_reference(item.bl_idname)
+            nodetype = bpy.types.Node.bl_rna_get_subclass_py(item.bl_idname)
             if not nodetype:
                 continue
 
@@ -141,7 +143,7 @@ class SvExtraSearch(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        tree_type = context.space_data.tree_type
+        tree_type = getattr(context.space_data, 'tree_type', None)
         if tree_type in {'SverchCustomTreeType', }:
             return True
 
@@ -181,7 +183,59 @@ class SvExtraSearch(bpy.types.Operator):
         return {'FINISHED'}
 
 
-classes = [SvExtraSearch,]
+def convert_string_to_settings(arguments):
+
+    # expects       (varname=value,....)
+    # for example   (selected_mode="int", fruits=20, alama=[0,0,0])
+    def deform_args(**args):
+        return args
+
+    unsorted_dict = eval('deform_args{arguments}'.format(**vars()), locals(), locals())
+    pattern = r'(\w+\s*)='
+    results = re.findall(pattern, arguments)
+    return [(varname, unsorted_dict[varname]) for varname in results]
+
+
+class SvMacroInterpreter(bpy.types.Operator):
+    """ Launch menu item as a macro """
+    bl_idname = "node.sv_macro_interpreter"
+    bl_label = "Sverchok check for new minor version"
+    bl_options = {'REGISTER'}
+
+    macro_bl_idname: StringProperty()
+    settings: StringProperty()
+
+    def create_node(self, context, node_type):
+        space = context.space_data
+        tree = space.edit_tree
+
+        # select only the new node
+        for n in tree.nodes:
+            n.select = False
+
+        node = tree.nodes.new(type=node_type)
+
+        if self.settings:
+            settings = convert_string_to_settings(self.settings)
+            for name, value in settings:
+                try:
+                    setattr(node, name, value)
+                except AttributeError as e:
+                    self.report({'ERROR_INVALID_INPUT'}, "Node has no attribute " + name)
+                    print(str(e))
+
+        node.select = True
+        tree.nodes.active = node
+        node.location = space.cursor_location
+        return node
+
+    def execute(self, context):
+        self.create_node(context, self.macro_bl_idname)
+        bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
+        return {'FINISHED'}
+
+
+classes = [SvExtraSearch, SvMacroInterpreter]
 
 
 def register():

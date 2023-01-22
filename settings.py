@@ -1,24 +1,36 @@
 import sys
 import os
+from os.path import dirname, basename, join
 import subprocess
+from glob import glob
+import shutil
 
 import bpy
 from bpy.types import AddonPreferences
 from bpy.props import BoolProperty, FloatVectorProperty, EnumProperty, IntProperty, FloatProperty, StringProperty
-from sverchok.dependencies import sv_dependencies, pip, ensurepip, draw_message, get_icon
-from sverchok import data_structure
-from sverchok.core import tasks # don't remove this should fix #4229 (temp solution)
-from sverchok.core import handlers
-from sverchok.utils import logging
-from sverchok.utils.sv_gist_tools import TOKEN_HELP_URL
-from sverchok.utils.sv_extra_addons import draw_extra_addons
-from sverchok.ui import color_def
-from sverchok.ui.utils import message_on_layout
+
+from sverchok.ui.utils import (
+        MENU_TYPE_DEFAULT, MENU_TYPE_SVERCHOK, MENU_TYPE_USER,
+        get_sverchok_menu_presets_directory, get_user_menu_presets_directory,
+        get_menu_preset_path,
+        datafiles,
+        message_on_layout
+    )
+
+"""Don't import other Sverchok modules here"""
 
 if bpy.app.version >= (2, 91, 0):
     PYPATH = sys.executable
 else:
     PYPATH = bpy.app.binary_path_python
+
+
+# names from other modules
+sv_dependencies, pip, ensurepip, draw_message, get_icon = [None] * 5
+set_frame_change = None
+info, setLevel = [None] * 2
+draw_extra_addons = None
+apply_theme, rebuild_color_cache, color_callback = [None] * 3
 
 def get_params(prop_names_and_fallbacks, direct=False):
     """
@@ -74,18 +86,17 @@ def get_param(prop_name, fallback):
 
 def apply_theme_if_necessary():
     if get_param("apply_theme_on_open", False):
-        color_def.apply_theme()    
+        apply_theme()
         print("applied theme.")
 
 # getDpiFactor and getDpi are lifted from Animation Nodes :)
 
-def get_dpi_factor():
-    return get_dpi() / 72
+def get_dpi_factor(factor=0.014):
+    system_preferences = bpy.context.preferences.system
+    retina_factor = getattr(system_preferences, "pixel_size", 1)
+    dpi = system_preferences.dpi * retina_factor
+    return dpi * factor
 
-def get_dpi():
-    systemPreferences = bpy.context.preferences.system
-    retinaFactor = getattr(systemPreferences, "pixel_size", 1)
-    return systemPreferences.dpi * retinaFactor
 
 class SvExPipInstall(bpy.types.Operator):
     """Install the package by calling pip install"""
@@ -119,10 +130,18 @@ class SvExEnsurePip(bpy.types.Operator):
     bl_options = {'REGISTER', 'INTERNAL'}
 
     def execute(self, context):
+        environ_copy = dict(os.environ)
+        environ_copy["PYTHONNOUSERSITE"] = "1"  # is set to disallow pip from checking the user site-packages
         cmd = [PYPATH, '-m', 'ensurepip']
-        ok = subprocess.call(cmd) == 0
+        ok = subprocess.call(cmd, env=environ_copy) == 0
         if ok:
-            self.report({'INFO'}, "PIP installed successfully. Please restart Blender to see effect.")
+            if 'snap' in sys.executable:
+                msg = 'It seems that your Blender is a snap package. Such' \
+                      'packages does not support writing any files. Reinstall' \
+                      'Blender to be able to use external Python packages'
+                self.report({'WARNING'}, msg)
+            else:
+                self.report({'INFO'}, "PIP installed successfully. Please restart Blender to see effect.")
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, "Cannot install PIP, see console output for details")
@@ -165,29 +184,42 @@ class SvSetFreeCadPath(bpy.types.Operator):
                 site_packages = p
                 break
 
-        file_path = open(os.path.join(site_packages, "freecad_path.pth"), "w+")
+        file_path = open(join(site_packages, "freecad_path.pth"), "w+")
         file_path.write(self.FreeCAD_folder)
         file_path.close()
 
         self.report({'INFO'}, "FreeCad path saved successfully. Please restart Blender to see effect.")
         return {'FINISHED'}
 
+class SvOverwriteMenuFile(bpy.types.Operator):
+    """Overwrite your index.yaml in datafiles with the selected preset"""
+    bl_idname = "node.sv_select_index_yaml_preset"
+    bl_label = "Save index.yaml preset"
+    bl_options = {'REGISTER', 'INTERNAL'}
+
+    preset_path : bpy.props.StringProperty(name = "Preset file path")
+
+    def execute(self, context):
+        target_menu_file = join(datafiles, 'index.yaml')
+        preset_path = get_menu_preset_path(self.preset_path)
+        shutil.copy(preset_path, target_menu_file)
+        self.report({'INFO'}, f"Menu preset {preset_path} saved as {target_menu_file}. Please restart Blender to see effect.")
+        return {'FINISHED'}
+
 class SverchokPreferences(AddonPreferences):
-
-    bl_idname = __package__
-
-    def update_debug_mode(self, context):
-        data_structure.DEBUG_MODE = self.show_debug
+    import sverchok
+    bl_idname = sverchok.__name__
 
     def set_frame_change(self, context):
-        handlers.set_frame_change(self.frame_change_mode)
+        set_frame_change(self.frame_change_mode)
 
     def update_theme(self, context):
-        color_def.rebuild_color_cache()
+        rebuild_color_cache()
         if self.auto_apply_theme:
-            color_def.apply_theme()
+            apply_theme()
 
-    tab_modes = data_structure.enum_item_4(["General", "Node Defaults", "Extra Nodes", "Theme"])
+    tab_modes = [(n.replace(' ', '_'), n, '', i) for i, n in
+                 enumerate(["General", "Node Defaults", "Extra Nodes", "Theme"])]
 
     selected_tab: bpy.props.EnumProperty(
         items=tab_modes,
@@ -195,23 +227,16 @@ class SverchokPreferences(AddonPreferences):
         default="General"
     )
 
-    #  debugish...
-    show_debug: BoolProperty(
-        name="Debug mode",  # todo to remove, there is logging level for this
-        description="Deprecated",
-        default=False, subtype='NONE',
-        update=update_debug_mode)
-
     no_data_color: FloatVectorProperty(
         name="No data", description='When a node can not get data',
         size=3, min=0.0, max=1.0,
-        default=(1, 0.3, 0), subtype='COLOR',
+        default=(1, 0.3, 0), subtype='COLOR_GAMMA',
     )
 
     exception_color: FloatVectorProperty(
         name="Error", description='When node has an exception',
         size=3, min=0.0, max=1.0,
-        default=(0.8, 0.0, 0), subtype='COLOR',
+        default=(0.8, 0.0, 0), subtype='COLOR_GAMMA',
     )
 
     # Profiling settings
@@ -231,12 +256,16 @@ class SverchokPreferences(AddonPreferences):
             default = False)
 
     #  theme settings
+    themes = [("default_theme", "Default", "Default"),
+              ("nipon_blossom", "Nipon Blossom", "Nipon Blossom"),
+              ("grey", "Grey", "Grey"),
+              ("darker", "Darker", "Darker")]
 
     sv_theme: EnumProperty(
-        items=color_def.themes,
+        items=themes,
         name="Theme preset",
         description="Select a theme preset",
-        update=color_def.color_callback,
+        update=color_callback,
         default="default_theme")
 
     auto_apply_theme: BoolProperty(
@@ -250,31 +279,31 @@ class SverchokPreferences(AddonPreferences):
     color_viz: FloatVectorProperty(
         name="Visualization", description='',
         size=3, min=0.0, max=1.0,
-        default=(1, 0.589, 0.214), subtype='COLOR',
+        default=(1, 0.589, 0.214), subtype='COLOR_GAMMA',
         update=update_theme)
 
     color_tex: FloatVectorProperty(
         name="Text", description='',
         size=3, min=0.0, max=1.0,
-        default=(0.5, 0.5, 1), subtype='COLOR',
+        default=(0.5, 0.5, 1), subtype='COLOR_GAMMA',
         update=update_theme)
 
     color_sce: FloatVectorProperty(
         name="Scene", description='',
         size=3, min=0.0, max=1.0,
-        default=(0, 0.5, 0.2), subtype='COLOR',
+        default=(0, 0.5, 0.2), subtype='COLOR_GAMMA',
         update=update_theme)
 
     color_lay: FloatVectorProperty(
         name="Layout", description='',
         size=3, min=0.0, max=1.0,
-        default=(0.674, 0.242, 0.363), subtype='COLOR',
+        default=(0.674, 0.242, 0.363), subtype='COLOR_GAMMA',
         update=update_theme)
 
     color_gen: FloatVectorProperty(
         name="Generator", description='',
         size=3, min=0.0, max=1.0,
-        default=(0, 0.5, 0.5), subtype='COLOR',
+        default=(0, 0.5, 0.5), subtype='COLOR_GAMMA',
         update=update_theme)
 
     #  frame change
@@ -339,9 +368,6 @@ class SverchokPreferences(AddonPreferences):
         self.render_scale = get_dpi_factor()   # this was intended as a general draw scale multiplier, not location but size.
         self.render_location_xy_multiplier = get_dpi_factor()
 
-    ##
-    datafiles = os.path.join(bpy.utils.user_resource('DATAFILES', path='sverchok', create=True))
-
     external_editor: StringProperty(description='which external app to invoke to view sources')
     real_sverchok_path: StringProperty(description='use with symlinked to get correct src->dst')
 
@@ -352,8 +378,8 @@ class SverchokPreferences(AddonPreferences):
     # Logging settings
 
     def update_log_level(self, context):
-        logging.info("Setting log level to %s", self.log_level)
-        logging.setLevel(self.log_level)
+        info("Setting log level to %s", self.log_level)
+        setLevel(self.log_level)
 
     log_levels = [
             ("DEBUG", "Debug", "Debug output", 0),
@@ -383,7 +409,7 @@ class SverchokPreferences(AddonPreferences):
             default = True)
 
     log_buffer_name: StringProperty(name = "Buffer name", default = "sverchok.log")
-    log_file_name: StringProperty(name = "File path", default = os.path.join(datafiles, "sverchok.log"))
+    log_file_name: StringProperty(name = "File path", default = join(datafiles, "sverchok.log"))
 
 
     # updating sverchok
@@ -396,10 +422,61 @@ class SverchokPreferences(AddonPreferences):
             description = "Path to FreeCAD Python API library files (FreeCAD.so on Linux and MacOS, FreeCAD.dll on Windows). On Linux the usual location is /usr/lib/freecad/lib, on Windows it can be something like E:\programs\conda-0.18.3\\bin"
         )
 
+    def get_menu_presets(self, context):
+        items = []
+        name = 'index.yaml'
+        id = join(MENU_TYPE_DEFAULT, name)
+        items.append((id, f"Default ({name})", "Use default menu"))
+        menus = join(get_sverchok_menu_presets_directory(), '*.yaml')
+        for path in sorted(glob(menus)):
+            name = basename(path)
+            id = join(MENU_TYPE_SVERCHOK, name)
+            description = f"{name} (built-in)"
+            items.append((id, description, description))
+        menus = join(get_user_menu_presets_directory(), '*.yaml')
+        for path in sorted(glob(menus)):
+            name = basename(path)
+            id = join(MENU_TYPE_USER, name)
+            description = f"{name} (user-defined)"
+            items.append((id, description, description))
+        return items
+
+    menu_preset : EnumProperty(
+            name = "Menu preset",
+            description = "Choose a preset for Sverchok Add Node menu to be used. You can edit your menu later by editing index.yaml file under your datafiles/sverchok directory",
+            items = get_menu_presets,
+        )
+
+    menu_usage_options = [
+            ('SVERCHOK', "Use preset file", "Original menu preset file will be used. So the menu will be updated automatically when the preset is updated within Sverchok distribution", 0),
+            ('COPY', "Use local copy of preset file", "Menu preset file will be copied under your datafiles directory. You may edit it manually without touching the preset file in Sverchok directory. But the responsibility of updating the menu when a node is added into Sverchok is yours", 1)
+        ]
+
+    menu_preset_usage : EnumProperty(
+            name = "Application mode",
+            description = "Menu preset application mode",
+            items = menu_usage_options,
+            default = 'SVERCHOK'
+        )
+
     def general_tab(self, layout):
         col = layout.row().column()
         col_split = col.split(factor=0.5)
         col1 = col_split.column()
+
+        box = col1.box()
+        box.label(text = "Menu presets:")
+        menu_col = box.column()
+        menu_col.prop(self, 'menu_preset', text='Preset')
+        if self.menu_preset_usage == 'COPY':
+            menu_split = menu_col.split(factor=0.8)
+            split_prop = menu_split.column()
+            split_prop.prop(self, 'menu_preset_usage', text='')
+            op_split = menu_split.column()
+            op = op_split.operator(SvOverwriteMenuFile.bl_idname, text="Copy")
+            op.preset_path = self.menu_preset
+        else:
+            menu_col.prop(self, 'menu_preset_usage', text='')
 
         col1.prop(self, "external_editor", text="Ext Editor")
         col1.prop(self, "real_sverchok_path", text="Src Directory")
@@ -408,7 +485,7 @@ class SverchokPreferences(AddonPreferences):
         box.label(text="Export to Gist")
         box.prop(self, "github_token")
         box.label(text="To export node trees to gists, you have to create a GitHub API access token.")
-        box.label(text="For more information, visit " + TOKEN_HELP_URL)
+        box.label(text="For more information, visit " + "https://github.com/nortikin/sverchok/wiki/Set-up-GitHub-account-for-exporting-node-trees-from-Sverchok")
         box.operator("node.sv_github_api_token_help", text="Visit documentation page")
 
         col2 = col_split.split().column()
@@ -418,7 +495,6 @@ class SverchokPreferences(AddonPreferences):
 
         col2box = col2.box()
         col2box.label(text="Debug:")
-        col2box.prop(self, "show_debug")
         col2box.prop(self, "developer_mode")
 
         log_box = col2.box()
@@ -584,6 +660,7 @@ dependencies, or install only some of them.""")
 
 
 def register():
+    bpy.utils.register_class(SvOverwriteMenuFile)
     bpy.utils.register_class(SvExPipInstall)
     bpy.utils.register_class(SvExEnsurePip)
     bpy.utils.register_class(SvSetFreeCadPath)
@@ -597,6 +674,7 @@ def unregister():
     bpy.utils.unregister_class(SvSetFreeCadPath)
     bpy.utils.unregister_class(SvExEnsurePip)
     bpy.utils.unregister_class(SvExPipInstall)
+    bpy.utils.unregister_class(SvOverwriteMenuFile)
 
 if __name__ == '__main__':
     register()

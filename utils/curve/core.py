@@ -214,6 +214,19 @@ class SvCurve(object):
 
         return result
 
+    def nth_derivative(self, order, t, tangent_delta=None):
+        h = self.get_tangent_delta(tangent_delta)
+        if order == 0:
+            return self.evaluate(t)
+        elif order == 1:
+            return self.tangent(t, tangent_delta=tangent_delta)
+        elif order == 2:
+            return self.second_derivative(t, tangent_delta=tangent_delta)
+        elif order == 3:
+            return self.third_derivative(t, tangent_delta=tangent_delta)
+        else:
+            raise Exception(f"Unsupported derivative order: {order}")
+
     def main_normal(self, t, normalize=True, tangent_delta=None):
         h = self.get_tangent_delta(tangent_delta)
 
@@ -443,6 +456,12 @@ class SvCurve(object):
         begin, end = self.get_end_points()
         return np.linalg.norm(begin - end) < tolerance
 
+    def is_polyline(self):
+        return False
+
+    def get_polyline_vertices(self):
+        raise Exception("Curve is not a polyline")
+
     def get_degree(self):
         """
         Get curve degree, if applicable.
@@ -645,7 +664,8 @@ class SvReparametrizedCurve(SvCurve):
     @property
     def scale(self):
         u_min, u_max = self.curve.get_u_bounds()
-        return (u_max - u_min) / (self.new_u_max - self.new_u_min)
+        #return (u_max - u_min) / (self.new_u_max - self.new_u_min)
+        return  (self.new_u_max - self.new_u_min) / (u_max - u_min)
 
     def map_u(self, u):
         u_min, u_max = self.curve.get_u_bounds()
@@ -657,26 +677,26 @@ class SvReparametrizedCurve(SvCurve):
     def evaluate_array(self, ts):
         return self.curve.evaluate_array(self.map_u(ts))
 
-    def tangent(self, t, tangent_delta=None):
-        return self.scale * self.curve.tangent(self.map_u(t), tangent_delta=tangent_delta)
+    #def tangent(self, t, tangent_delta=None):
+    #    return self.scale * self.curve.tangent(self.map_u(t), tangent_delta=tangent_delta)
 
-    def tangent_array(self, ts, tangent_delta=None):
-        return self.scale * self.curve.tangent_array(self.map_u(ts), tangent_delta=tangent_delta)
+    #def tangent_array(self, ts, tangent_delta=None):
+    #    return self.scale * self.curve.tangent_array(self.map_u(ts), tangent_delta=tangent_delta)
 
-    def second_derivative_array(self, ts, tangent_delta=None):
-        return self.scale**2 * self.curve.second_derivative_array(self.map_u(ts), tangent_delta=tangent_delta)
+    #def second_derivative_array(self, ts, tangent_delta=None):
+    #    return self.scale**2 * self.curve.second_derivative_array(self.map_u(ts), tangent_delta=tangent_delta)
 
-    def third_derivative_array(self, ts, tangent_delta=None):
-        return self.scale**3 * self.curve.third_derivative_array(self.map_u(ts), tangent_delta=tangent_delta)
+    #def third_derivative_array(self, ts, tangent_delta=None):
+    #    return self.scale**3 * self.curve.third_derivative_array(self.map_u(ts), tangent_delta=tangent_delta)
 
-    def derivatives_array(self, n, ts, tangent_delta=None):
-        derivs = self.curve.derivatives_array(n, ts, tangent_delta=tangent_delta)
-        k = self.scale
-        array = []
-        for deriv in derivs:
-            array.append(k * deriv)
-            k = k * self.scale
-        return array
+#     def derivatives_array(self, n, ts, tangent_delta=None):
+#         derivs = self.curve.derivatives_array(n, ts, tangent_delta=tangent_delta)
+#         k = self.scale
+#         array = []
+#         for deriv in derivs:
+#             array.append(k * deriv)
+#             k = k * self.scale
+#         return array
 
 class SvReparametrizeCurve(SvCurve):
     def __init__(self, curve):

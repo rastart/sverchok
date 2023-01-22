@@ -119,7 +119,10 @@ class SvNurbsCurvePoints(SvNurbsCurveGoal):
 
     def calc_alphas(self, solver, us):
         p = solver.degree
-        alphas = [solver.basis.fraction(k,p, solver.curve_weights)(us) for k in range(solver.n_cpts)]
+        if solver.is_rational():
+            alphas = [solver.basis.fraction(k,p, solver.curve_weights)(us) for k in range(solver.n_cpts)]
+        else:
+            alphas = [solver.basis.function(k,p)(us) for k in range(solver.n_cpts)]
         alphas = np.array(alphas) # (n_cpts, n_points)
         return alphas
 
@@ -218,7 +221,72 @@ class SvNurbsCurveTangents(SvNurbsCurvePoints):
 
     def calc_alphas(self, solver, us):
         p = solver.degree
-        betas = [solver.basis.weighted_derivative(k, p, 1, solver.curve_weights)(us) for k in range(solver.n_cpts)]
+        ns = [solver.basis.function(k, p)(us) for k in range(solver.n_cpts)]
+        ns = np.array(ns) # (n_cpts, n_pts)
+        derivs = [solver.basis.derivative(k, p, 1)(us) for k in range(solver.n_cpts)]
+        derivs = np.array(derivs) # (n_cpts, n_pts)
+        weights = solver.curve_weights[np.newaxis].T # (n_cpts, 1)
+
+        sum_ns = (ns * weights).sum(axis=0) # (n_pts,)
+        sum_derivs = (derivs * weights).sum(axis=0) # (n_pts,)
+
+        numerator = weights * (derivs * sum_ns - ns * sum_derivs)
+
+        denominator = sum_ns**2
+
+        return numerator / denominator
+    
+    def get_src_points(self, solver):
+        return solver.src_curve.tangent_array(self.us)
+
+class SvNurbsCurveDerivatives(SvNurbsCurvePoints):
+    def __init__(self, order, us, vectors, weights = None, relative=False):
+        self.order = order
+        self.us = np.asarray(us)
+        if self.us.ndim != 1:
+            raise Exception(f"T values array must be 1-dimensional, but got {self.us.shape}")
+        self.vectors = np.asarray(vectors)
+        if self.vectors.ndim != 2:
+            raise Exception(f"Vectors must be 2-dimensional, but got {self.vectors.shape}")
+        if len(us) != len(self.vectors):
+            raise Exception(f"Number of T values and number of points must be equal, but got #T = {len(us)}, #P = {len(self.vectors)}")
+        self.relative = relative
+        if weights is None:
+            self.weights = None
+        else:
+            self.weights = np.asarray(weights)
+
+    def __repr__(self):
+        if self.relative:
+            return f"<Relative Derivatives, order={self.order}, cnt={len(self.us)}>"
+        else:
+            return f"<Derivatives, order={self.order}, cnt={len(self.us)}>"
+
+    @staticmethod
+    def single(order, u, tangent, weight=None, relative=False):
+        if weight is None:
+            weights = None
+        else:
+            weights = [weight]
+        return SvNurbsCurveDerivatives(order, [u], [tangent], weights, relative=relative)
+
+    def copy(self):
+        return SvNurbsCurveDerivatives(self.order, self.us, self.vectors, self.weights, relative=self.relative)
+
+    def add(self, other):
+        if self.relative != other.relative:
+            return None
+        if self.order != other.order:
+            return None
+        g = self.copy()
+        g.us = np.concatenate((g.us, other.us))
+        g.vectors = np.concatenate((g.vectors, other.vectors))
+        g.weights = np.concatenate((g.get_weights(), other.get_weights()))
+        return g
+
+    def calc_alphas(self, solver, us):
+        p = solver.degree
+        betas = [solver.basis.weighted_derivative(k, p, self.order, solver.curve_weights)(us) for k in range(solver.n_cpts)]
         betas = np.array(betas) # (n_cpts, n_points)
         return betas
     
@@ -530,10 +598,34 @@ class SvNurbsCurveSolver(SvCurve):
             self.degree = degree
         self.ndim = ndim
         self.n_cpts = None
-        self.curve_weights = None
+        self._curve_weights = None
+        self._is_rational = None
         self.knotvector = None
         self.goals = []
         self.A = self.B = None
+
+    @staticmethod
+    def _check_is_rational(weights):
+        w, W = weights.min(), weights.max()
+        return abs(W/w - 1.0) > 1e-6
+
+    @property
+    def curve_weights(self):
+        return self._curve_weights
+    
+    @curve_weights.setter
+    def curve_weights(self, weights):
+        if weights is None:
+            self._is_rational = False
+        else:
+            weights = np.asarray(weights)
+            self._is_rational = SvNurbsCurveSolver._check_is_rational(weights)
+        self._curve_weights = weights
+
+    def is_rational(self):
+        if self._is_rational is None:
+            self._is_rational = SvNurbsCurveSolver._check_is_rational(self._curve_weights)
+        return self._is_rational
 
     def copy(self):
         solver = SvNurbsCurveSolver(degree=self.degree, src_curve=self.src_curve)
@@ -559,6 +651,9 @@ class SvNurbsCurveSolver(SvCurve):
 
     def get_control_points(self):
         return self.to_nurbs().get_control_points()
+    
+    def get_knotvector(self):
+        return self.knotvector
 
     def set_curve_weights(self, weights):
         if len(weights) != self.n_cpts:
@@ -645,6 +740,11 @@ class SvNurbsCurveSolver(SvCurve):
 
     def solve(self, implementation = SvNurbsMaths.NATIVE, logger = None):
         problem_type, residue, curve = self.solve_ex(implementation = implementation, logger = logger)
+        return curve
+
+    def solve_welldetermined(self, implementation = SvNurbsMaths.NATIVE, logger = None):
+        problem_type, residue, curve = self.solve_ex(problem_types = {SvNurbsCurveSolver.PROBLEM_WELLDETERMINED},
+                                        implementation = implementation, logger = logger)
         return curve
 
     def solve_ex(self, problem_types = PROBLEM_ANY, implementation = SvNurbsMaths.NATIVE, logger = None):

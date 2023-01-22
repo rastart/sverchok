@@ -44,7 +44,7 @@ bl_info = {
     "name": "Sverchok",
     "author": "sverchok-b3d@ya.ru various authors see https://github.com/nortikin/sverchok/graphs/contributors",
     "version": (1, 2, 0),
-    "blender": (2, 93, 0),
+    "blender": (3, 5, 0),
     "location": "Node Editor",
     "category": "Node",
     "description": "Parametric node-based geometry programming",
@@ -55,51 +55,76 @@ bl_info = {
 
 VERSION = 'v1.2.0-alpha'  # looks like the only way to have custom format for the version
 
-import sys
-import importlib
+reload_event = "import_sverchok" in locals()  # reloading does not clear previous module names
+
 
 # pylint: disable=E0602
 # pylint: disable=C0413
 # pylint: disable=C0412
 
-# make sverchok the root module name, (if sverchok dir not named exactly "sverchok")
-if __name__ != "sverchok":
-    sys.modules["sverchok"] = sys.modules[__name__]
 
-from sverchok.core import sv_registration_utils, init_architecture, make_node_list
-from sverchok.core import interupted_activation_detected, reload_event, handle_reload_event
-from sverchok.utils import utils_modules
-from sverchok.ui import ui_modules
+def profiling_startup(file_name):
+    """Start blender with `blender -- --sv-profile` to create two
+    files with profiling of Sverchok startup. "imp_stats" file keeps stats of
+    importing modules and "reg_stats" keeps stats of add-on registration."""
+    def decorator(func):
+        from functools import wraps
 
-from sverchok.utils.profile import profiling_startup
+        @wraps(func)
+        def wrap():
+            import cProfile
+            import pstats
+            profile = cProfile.Profile()
+            profile.enable()
+            res = func()
+            profile.disable()
+            stats = pstats.Stats(profile)
+            stats.dump_stats(file_name)
+            return res
 
-imported_modules = init_architecture(__name__, utils_modules, ui_modules)
+        import sys
+        return wrap if "--sv-profile" in sys.argv else func
+    return decorator
 
-if "nodes" not in locals():
-    raise interupted_activation_detected()
-else:
 
-    node_list = make_node_list(nodes)
+@profiling_startup("imp_stats")
+def import_sverchok():
+    import sys
 
-    if "bpy" in locals():
-        reload_event = True
-        node_list = handle_reload_event(nodes, imported_modules)
+    # make sverchok the root module name, (if sverchok dir not named exactly "sverchok")
+    if __name__ != "sverchok":
+        sys.modules["sverchok"] = sys.modules[__name__]
 
-    import bpy
-    import sverchok
+    import sverchok.core as core
 
+    imported_modules_ = core.init_architecture()
+
+    if "nodes" not in globals():  # magic
+        raise core.interupted_activation_detected()
+
+    if not reload_event:
+        node_modules_ = core.import_nodes()
+    else:
+        node_modules_ = core.handle_reload_event(imported_modules_)
+
+    return imported_modules_, node_modules_, core
+
+
+imported_modules, node_modules, core = import_sverchok()
+
+
+@profiling_startup("reg_stats")
 def register():
-    with profiling_startup():
-        sv_registration_utils.register_all(imported_modules + node_list)
-        sverchok.core.init_bookkeeping(__name__)
-
-        if reload_event:
-            data_structure.RELOAD_EVENT = True
+    from sverchok.utils import ascii_print
+    core.sv_register_modules(imported_modules)
+    core.sv_register_modules(core.imported_utils_modules())
+    core.sv_register_modules(node_modules)
+    ascii_print.show_welcome()
 
 
 def unregister():
-    sverchok.utils.clear_node_classes()
-    sv_registration_utils.unregister_all(imported_modules)
-    sv_registration_utils.unregister_all(node_list)
+    core.sv_unregister_modules(imported_modules)
+    core.sv_unregister_modules(core.imported_utils_modules())
+    core.sv_unregister_modules(node_modules)
 
 # EOF

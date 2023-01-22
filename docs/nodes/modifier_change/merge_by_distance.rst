@@ -50,7 +50,7 @@ Examples of usage
   :target: https://user-images.githubusercontent.com/14288520/199113153-05fa7f2d-8ddb-4308-9a9b-ebb20e16f980.png
 
 * Number-> :doc:`List Input </nodes/number/list_input>`
-* List->List Struct-> :doc:`List Length </nodes/list_main/length>`
+* List->List Main-> :doc:`List Length </nodes/list_main/length>`
 * List-> :doc:`Index To Mask </nodes/list_masks/index_to_mask>`
 * Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
@@ -79,7 +79,7 @@ Examples of usage
 * Generator-> :doc:`Torus </nodes/generator/torus_mk2>`
 * Analyzers-> :doc:`Select Mesh Elements </nodes/analyzer/mesh_select_mk2>`
 * Analyzers-> :doc:`Proportional Edit Falloff </nodes/analyzer/proportional>`
-* Modifier->Modifier Change-> :doc:`Smooth Vertices </nodes/modifier_change/smooth>`
+* Modifiers->Modifier Change-> :doc:`Smooth Vertices </nodes/modifier_change/smooth>`
 * Number-> :doc:`A Number </nodes/number/numbers>`
 * Vector-> :doc:`Vector Lerp </nodes/vector/lerp>`
 * Vector-> :doc:`Vector Polar Input </nodes/vector/vector_polar_in>`
