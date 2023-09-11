@@ -185,19 +185,20 @@ def view_3d_geom(context, args):
         bgl.glLineWidth(1)
 
     if config.draw_verts:
-        bgl.glPointSize(config.point_size)
-        if config.uniform_verts:
-            v_batch = batch_for_shader(config.v_shader, 'POINTS', {"pos": geom.v_vertices})
-            config.v_shader.bind()
-            config.v_shader.uniform_float("color", config.vector_color[0][0])
-        else:
-            v_batch = batch_for_shader(config.v_shader, 'POINTS', {"pos": geom.v_vertices, "color": geom.points_color})
-            config.v_shader.bind()
+        if geom.v_vertices and (len(geom.v_vertices[0])==3):
+            bgl.glPointSize(config.point_size)
+            if config.uniform_verts:
+                v_batch = batch_for_shader(config.v_shader, 'POINTS', {"pos": geom.v_vertices})
+                config.v_shader.bind()
+                config.v_shader.uniform_float("color", config.vector_color[0][0])
+            else:
+                v_batch = batch_for_shader(config.v_shader, 'POINTS', {"pos": geom.v_vertices, "color": geom.points_color})
+                config.v_shader.bind()
 
-        v_batch.draw(config.v_shader)
-        bgl.glPointSize(1)
+            v_batch.draw(config.v_shader)
+            bgl.glPointSize(1)
 
-    bgl.glEnable(bgl.GL_BLEND)
+    bgl.glDisable(bgl.GL_BLEND)
 
 
 def splitted_polygons_geom(polygon_indices, original_idx, v_path, cols, idx_offset):
@@ -454,28 +455,34 @@ def generate_mesh_geom(config, vecs_in):
 
     if config.draw_verts:
         if config.uniform_verts:
-            config.v_shader = gpu.shader.from_builtin('3D_UNIFORM_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
+            config.v_shader = gpu.shader.from_builtin(shader_name)
         else:
-            config.v_shader = gpu.shader.from_builtin('3D_SMOOTH_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}SMOOTH_COLOR'
+            config.v_shader = gpu.shader.from_builtin(shader_name)
         geom.v_vertices, geom.points_color = v_vertices, points_color
 
     if config.draw_edges:
         if config.edges_use_vertex_color and e_vertices:
             e_vertex_colors = points_color
         if config.uniform_edges:
-            config.e_shader = gpu.shader.from_builtin('3D_UNIFORM_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
+            config.e_shader = gpu.shader.from_builtin(shader_name)
         else:
-            config.e_shader = gpu.shader.from_builtin('3D_SMOOTH_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}SMOOTH_COLOR'
+            config.e_shader = gpu.shader.from_builtin(shader_name)
         geom.e_vertices, geom.e_vertex_colors, geom.e_indices = e_vertices, e_vertex_colors, e_indices
 
 
     if config.draw_polys and config.shade_mode != 'fragment':
         if config.uniform_pols:
-            config.p_shader = gpu.shader.from_builtin('3D_UNIFORM_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
+            config.p_shader = gpu.shader.from_builtin(shader_name)
         else:
             if config.polygon_use_vertex_color and config.shade_mode not in ['facet', 'smooth']:
                 p_vertex_colors = points_color
-            config.p_shader = gpu.shader.from_builtin('3D_SMOOTH_COLOR')
+            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}SMOOTH_COLOR'
+            config.p_shader = gpu.shader.from_builtin(shader_name)
         geom.p_vertices, geom.p_vertex_colors, geom.p_indices = p_vertices, p_vertex_colors, p_indices
 
     elif config.shade_mode == 'fragment' and config.draw_polys:

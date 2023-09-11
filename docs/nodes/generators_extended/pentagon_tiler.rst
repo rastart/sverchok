@@ -44,7 +44,7 @@ In the N-Panel (and on the right-click menu) you can find:
 
 **Angle Units**: Choose if the input angles will be interpreted as Degrees or Radians
 
-**Flat output**: Flatten output by list-joining level 1 and unwraping it (default set to True)
+**Flat output**: Flatten output by list-joining level 1 and unwrapping it (default set to True)
 
 **Match List Global**: Define how list with different lengths should be matched. Refers to the matching of groups (level 1)
 
@@ -79,7 +79,7 @@ Example of usage
 
 * Transform-> :doc:`Bend Object Along Surface </nodes/transforms/bend_along_surface>`
 * Number-> :doc:`A Number </nodes/number/numbers>`
-* Surface-> :doc:`Evaluate Surface </nodes/surface/evaluate_surface>`
+* Surfaces-> :doc:`Evaluate Surface </nodes/surface/evaluate_surface>`
 * List->List Struct-> :doc:`List Split </nodes/list_struct/split>`
 * Viz-> :doc:`Viewer Draw </nodes/viz/viewer_draw_mk4>`
 * Scene-> :doc:`Bezier Input </nodes/exchange/bezier_in>`
@@ -97,10 +97,9 @@ Example of usage
   :target: https://user-images.githubusercontent.com/14288520/191077924-72f3e9f1-aa0b-4c76-be35-5e2edd487218.png
 
 * Surfaces-> :doc:`Surface from Curves </nodes/surface/interpolating_surface>`
-* Surface-> :doc:`Evaluate Surface </nodes/surface/evaluate_surface>`
+* Surfaces-> :doc:`Evaluate Surface </nodes/surface/evaluate_surface>`
 * Transform-> :doc:`Bend Object Along Surface </nodes/transforms/bend_along_surface>`
 * Number-> :doc:`A Number </nodes/number/numbers>`
-* Surface-> :doc:`Evaluate Surface </nodes/surface/evaluate_surface>`
 * List->List Struct-> :doc:`List Split </nodes/list_struct/split>`
 * Viz-> :doc:`Viewer Draw </nodes/viz/viewer_draw_mk4>`
 * Scene-> :doc:`Bezier Input </nodes/exchange/bezier_in>`

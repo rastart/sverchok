@@ -62,7 +62,7 @@
     - Curve Primitives:
         - SvExLineCurveNode
         - SvCircleCurveMk2Node
-        - SvEllipseCurveNode
+        - SvEllipseCurveNodeMK2
         - SvRoundedRectangleNode
         - SvArc3ptCurveNode
         - SvArcSedCurveNode
@@ -87,8 +87,8 @@
         - SvExBezierCurveFitNode
     - Curve NURBS:
         - SvExNurbsCurveNode
-        - SvApproxNurbsCurveMk2Node
-        - SvExInterpolateNurbsCurveNode
+        - SvApproxNurbsCurveMk3Node
+        - SvExInterpolateNurbsCurveNodeMK2
         - SvFilletCurveNode
         - SvDeconstructCurveNode
         - SvNurbsCurveNodesNode
@@ -160,8 +160,8 @@
     - SvExMinSurfaceFromCurveNode
     - Surface NURBS:
         - SvExNurbsSurfaceNode
-        - SvExApproxNurbsSurfaceNode
-        - SvExInterpolateNurbsSurfaceNode
+        - SvExApproxNurbsSurfaceNodeMK2
+        - SvExInterpolateNurbsSurfaceNodeMK2
         - SvNurbsLoftNode
         - SvNurbsSweepNode
         - SvNurbsBirailNode
@@ -315,8 +315,8 @@
     - SvExVoronoi3DNode
     - SvExVoronoiSphereNode
     - SvVoronoiOnSurfaceNode
-    - SvVoronoiOnMeshNode
-    - SvVoronoiOnSolidNode
+    - SvVoronoiOnMeshNodeMK2
+    - SvVoronoiOnSolidNodeMK2
     - ---
     - SvLloyd2dNode
     - SvLloyd3dNode
@@ -443,7 +443,6 @@
         - ---
         - SvOpenSubdivisionNode
         - SvSubdivideNodeMK2
-        - SvSubdivideLiteNode
         - SvSubdivideToQuadsNode
         - SvUnsubdivideNode
         - SvOffsetLineNode
@@ -464,12 +463,6 @@
         - SvWireframeNode
         - SvPipeNode
         - SvMatrixTubeNode
-        - ---
-        - SvBManalyzinNode
-        - SvBMObjinputNode
-        - SvBMoutputNode
-        - SvBMtoElementNode
-        - SvBMOpsNodeMK2
 
 - CAD:
     - icon_name: TOOL_SETTINGS
@@ -484,7 +477,6 @@
     - SvRelaxMeshNode
     - SvSmoothLines
     - ---
-    - CrossSectionNode
     - SvBisectNode
     - SvCutObjBySurfaceNode
     - SvEdgesToFaces2D
@@ -659,8 +651,6 @@
 - Viz:
     - icon_name: RESTRICT_VIEW_OFF
     - extra_menu: ConnectionPartialMenu
-    - Sv3DviewPropsNode
-    - ---
     - SvViewerDrawMk4
     - SvMatrixViewer28
     - SvIDXViewer28
@@ -723,7 +713,6 @@
     - SvParticlesMK2Node
     - ---
     - SvSelectionGrabberLite
-    - SvObjEdit
     - ---
     - SvFrameInfoNodeMK2
     - SvTimerNode

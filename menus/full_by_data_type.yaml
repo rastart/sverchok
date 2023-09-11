@@ -132,7 +132,6 @@
         - ---
         - SvOpenSubdivisionNode
         - SvSubdivideNodeMK2
-        - SvSubdivideLiteNode
         - SvSubdivideToQuadsNode
         - SvUnsubdivideNode
         - SvOffsetLineNode
@@ -153,12 +152,6 @@
         - SvWireframeNode
         - SvPipeNode
         - SvMatrixTubeNode
-        - ---
-        - SvBManalyzinNode
-        - SvBMObjinputNode
-        - SvBMoutputNode
-        - SvBMtoElementNode
-        - SvBMOpsNodeMK2
 
     - Mesh CAD:
         - extra_menu: MeshPartialMenu  # to make the category available in another menu (1,2,3,4,5)
@@ -173,7 +166,6 @@
         - SvRelaxMeshNode
         - SvSmoothLines
         - ---
-        - CrossSectionNode
         - SvBisectNode
         - SvCutObjBySurfaceNode
         - SvEdgesToFaces2D
@@ -236,7 +228,7 @@
         - icon_name: OUTLINER_OB_CURVE
         - SvExLineCurveNode
         - SvCircleCurveMk2Node
-        - SvEllipseCurveNode
+        - SvEllipseCurveNodeMK2
         - SvRoundedRectangleNode
         - SvArc3ptCurveNode
         - SvArcSedCurveNode
@@ -264,8 +256,8 @@
     - Generate NURBS Curve:
         - icon_name: EVENT_N
         - SvExNurbsCurveNode
-        - SvApproxNurbsCurveMk2Node
-        - SvExInterpolateNurbsCurveNode
+        - SvApproxNurbsCurveMk3Node
+        - SvExInterpolateNurbsCurveNodeMK2
         - ---
         - SvGenerateKnotvectorNode
     - Modify Curve:
@@ -358,8 +350,8 @@
     - Generate NURBS Surface:
         - icon_name: EVENT_N
         - SvExNurbsSurfaceNode
-        - SvExApproxNurbsSurfaceNode
-        - SvExInterpolateNurbsSurfaceNode
+        - SvExApproxNurbsSurfaceNodeMK2
+        - SvExInterpolateNurbsSurfaceNodeMK2
         - SvNurbsLoftNode
         - SvNurbsSweepNode
         - SvNurbsBirailNode
@@ -514,8 +506,8 @@
     - SvExVoronoi3DNode
     - SvExVoronoiSphereNode
     - SvVoronoiOnSurfaceNode
-    - SvVoronoiOnMeshNode
-    - SvVoronoiOnSolidNode
+    - SvVoronoiOnMeshNodeMK2
+    - SvVoronoiOnSolidNodeMK2
     - ---
     - SvLloyd2dNode
     - SvLloyd3dNode
@@ -688,8 +680,6 @@
 - Viz:
     - icon_name: RESTRICT_VIEW_OFF
     - extra_menu: ConnectionPartialMenu
-    - Sv3DviewPropsNode
-    - ---
     - SvViewerDrawMk4
     - SvMatrixViewer28
     - SvIDXViewer28
@@ -752,7 +742,6 @@
     - SvParticlesMK2Node
     - ---
     - SvSelectionGrabberLite
-    - SvObjEdit
     - ---
     - SvFrameInfoNodeMK2
     - SvTimerNode

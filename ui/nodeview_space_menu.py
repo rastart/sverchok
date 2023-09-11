@@ -16,6 +16,7 @@
 #  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # ##### END GPL LICENSE BLOCK #####
+import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from pathlib import Path
@@ -33,7 +34,6 @@ from sverchok.ui.utils import get_menu_preset_path
 from sverchok.utils.context_managers import sv_preferences
 from sverchok.utils import yaml_parser
 from sverchok.utils.modules_inspection import iter_classes_from_module
-from sverchok.utils.logging import info, debug
 
 
 """
@@ -67,7 +67,7 @@ menu names:
 - UiToolsPartialMenu
 """
 
-
+logger = logging.getLogger('sverchok')
 CutSelf = TypeVar("CutSelf", bound="Category")
 sv_tree_types = {'SverchCustomTreeType', }
 
@@ -489,9 +489,9 @@ def setup_add_menu():
             use_preset_copy = False
 
     if use_preset_copy and not menu_file.exists():
-        info(f"Applying menu preset {default_menu_file} at startup")
+        logger.info(f"Applying menu preset {default_menu_file} at startup")
         shutil.copy(default_menu_file, menu_file)
-    debug(f"Using menu preset file: {menu_file}")
+    logger.debug(f"Using menu preset file: {menu_file}")
     add_node_menu = Category.from_config(yaml_parser.load(menu_file), 'All Categories', icon_name='RNA')
 
 def get_add_node_menu():
@@ -500,8 +500,13 @@ def get_add_node_menu():
         setup_add_menu()
     return add_node_menu
 
+
 class AddNodeOp(bl_operators.node.NodeAddOperator):
     extra_description: StringProperty()
+
+    # this option was moved from NodeAddOperator to NODE_OT_add_node
+    if bpy.app.version >= (3, 6):
+        type: StringProperty(name="Node Type", description="Node type")
 
     @classmethod
     def description(cls, _context, properties):
@@ -525,11 +530,15 @@ class SvNodeAddOperator(AddNodeOp, bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO', 'INTERNAL'}
 
     def execute(self, context):
-        node = self.create_node(context)
+        # it seems some logic from create_node was moved to new deselect_node method
+        if bpy.app.version >= (3, 6):
+            self.deselect_nodes(context)
+
+        node = self.create_node(context, self.type)
         apply_default_preset(node)
         return {'FINISHED'}
 
-    # if node is not available the operator is noe used - there is no need in poll
+    # if node is not available the operator is now used - there is no need in poll
 
 
 class ShowMissingDependsOperator(AddNodeOp, bpy.types.Operator):
@@ -689,9 +698,11 @@ def register():
 
 def unregister():
     add_node_menu.unregister()
-    for class_name in classes:
+    for class_name in reversed(classes):
         bpy.utils.unregister_class(class_name)
-    for category in presets.get_category_names():
+    for category in reversed(presets.get_category_names()):
         if category in preset_category_menus:
             bpy.utils.unregister_class(preset_category_menus[category])
+            # call of unregister not only on close Blender. So it is important to remove this category:
+            del preset_category_menus[category]
     bpy.types.NODE_MT_add.remove(sv_draw_menu)

@@ -30,10 +30,6 @@ from math import sin, cos, sqrt, acos, pi, atan
 import numpy as np
 from numpy import linalg
 from functools import wraps
-import time
-
-import bpy
-import bmesh
 import mathutils
 from mathutils import Matrix, Vector
 from mathutils.geometry import interpolate_bezier, intersect_line_line, intersect_point_line
@@ -41,16 +37,37 @@ from mathutils.geometry import interpolate_bezier, intersect_line_line, intersec
 from sverchok.utils.modules.geom_primitives import (
     circle, arc, quad, arc_slice, rect, grid, line)
 
-from sverchok.utils.sv_bmesh_utils import bmesh_from_pydata
-from sverchok.utils.sv_bmesh_utils import pydata_from_bmesh
-from sverchok.data_structure import match_long_repeat, describe_data_shape
-from sverchok.utils.math import np_mixed_product, np_dot
-from sverchok.utils.logging import debug, info
+from sverchok.data_structure import match_long_repeat
+from sverchok.utils.math import np_mixed_product
+from sverchok.utils.sv_logging import sv_logger
 
 # njit is a light-wrapper around numba.njit, if found
 from sverchok.dependencies import numba  # not strictly needed i think...
 from sverchok.utils.decorators_compilation import njit
 
+def bounding_box_aligned(verts):
+    # based on "3D Oriented bounding boxes": https://logicatcore.github.io/scratchpad/lidar/sensor-fusion/jupyter/2021/04/20/3D-Oriented-Bounding-Box.html
+    data = np.vstack(np.array(verts).transpose())
+    means = np.mean(data, axis=1)
+
+    cov = np.cov(data)
+    eval, evec = np.linalg.eig(cov)
+    centered_data = data - means[:,np.newaxis]
+    xmin, xmax, ymin, ymax, zmin, zmax = np.min(centered_data[0, :]), np.max(centered_data[0, :]), np.min(centered_data[1, :]), np.max(centered_data[1, :]), np.min(centered_data[2, :]), np.max(centered_data[2, :])
+    aligned_coords = np.matmul(evec.T, centered_data)
+    xmin, xmax, ymin, ymax, zmin, zmax = np.min(aligned_coords[0, :]), np.max(aligned_coords[0, :]), np.min(aligned_coords[1, :]), np.max(aligned_coords[1, :]), np.min(aligned_coords[2, :]), np.max(aligned_coords[2, :])
+
+    rectCoords = lambda x1, y1, z1, x2, y2, z2: np.array([[x1, x1, x2, x2, x1, x1, x2, x2],
+                                                        [y1, y2, y2, y1, y1, y2, y2, y1],
+                                                        [z1, z1, z1, z1, z2, z2, z2, z2]])
+
+    realigned_coords = np.matmul(evec, aligned_coords)
+    realigned_coords += means[:, np.newaxis]
+
+    rrc = np.matmul(evec, rectCoords(xmin, ymin, zmin, xmax, ymax, zmax))
+    rrc += means[:, np.newaxis]
+    rrc = rrc.transpose()
+    return tuple([rrc])
 
 identity_matrix = Matrix()
 
@@ -552,7 +569,7 @@ class Spline2D(object):
             norm = np.linalg.norm(n)
             if norm != 0:
                 n = n / norm
-            #debug("DU: {}, DV: {}, N: {}".format(du, dv, n))
+            # sv_logger.debug("DU: {}, DV: {}, N: {}".format(du, dv, n))
             result = tuple(n)
             self._normal_cache[(u,v)] = result
             return result
@@ -572,7 +589,7 @@ class GenerateLookup():
         self.acquire_lookup_table()
         self.get_buckets()
         # for idx, (k, v) in enumerate(sorted(self.lookup.items())):
-        #     debug(k, v)
+        #     sv_logger.debug(k, v)
 
     def find_bucket(self, factor):
         for bucket_min, bucket_max in zip(self.buckets[:-1], self.buckets[1:]):
@@ -673,7 +690,7 @@ def diameter(vertices, axis):
     if axis is None:
         distances = [(mathutils.Vector(v1) - mathutils.Vector(v2)).length for v1 in vertices for v2 in vertices]
         return max(distances)
-    elif isinstance(axis, tuple) or isinstance(axis, Vector):
+    elif isinstance(axis, tuple) or isinstance(axis, Vector) or isinstance(axis, list):
         axis = mathutils.Vector(axis).normalized()
         ds = [mathutils.Vector(vertex).dot(axis) for vertex in vertices]
         M = max(ds)
@@ -1177,7 +1194,7 @@ class PlaneEquation(object):
         output: LineEquation or None, in case two planes are parallel.
         """
         if self.is_parallel(plane2):
-            debug("{} is parallel to {}".format(self, plane2))
+            sv_logger.debug("{} is parallel to {}".format(self, plane2))
             return None
 
         direction = self.normal.cross(plane2.normal)

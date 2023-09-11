@@ -4,11 +4,14 @@ import numpy as np
 from mathutils import kdtree
 from mathutils.bvhtree import BVHTree
 
-from sverchok.utils.curve import SvCurve, SvIsoUvCurve
+from sverchok.utils.curve import SvIsoUvCurve
 from sverchok.utils.curve.nurbs import SvNurbsCurve
-from sverchok.utils.logging import debug, info, getLogger
+from sverchok.utils.sv_logging import sv_logger, get_logger
 from sverchok.utils.geom import PlaneEquation, LineEquation, locate_linear
 from sverchok.dependencies import scipy
+
+from mathutils import Vector
+from mathutils.geometry import intersect_plane_plane, intersect_line_plane, normal as face_normal
 
 if scipy is not None:
     from scipy.optimize import root_scalar, root, minimize_scalar, minimize
@@ -98,48 +101,239 @@ def nearest_point_on_curve(src_points, curve, samples=10, precise=True, method='
     Find nearest point on any curve.
     """
     if logger is None:
-        logger = getLogger()
+        logger = get_logger()
 
     t_min, t_max = curve.get_u_bounds()
+
 
     def init_guess(curve, points_from):
         us = np.linspace(t_min, t_max, num=samples)
 
         points = curve.evaluate_array(us).tolist()
-        #print("P:", points)
 
         polygons = [(i, i+1, i) for i in range(len(points)-1)]
-        tree = BVHTree.FromPolygons( points, polygons, all_triangles = True )
+        tree = BVHTree.FromPolygons( points, polygons, all_triangles = True ) # trick to search nearest points to edges
 
         us_out = []
         nearest_out = []
+        is_closed = curve.is_closed()
         for point_from in points_from:
-            nearest, normal, i, distance = tree.find_nearest( point_from )
+            # See: https://github.com/nortikin/sverchok/pull/4876 (ru)
+            # Find start point for next steps for finding nearest point.
+            nearest, normal, segment_i, distance = tree.find_nearest( point_from )
             nearest = np.array(nearest)
             
-            # find t of arc:
-            p0 = np.array(points[i])
-            p1 = np.array(points[i+1])
-            max_dist = abs(p0-p1).max()
-            dist_nearest_to_p0 = abs(nearest-p0).max()
-            if dist_nearest_to_p0==0:
-                t01=0
-                raw_t = us[i]
-                nearest_t = p0
-            elif dist_nearest_to_p0==max_dist:
-                t01 = 1
-                raw_t = us[i+1]
-                nearest_t = p1
-            else:
-                t01 = dist_nearest_to_p0/max_dist
-                raw_t = us[i] + t01*(us[i+1]-us[i]) # approximate nearest t by chorda
-                nearest_t = None #curve.evaluate(raw_t).tolist()  # later
+            # read this algorithm with image:
+            # 1. General description: https://user-images.githubusercontent.com/14288520/212554689-b210fae1-d61a-47d2-90c8-33d32bd84490.png
+            # 2. Examples: https://user-images.githubusercontent.com/14288520/212501468-69d43635-c7e5-4e7e-819c-d4e5bb34de0a.png
             
-            # t0    - [0-1] in interval us[i]-us[i+1]
-            # raw_t - translate t0 to curve t
-            # nearest_t - if t0==0 or 1 then use points, else None and calc later
-            us_out.append( (us[i], us[i+1], t01, raw_t, p0, nearest_t, p1 ) ) # interval to search minimum
-            nearest_out.append(tuple(nearest))
+            # What points t01 was used in this algorithm. Algorithm select other segments_i because of drawback of counting
+            log_t01 = []
+            # At first time get point of intersection with line segment not curve segment.
+            # If new point of intersection is not segment_i then select prev or next segment.
+            # If it is not help then raise exception and think again. )))
+            # 6 times is appoximating max count of attemps to count accurate point as nearest point.
+            # Algorithm can go up to 5 times of selecting 
+            for iter_over_segment in range(6):
+                if iter_over_segment>=5:
+                    raise TypeError( f'Can not calc start point #{points_from.index(point_from)} on segment {segment_i}, {point_from}. Drawback of counting algorithm. Exceed limit of iterations {iter_over_segment}.' )
+
+                # Go throght the segment of curve
+                # Search plane at begining of segment
+                if segment_i==0 and is_closed==False:
+                    # If current line segment is at begining of unclosed curve then searchable plane (red line) is perpendicular to current line segment
+                    # and plane's normal equals line segment (norm_1)
+                    # https://user-images.githubusercontent.com/14288520/212556100-841744af-2f89-4787-8471-6fb8f173f7d9.png
+                    p1 = np.array(points[segment_i+0])
+                    p2 = np.array(points[segment_i+1])
+                    norm_1 = Vector(p2-p1).normalized()
+                else:
+                    if segment_i==0 and is_closed==True:
+                        # If curve are closed then first and last points are equals then algorithm skip that point and
+                        # select previous point for calculation.
+                        # https://user-images.githubusercontent.com/14288520/212501785-fa7590bc-3acd-40bd-b4c6-65e31fc0b32b.png
+                        p0 = np.array(points[-2]) # skip -1 and select -2 (-1 and zero points are equals)
+                        p1 = np.array(points[0])
+                        p2 = np.array(points[1])
+                    else:
+                        # For other points select -1, 0, +1 points (If curve are closed or not closed it is not important)
+                        # https://user-images.githubusercontent.com/14288520/212501870-46b5dc10-6840-4047-b2cf-b9db13777a8e.png 
+                        p0 = np.array(points[segment_i-1])
+                        p1 = np.array(points[segment_i])
+                        p2 = np.array(points[segment_i+1])
+
+                    # Get bisect at point p1:
+                    # https://user-images.githubusercontent.com/14288520/212501932-2b26b943-7fdd-42a7-a171-6f644c360661.png 
+                    vec01 = Vector(p1-p0)
+                    vec01_norm = vec01.normalized()
+                    vec12 = Vector(p2-p1)
+                    vec12_norm = vec12.normalized()
+
+                    # A bisect is a normal norm_1 to start of curve segment
+                    norm_1 = (vec01_norm + vec12_norm).normalized()
+
+                
+                # Find plane at the end of segment
+                if segment_i==samples-2 and is_closed==False:
+                    # If current curve segment is last and curve is not closed then searchable plane is perpendicular to end of current
+                    # curve segment
+                    # https://user-images.githubusercontent.com/14288520/212530354-e4c94cde-e444-41a5-8a1a-96174aef462b.png
+                    p1 = np.array(points[segment_i+0])
+                    p2 = np.array(points[segment_i+1])
+                    norm_2 = Vector( p2-p1 ).normalized()
+                else:
+                    if segment_i==samples-2 and is_closed==True:
+                        # If curve is closed then skip start point of curve and get 1-st point (not zero point. segment_i+1==0 point)
+                        # https://user-images.githubusercontent.com/14288520/212530745-1bfcf416-fdca-464e-9791-56ac7a07161f.png
+                        p1 = np.array( points[segment_i+0] )
+                        p2 = np.array( points[segment_i+1] )
+                        p3 = np.array( points[  1] )
+                    else:
+                        # For other points takes current, current+1, current+2 points.
+                        # https://user-images.githubusercontent.com/14288520/212531194-9b8f1a07-f155-4bed-95ae-68a3479ad00b.png
+                        p1 = np.array(points[ segment_i ])
+                        p2 = np.array(points[ segment_i+1 ])
+                        p3 = np.array(points[ segment_i+2 ])
+                        
+                    # Calc bisect at the end of line segment and next line segment:
+                    vec12 = Vector(p2-p1)
+                    vec12_norm = vec12.normalized()
+                    vec23 = Vector(p3-p2)
+                    vec23_norm = vec23.normalized()
+
+                    # Bisect is a normal of searchable plane and is perpendicular of the end of segment:
+                    # https://user-images.githubusercontent.com/14288520/212531391-cf60e6c5-408c-4f8f-bdeb-91acf7b0c582.png
+                    norm_2 = (vec12_norm + vec23_norm).normalized()
+                
+                # There is two planes and their normals and now can be calculated line of intersection of planes,
+                # https://user-images.githubusercontent.com/14288520/212531588-d1b7385b-4146-4f4f-a546-dd56bfacd14e.png
+                line_point, line_vec = intersect_plane_plane(p1, norm_1, p2, norm_2)
+
+                if line_point is None or line_vec is None:
+                    # If planes are not intersected they are parallel and point tree.find_nearest is the nearest point at all.
+                    pass
+                elif segment_i==0 and is_closed==False and (nearest==p1).all():
+                    # If first point on curve is a nearest to point_from then tree.find_nearest is the result.
+                    # https://user-images.githubusercontent.com/14288520/212556932-f5e801e5-8fe0-4e96-845b-ecf237e72f14.png
+                    pass
+                elif segment_i==samples-2 and is_closed==False and (nearest==p2).all():
+                    # If last point on curve is a nearest to point_from then tree.find_nearest is the result.
+                    # https://user-images.githubusercontent.com/14288520/212556890-d721095d-1a38-4920-aa2a-b3aea804b3a4.png
+                    pass
+                else:
+                    # Create plane by line (norm_1-norm_2) and point (point_from) to find a cross with line segment_i. This point is a
+                    # first approximation to curve (point on a line segment of curve segment is a raw result and is better than simple perpendicular
+                    # to line segment from source point)
+                    face_p0, face_p1, face_p2 = line_point, line_point+line_vec, point_from
+                    face_norm = face_normal(face_p0, face_p1, face_p2)
+                    point_intersect = intersect_line_plane(p1, p2, point_from, face_norm)
+                    #print(f"segment_i={segment_i}, line_point={line_point.xyz}, point_intersect={point_intersect}")
+                    # Set nearest to the point of cross face_norm and segment_i
+                    # https://user-images.githubusercontent.com/14288520/212532084-a758d899-e7f9-474e-8a56-8c996b8e380c.png
+                    nearest = np.array(point_intersect)
+
+                # Find raw_t on a segment
+
+                segment_p0 = np.array(points[segment_i])
+                segment_p1 = np.array(points[segment_i+1])
+
+                segment_p10 = segment_p1 - segment_p0
+                max_dist = segment_p10[abs( segment_p10 ).argmax()]
+                
+                nearest_p0 = nearest - segment_p0
+                # what distance to p0 by axis is max?
+                # https://user-images.githubusercontent.com/14288520/212532480-89b93d9d-7019-4f58-95a7-76ef537a2001.png
+                dist_nearest_to_p0 = nearest_p0[abs(nearest_p0).argmax()] 
+
+                nearest_point = None
+                us0 = us[segment_i]
+                # Count of segments always less count of points.
+                us1 = us[segment_i+1]
+                
+                t01 = dist_nearest_to_p0/max_dist
+                # If t is out of range[0-1] then select previous or next segment. Some times source points are very close to
+                # the end points of line segment and algorithm start switch forward and back between selecting of sectors endless.
+                # https://user-images.githubusercontent.com/14288520/212533422-8cd0b4eb-6013-47b3-a80a-607cc55e5daa.png
+                
+                # Test switching is cyclic.
+                if t01 in log_t01:
+                    # Manually select t01:
+                    if t01<0: #if abs(t01)<0.00001:
+                        t01 = 0
+                    elif t01>1: #if abs(t01-1)<0.00001:
+                        t01 = 1
+                    else:
+                        # This is strange point of algorithm. I don't know what to do if this happens. (Never happens before)
+                        pass
+                else:
+                    # Save t01 to test cyclic in the future
+                    log_t01.append( t01 )
+
+                if t01<0 and segment_i==0 and is_closed==False:
+                    # if t01 is on the left of left point of curve if curve is unclose then set this point as nearest.
+                    # https://user-images.githubusercontent.com/14288520/212534357-1170f94c-d0c4-4dee-b6b6-ef0e420341b2.png
+                    t01=0
+                    raw_t = us[segment_i]
+                    nearest_point = segment_p0
+                elif t01<0 and segment_i==0 and is_closed==True:
+                    # If t01 is on the left of left point of curve if curve is closed then select last segment
+                    # of curve and recalc nearest
+                    # https://user-images.githubusercontent.com/14288520/212535108-b1f552ee-5ddd-487b-8482-14b977a417a6.png
+                    segment_i = samples-2
+                    continue
+                elif t01<0:
+                    # if t01 is on the left of any middle of the curve segments then takes previous segment and recalc nearest point
+                    # https://user-images.githubusercontent.com/14288520/212535214-ad2ceaf9-7014-43a4-865d-0305a54a4797.png
+                    segment_i = segment_i-1
+                    continue
+                elif t01>1 and segment_i==samples-2 and is_closed==False:
+                    # If t01 is right of right point on curve and curve is unclosed then select this point as nearest.
+                    # https://user-images.githubusercontent.com/14288520/212535765-6eb06d65-4bb0-4404-8578-11c86697e95e.png
+                    t01 = 1
+                    raw_t = us[segment_i+1]
+                    nearest_point = segment_p1
+                elif t01>1 and segment_i==samples-2 and is_closed==True:
+                    # If t01 is right of right point on curve and curve is closed then select first segment and go recalc
+                    # https://user-images.githubusercontent.com/14288520/212535966-88fa3d52-5118-4560-ad9c-bc6e9d1bfa69.png
+                    segment_i = 0
+                    continue
+                elif t01>1:
+                    # If t01 is right of the middle segment on curve then select next segment and go recalc
+                    # https://user-images.githubusercontent.com/14288520/212536223-956a7166-e58c-4e39-b7bf-7c43f0db5dc5.png
+                    segment_i = segment_i+1
+                    continue
+                else:
+                    # If t01 inside of segment then calc t01 projection.
+                    # https://user-images.githubusercontent.com/14288520/212536439-776b4881-d746-44ea-b6b7-2fca8d9bd5ca.png
+                    raw_t = us[segment_i] + t01*(us[segment_i+1]-us[segment_i])
+                
+                # Extend search range to surrounding segments because calculation can out of single segment.
+                # Test if curve is closed.
+                # https://user-images.githubusercontent.com/14288520/212537114-6d644998-5892-4fcf-b0ad-d5dc1bdbe0fd.png
+                arr_intervals = [ [ us0, us1 ], ] 
+                if segment_i==0:
+                    us0 = us[segment_i]
+                    # Third point is a transfer to start of curve. Use for test requirement to go to the next interval.
+                    arr_intervals.append( [ us[segment_i-2], us[segment_i-1], us[0] ] )
+                else:
+                    us0 = us[segment_i-1]
+                    arr_intervals[0][0] = us0
+
+                if segment_i==samples-2:
+                    us1 = us[segment_i+1]
+                    # Third curve is a transfer to the end of curve.
+                    arr_intervals.append( [ us[0], us[1], us[samples-1] ] )
+                else:
+                    us1 = us[segment_i+2]
+                    arr_intervals[0][1] = us1
+                
+                # t0    - [0-1] in interval us[segment_i]-us[segment_i+1]
+                # raw_t - translate t0 to curve t
+                # nearest_t - if t0==0 or 1 then use points, else None and calc later
+                us_out.append( ( arr_intervals, t01, raw_t, segment_p0, nearest_point, segment_p1 ) ) # interval to search minimum
+                nearest_out.append(tuple(nearest))
+
+                break # for iter_over_segment in range(6):
 
         return us_out, np.array(nearest_out)
 
@@ -152,33 +346,75 @@ def nearest_point_on_curve(src_points, curve, samples=10, precise=True, method='
     result_points = []
     for src_point, interval, init_point in zip(src_points, intervals, init_points):
 
-        t01       = interval[2]
-        res_t     = interval[3]
-        res_point = interval[5]  # remark: may be None. Calc of None later after getting final t.
+        t01       = interval[1]
+        res_t     = interval[2]
+        res_point = interval[4]  # remark: may be None. Calc of None will be later after getting final t.
 
         if precise==True:
             if t01==0 or t01==1:
                 pass
             else:
-                raw_t  = interval[3]
-                bracket = (interval[0], raw_t, interval[1])
-                bounds  = (interval[0], interval[1])            
+                raw_t  = interval[2]
+                bracket = (interval[0][0][0], raw_t, interval[0][0][1])
+                bounds  = (interval[0][0][0], interval[0][0][1])
                 
                 logger.debug("T_min %s, T_max %s, init_t %s", t_min, t_max, raw_t)
 
                 if method == 'Brent' or method == 'Golden':
-                    bracket = (interval[0], interval[1])
-                    result = minimize_scalar(goal,
-                                #bounds = bounds, - Use of `bounds` is incompatible with 'method=Brent'.
-                                bracket = bracket,
-                                method = method
-                            )
+                    t_segments = interval[0]
+                    # Функция поиска точной минимальной точки может запускаться несколько раз для одной точки,
+                    # т.к. диапозонов может быть 2. Определяется алгоритмом init_guess. Наличие минимума возможно
+                    # и в первом цикле, поэтому не всегда расчёт минимума запускается на втором интервале.
+                    for I in range( len(t_segments) ):
+                        t_segments_I = t_segments[I]
+                        bracket = (t_segments_I[0], t_segments_I[1])
+                        result = minimize_scalar(goal,
+                                    #bounds = bounds, - Use of `bounds` is incompatible with 'method=Brent/Golden'.
+                                    bracket = bracket,
+                                    method = method
+                                )
+                        if not result.success:
+                            break
+                        if I<=len(t_segments)-2:
+                            # если результат находится на границе следующего сегмента (не в начале, а именно на одном из концов,
+                            # т.к. направление поиска внутри сегментов неизвестно). Именно тут используется третье число,
+                            # т.к. оно может быть признаком перехода к сегменту с другого конца кривой.
+                            # Пример "рассуждения такой": алгоритм точного поиска вычисляет результат, а тут проверяется,
+                            # если результат совпадает с одной из границ следующего диапазона, то перейти к расчёту в следующем
+                            # диапазоне. В результате может оказаться, что граница диапазона является минимальной точкой.
+                            # лишний раз убедились в том, что не ошиблись.
+                            if ( result.x in t_segments[I+1] ) == False:
+                                break
                 else:
-                    result = minimize_scalar(goal,
-                                bounds = bounds,
-                                bracket = bracket,
-                                method = method
-                            )
+                    raw_t  = interval[2]
+                    t_segments = interval[0]
+                    # Функция поиска точной минимальной точки может запускаться несколько раз для одной точки,
+                    # т.к. диапозонов может быть 2. Определяется алгоритмом init_guess. Наличие минимума возможно
+                    # и в первом цикле, поэтому не всегда расчёт минимума запускается на втором интервале.
+                    for I in range( len(t_segments) ):
+                        t_segments_I = t_segments[I]
+                        bracket = (t_segments_I[0], raw_t, t_segments_I[1])
+                        bounds  = (t_segments_I[0], t_segments_I[1])
+                        result = minimize_scalar(goal,
+                                    bounds = bounds,
+                                    bracket = bracket,
+                                    method = method
+                                )
+                        if not result.success:
+                            break
+                        #print(f'result.x={result.x}')
+                        if I<=len(t_segments)-2:
+                            # если результат находится на границе следующего сегмента (не в начале, а именно на одном из концов,
+                            # т.к. направление поиска внутри сегментов неизвестно). Именно тут используется третье число,
+                            # т.к. оно может быть признаком перехода к сегменту с другого конца кривой.
+                            # Пример "рассуждения такой": алгоритм точного поиска вычисляет результат, а тут проверяется,
+                            # если результат совпадает с одной из границ следующего диапазона, то перейти к расчёту в следующем
+                            # диапазоне. В результате может оказаться, что граница диапазона является минимальной точкой.
+                            # лишний раз убедились в том, что не ошиблись.
+                            if ( any( abs(result.x-x)<0.00001 for x in t_segments[I+1] ) ) == False:
+                                break
+                            else:
+                                raw_t = result.x # Надо запомнить, т.к. новое значение этого параметра пойдёт на второй цикл поиска минимума (если второй цикл будет).
 
                 if not result.success:
                     if hasattr(result, 'message'):
@@ -663,7 +899,7 @@ def intersect_curve_surface(curve, surface, init_samples=10, raycast_samples=10,
                 break
             step = np.linalg.norm(point - prev_point)
             if step < tolerance and i > 1:
-                debug("After ortho: Point {}, prev {}, iter {}".format(point, prev_point, i))
+                sv_logger.debug("After ortho: Point {}, prev {}, iter {}".format(point, prev_point, i))
                 point_found = True
                 break
 
@@ -819,7 +1055,7 @@ def intersect_curve_plane_ortho(curve, plane, init_samples=10, ortho_samples=10,
             point = ortho.nearest
             step = np.linalg.norm(point - prev_point)
             if step < tolerance:
-                debug("After ortho: Point {}, prev {}, iter {}".format(point, prev_point, i))
+                sv_logger.debug("After ortho: Point {}, prev {}, iter {}".format(point, prev_point, i))
                 break
 
             prev_point = point
@@ -833,7 +1069,7 @@ def intersect_curve_plane_ortho(curve, plane, init_samples=10, ortho_samples=10,
             point = np.array(point)
             step = np.linalg.norm(point - prev_point)
             if step < tolerance:
-                debug("After raycast: Point {}, prev {}, iter {}".format(point, prev_point, i))
+                sv_logger.debug("After raycast: Point {}, prev {}, iter {}".format(point, prev_point, i))
                 break
 
             prev_prev_point = prev_point
@@ -990,7 +1226,7 @@ def intersect_curve_plane(curve, plane, method = EQUATION, **kwargs):
 
 def curve_extremes(curve, field, samples=10, direction = 'MAX', on_fail = 'FAIL', logger=None):
     if logger is None:
-        logger = getLogger()
+        logger = get_logger()
 
     def goal(t):
         p = curve.evaluate(t)

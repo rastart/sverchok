@@ -1,4 +1,3 @@
-import sverchok
 from sverchok.utils.testing import *
 
 
@@ -52,8 +51,6 @@ class DocumentationTests(SverchokTestCase):
 
     def test_node_docs_existance(self):
         known_problems = """
-obj_edit.py
-BMOperatorsMK2.py
 uv_texture.py
 vertex_colors_mk3.py
 sort_blenddata.py
@@ -68,10 +65,6 @@ color_uv_texture.py
 filter_blenddata.py
 interpolation_mk2.py
 numpy_array.py
-bmesh_obj_in.py
-bmesh_out.py
-bmesh_to_element.py
-bmesh_analyzer_big.py
 mesh_beautify.py
 pulga_physics.py
 limited_dissolve.py
@@ -79,12 +72,10 @@ limited_dissolve_mk2.py
 mesh_separate_mk2.py
 approx_subd_to_nurbs.py
 vd_attr_node_mk2.py
-scalar_field_point.py
 quads_to_nurbs.py
 location.py
 sun_position.py
 flip_surface.py
-ruled_surface.py
 """.split("\n")
 
         for module_name in self.node_file_names:

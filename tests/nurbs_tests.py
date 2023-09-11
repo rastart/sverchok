@@ -526,7 +526,7 @@ class OtherNurbsTests(SverchokTestCase):
         inserted_kv = inserted.get_knotvector()
         k =  np.searchsorted(inserted_kv, knot, side='right')-1
         s = sv_knotvector.find_multiplicity(inserted_kv, knot)
-        print("K:", k, "S:", s)
+        # print("K:", k, "S:", s)
         removed = inserted.remove_knot(knot, 1)
         self.assert_numpy_arrays_equal(removed.get_knotvector(), kv, precision=8)
 
@@ -893,7 +893,7 @@ class InterpolateTests(SverchokTestCase):
         self.assert_numpy_arrays_equal(ctrlpts, expected_ctrlpts, precision=6)
 
     def test_interpolate_4d(self):
-        "NURBS Interpolation in homogenous coordinates"
+        "NURBS Interpolation in homogeneous coordinates"
         points = np.array([[0,0,0,1], [1,0,0,2], [1,1,0,1]], dtype=np.float64)
         degree = 2
         curve = SvNurbsMaths.interpolate_curve(SvNurbsMaths.NATIVE, degree, points)
