@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intersect Edges &mdash; Sverchok 1, 2, 0 documentation</title>
@@ -12,12 +12,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/documentation_options.js?v=773c2105"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -30,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../main.html" class="icon icon-home"> Sverchok
-            <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../main.html" class="icon icon-home">
+            Sverchok
+              <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1, 2, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -154,7 +155,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../main.html" class="icon icon-home"></a></li>
+      <li><a href="../../main.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../nodes.html">Nodes</a></li>
           <li class="breadcrumb-item"><a href="modifier_change_index.html">Modifier Change</a></li>
       <li class="breadcrumb-item active">Intersect Edges</li>
@@ -168,10 +169,10 @@
            <div itemprop="articleBody">
              
   <section id="intersect-edges">
-<h1>Intersect Edges<a class="headerlink" href="#intersect-edges" title="Permalink to this heading">¶</a></h1>
+<h1>Intersect Edges<a class="headerlink" href="#intersect-edges" title="Link to this heading">¶</a></h1>
 <img alt="https://user-images.githubusercontent.com/28003269/70894030-a7c74080-2005-11ea-8594-dced40b05c03.png" src="https://user-images.githubusercontent.com/28003269/70894030-a7c74080-2005-11ea-8594-dced40b05c03.png" />
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">¶</a></h2>
 <p>The node is designed for finding intersections of inputs edges and returns mesh based on intersection result.</p>
 <p>This node contains several algorithm of finding edge intersections:</p>
 <p><strong>Initial algorithm:</strong></p>
@@ -207,15 +208,9 @@ Also it is not design for such cases where one edge is intersect with all or mos
 It’s available only with Blender 2.81+</p>
 </section>
 <section id="benchmark-of-2d-algorithms">
-<h2>Benchmark of 2D algorithms<a class="headerlink" href="#benchmark-of-2d-algorithms" title="Permalink to this heading">¶</a></h2>
+<h2>Benchmark of 2D algorithms<a class="headerlink" href="#benchmark-of-2d-algorithms" title="Link to this heading">¶</a></h2>
 <p>In seconds:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 45%" />
-<col style="width: 16%" />
-<col style="width: 22%" />
-<col style="width: 16%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>number of intersections</p></td>
 <td><p>Alg 1</p></td>
@@ -251,20 +246,20 @@ It’s available only with Blender 2.81+</p>
 </table>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h2>
 <p>Verts and Edges only. Warning: Does not support faces, or Vectorized (nested lists) input</p>
 <p><em>Note: sweep algorithm is vectorized</em></p>
 </section>
 <section id="parameters-n-panel">
-<h2>Parameters N-panel<a class="headerlink" href="#parameters-n-panel" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters N-panel<a class="headerlink" href="#parameters-n-panel" title="Link to this heading">¶</a></h2>
 <p>Epsilon - For comparing float figures. Does not effect on performance.</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading">¶</a></h2>
 <p>Vertices and Edges, the mesh does not preserve any old vertex or edge index ordering due to the Hashing algorithm used for fast intersection lookups.</p>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <img alt="https://cloud.githubusercontent.com/assets/619340/2811581/16032c72-ce26-11e3-9055-925d2cd03719.png" src="https://cloud.githubusercontent.com/assets/619340/2811581/16032c72-ce26-11e3-9055-925d2cd03719.png" />
 <p>See the progress of how this node came to life <a class="reference external" href="https://github.com/nortikin/sverchok/issues/109">here</a> (gifs, screenshots)</p>
 </section>

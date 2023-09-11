@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mask Converter &mdash; Sverchok 1, 2, 0 documentation</title>
@@ -12,12 +12,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/documentation_options.js?v=773c2105"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -30,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../main.html" class="icon icon-home"> Sverchok
-            <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../main.html" class="icon icon-home">
+            Sverchok
+              <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1, 2, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -119,7 +120,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../main.html" class="icon icon-home"></a></li>
+      <li><a href="../../main.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../nodes.html">Nodes</a></li>
           <li class="breadcrumb-item"><a href="list_masks_index.html">List Masks</a></li>
       <li class="breadcrumb-item active">Mask Converter</li>
@@ -133,15 +134,15 @@
            <div itemprop="articleBody">
              
   <section id="mask-converter">
-<h1>Mask Converter<a class="headerlink" href="#mask-converter" title="Permalink to this heading">¶</a></h1>
+<h1>Mask Converter<a class="headerlink" href="#mask-converter" title="Link to this heading">¶</a></h1>
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188221908-30557dfb-9fb6-434a-ac7e-fce30ab8658a.png"><img alt="https://user-images.githubusercontent.com/14288520/188221908-30557dfb-9fb6-434a-ac7e-fce30ab8658a.png" src="https://user-images.githubusercontent.com/14288520/188221908-30557dfb-9fb6-434a-ac7e-fce30ab8658a.png" /></a>
 <section id="functionality">
-<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
+<h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">¶</a></h2>
 <p>This node allows to convert masks that are to be applied to different types of mesh elements. For example, it can convert mask on vertices to mask for faces, or mask for edges to mask for vertices, and so on.</p>
 <p>Type of mask which is provided at input is defined by <strong>From</strong> parameter. Masks of all other types are available as outputs.</p>
 </section>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h2>
 <p>This node has the following inputs:</p>
 <ul class="simple">
 <li><p><strong>Vertices</strong>. This input is available and required only when parameter <strong>From</strong> is set to <strong>Edges</strong> or <strong>Faces</strong>.</p></li>
@@ -151,7 +152,7 @@
 </ul>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <p>This node has the following parameters:</p>
 <ul class="simple">
 <li><p><strong>From</strong>. This parameter determines what type of mask you have as input. The following values are supported:</p>
@@ -171,7 +172,7 @@
 </ul>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading">¶</a></h2>
 <p>This node has the following outputs:</p>
 <ul class="simple">
 <li><p><strong>VerticesMask</strong>. Mask for vertices. This output is not available if parameter <strong>From</strong> is set to <strong>Vertices</strong>.</p></li>
@@ -180,13 +181,13 @@
 </ul>
 </section>
 <section id="see-also">
-<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Transform-&gt; <a class="reference internal" href="../transforms/transform_select.html"><span class="doc">Transform Select</span></a></p></li>
 </ul>
 </section>
 <section id="examples-of-usage">
-<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Permalink to this heading">¶</a></h2>
+<h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Link to this heading">¶</a></h2>
 <p><strong>Show part of cube with vertex selected by edges:</strong></p>
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188229456-1fe95a77-f3be-42dd-9a7f-943cb2ede6c9.png"><img alt="https://user-images.githubusercontent.com/14288520/188229456-1fe95a77-f3be-42dd-9a7f-943cb2ede6c9.png" src="https://user-images.githubusercontent.com/14288520/188229456-1fe95a77-f3be-42dd-9a7f-943cb2ede6c9.png" /></a>
 <ul class="simple">
@@ -217,7 +218,7 @@
 <p><strong>Select edges of randomly selected faces:</strong></p>
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/28003269/83627743-7a1c8680-a5a8-11ea-99d1-ff9f01762216.png"><img alt="https://user-images.githubusercontent.com/28003269/83627743-7a1c8680-a5a8-11ea-99d1-ff9f01762216.png" src="https://user-images.githubusercontent.com/28003269/83627743-7a1c8680-a5a8-11ea-99d1-ff9f01762216.png" /></a>
 <hr class="docutils" />
-<p>Filter vertices and edges if some faces hided:</p>
+<p>Filter vertices and edges if some faces hidden:</p>
 <a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/188969070-a084e68a-a657-4106-b9bf-a538f218a16c.png"><img alt="https://user-images.githubusercontent.com/14288520/188969070-a084e68a-a657-4106-b9bf-a538f218a16c.png" src="https://user-images.githubusercontent.com/14288520/188969070-a084e68a-a657-4106-b9bf-a538f218a16c.png" /></a>
 <ul class="simple">
 <li><p>Generator-&gt; <a class="reference internal" href="../generator/box_mk2.html"><span class="doc">Box</span></a></p></li>

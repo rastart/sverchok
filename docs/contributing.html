@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contribute &mdash; Sverchok 1, 2, 0 documentation</title>
@@ -12,12 +12,9 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/documentation_options.js?v=773c2105"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -28,15 +25,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="main.html" class="icon icon-home"> Sverchok
-            <img src="_static/title_big_b.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="main.html" class="icon icon-home">
+            Sverchok
+              <img src="_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1, 2, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -66,7 +67,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="main.html" class="icon icon-home"></a></li>
+      <li><a href="main.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Contribute</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/contributing.rst.txt" rel="nofollow"> View page source</a>
@@ -78,9 +79,9 @@
            <div itemprop="articleBody">
              
   <section id="contribute">
-<h1>Contribute<a class="headerlink" href="#contribute" title="Permalink to this heading">¶</a></h1>
+<h1>Contribute<a class="headerlink" href="#contribute" title="Link to this heading">¶</a></h1>
 <section id="our-workflow">
-<h2>Our workflow:<a class="headerlink" href="#our-workflow" title="Permalink to this heading">¶</a></h2>
+<h2>Our workflow:<a class="headerlink" href="#our-workflow" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>You have the freedom to code how you like, but follow pep8 and use the style of existing nodes. Pep8 using PyLint if your editor has it, search our codebase for “pylint ignore”, because there are rules we routinely and consciously ignore. But.. the vast majority of pep8 is solid gold, and part of the path for us to accept your code.</p></li>
 <li><p>Agile software development - look <a class="reference external" href="http://en.wikipedia.org/wiki/Agile_software_development">http://en.wikipedia.org/wiki/Agile_software_development</a> here.</p></li>
@@ -91,7 +92,7 @@
 </ol>
 </section>
 <section id="what-not-to-do">
-<h2>What not to do:<a class="headerlink" href="#what-not-to-do" title="Permalink to this heading">¶</a></h2>
+<h2>What not to do:<a class="headerlink" href="#what-not-to-do" title="Link to this heading">¶</a></h2>
 <p>Doing these things will break old layouts or have other unintended consequences.</p>
 <ol class="arabic simple">
 <li><p>Change <code class="docutils literal notranslate"><span class="pre">bl_idname</span></code> of a node</p></li>
@@ -102,7 +103,7 @@
 </ol>
 </section>
 <section id="helpful-hints">
-<h2>Helpful hints<a class="headerlink" href="#helpful-hints" title="Permalink to this heading">¶</a></h2>
+<h2>Helpful hints<a class="headerlink" href="#helpful-hints" title="Link to this heading">¶</a></h2>
 <p>In blender console you can easily inspect the sverchok system by writing:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sverchok</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">sverchok</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
@@ -110,7 +111,7 @@
 </div>
 </section>
 <section id="to-create-a-node">
-<h2>To create a node:<a class="headerlink" href="#to-create-a-node" title="Permalink to this heading">¶</a></h2>
+<h2>To create a node:<a class="headerlink" href="#to-create-a-node" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Make a scripted node to test the idea.</p></li>
 <li><p>Show your node to us in an issue or create branch or fork of master in github. If it
@@ -123,7 +124,7 @@ is a huge complex job we can make you collaborator.</p></li>
 </ol>
 </section>
 <section id="some-rules">
-<h2>SOME RULES:<a class="headerlink" href="#some-rules" title="Permalink to this heading">¶</a></h2>
+<h2>SOME RULES:<a class="headerlink" href="#some-rules" title="Link to this heading">¶</a></h2>
 <ol class="arabic">
 <li><p>All classes that are subclasses of blender classes - have to have prefix Sv, ie SvColors.</p></li>
 <li><p>node_tree.py contains base classes of node tree and, maybe you need to create collection property or new socket (for

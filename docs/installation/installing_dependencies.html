@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installing dependencies &mdash; Sverchok 1, 2, 0 documentation</title>
@@ -12,12 +12,9 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/documentation_options.js?v=773c2105"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -30,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../main.html" class="icon icon-home"> Sverchok
-            <img src="../_static/title_big_b.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../main.html" class="icon icon-home">
+            Sverchok
+              <img src="../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1, 2, 0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -81,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../main.html" class="icon icon-home"></a></li>
+      <li><a href="../main.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="installation.html">Installation</a></li>
       <li class="breadcrumb-item active">Installing dependencies</li>
       <li class="wy-breadcrumbs-aside">
@@ -94,7 +95,7 @@
            <div itemprop="articleBody">
              
   <section id="installing-dependencies">
-<h1>Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this heading">¶</a></h1>
+<h1>Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Link to this heading">¶</a></h1>
 <p>Sverchok can use several external libraries, that provide some mathematical or other functions.
 We call such libraries “Dependencies”. When these libraries are available, you will be able to
 use much more nodes in Sverchok. If you do not need all these features, you can skip installation
@@ -114,7 +115,7 @@ output.</p>
 button which opens the browser on an official web site of corresponding
 library, so you can find installation instructions.</p>
 <section id="install-pip">
-<h2>Install pip<a class="headerlink" href="#install-pip" title="Permalink to this heading">¶</a></h2>
+<h2>Install pip<a class="headerlink" href="#install-pip" title="Link to this heading">¶</a></h2>
 <p>In some cases, it may appear that Blender’s python already knows about your
 system’s installation of python (python is usually installed by default on most
 Linux distros). In such cases, you may use just <cite>pip install something</cite> to
@@ -146,9 +147,9 @@ $ /path/to/blender/2.xx/python/bin/python3 -m pip install --upgrade pip setuptoo
 <p>Please refer to <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">official pip site</a> for official installation instructions.</p>
 </section>
 <section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h2>
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
 <section id="i-can-t-install-dependencies-on-windows">
-<h3>I can’t install dependencies on Windows<a class="headerlink" href="#i-can-t-install-dependencies-on-windows" title="Permalink to this heading">¶</a></h3>
+<h3>I can’t install dependencies on Windows<a class="headerlink" href="#i-can-t-install-dependencies-on-windows" title="Link to this heading">¶</a></h3>
 <p>It can appear that the problem is in filesystem permissions. Try running Blender from an administrator
 account and install dependencies in this mode.</p>
 <p>Another possibility is to use a prepared archive with Python libraries, for Blender 2.91
@@ -162,13 +163,13 @@ use the 2.91 archive, and for 2.93, use the 2.92 archive.</p>
 <p>If you experience some problems with use of this Zip archive, please report them in a github issue.</p>
 </section>
 <section id="i-can-t-install-dependencies-on-linux-while-using-blender-installed-from-snap">
-<h3>I can’t install dependencies on Linux, while using Blender installed from Snap<a class="headerlink" href="#i-can-t-install-dependencies-on-linux-while-using-blender-installed-from-snap" title="Permalink to this heading">¶</a></h3>
+<h3>I can’t install dependencies on Linux, while using Blender installed from Snap<a class="headerlink" href="#i-can-t-install-dependencies-on-linux-while-using-blender-installed-from-snap" title="Link to this heading">¶</a></h3>
 <p>Snap creates readonly file system, so you can’t put dependencies into it. The only way known to work
 reliably is to not use Blender from Snap for Sverchok, if you want to use dependencies.
 The recommended way is to just download Blender’s <cite>tar.xz</cite> from blender.org and unpack it.</p>
 </section>
 <section id="pip-install-says-that-the-package-is-already-installed-but-sverchok-can-t-see-it">
-<h3>Pip install says that the package is already installed, but Sverchok can’t see it<a class="headerlink" href="#pip-install-says-that-the-package-is-already-installed-but-sverchok-can-t-see-it" title="Permalink to this heading">¶</a></h3>
+<h3>Pip install says that the package is already installed, but Sverchok can’t see it<a class="headerlink" href="#pip-install-says-that-the-package-is-already-installed-but-sverchok-can-t-see-it" title="Link to this heading">¶</a></h3>
 <p>It can appear that you have the package installed into your system-wide or user-wide
 Python installation, for example into <code class="docutils literal notranslate"><span class="pre">~/.local/lib/python/...</span></code>. In this case Pip will
 see that the package is installed, but Sverchok will not be able to access it. Try to run:</p>
@@ -182,7 +183,7 @@ see that the package is installed, but Sverchok will not be able to access it. T
 <p>This time you should see that pip is actually installing package.</p>
 </section>
 <section id="other-troubles-with-pip">
-<h3>Other troubles with pip<a class="headerlink" href="#other-troubles-with-pip" title="Permalink to this heading">¶</a></h3>
+<h3>Other troubles with pip<a class="headerlink" href="#other-troubles-with-pip" title="Link to this heading">¶</a></h3>
 <p>If you admit some kind of errors with pip, you can try:
 Wipe all versions of pip from <cite>2.90pythonlibsite-packages</cite> and then
 run <cite>2.90pythonbin&gt; ./python.exe -m ensurepip -U</cite></p>
