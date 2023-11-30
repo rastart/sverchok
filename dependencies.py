@@ -177,6 +177,21 @@ try:
 except ImportError:
     pyOpenSubdiv = None 
 
+numexpr_d = sv_dependencies["numexpr"] = SvDependency("numexpr","https://github.com/pydata/numexpr")
+numexpr_d.pip_installable = True
+try:
+    import numexpr
+    numexpr_d.module = numexpr
+except ImportError:
+    numexpr = None 
+
+ezdxf_d = sv_dependencies["ezdxf"] = SvDependency("ezdxf","https://github.com/mozman/ezdxf")
+ezdxf_d.pip_installable = True
+try:
+    import ezdxf
+    ezdxf_d.module = ezdxf
+except ImportError:
+    ezdxf = None 
 
 settings.pip = pip
 settings.sv_dependencies = sv_dependencies

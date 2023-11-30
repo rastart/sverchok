@@ -91,7 +91,11 @@ class EnterExitGroupNodes(bpy.types.Operator):
     def execute(self, context):
         node = context.active_node
         if node and hasattr(node, 'node_tree'):
-            bpy.ops.node.edit_group_tree({'node': node})
+            if bpy.app.version >= (3, 2):
+                with context.temp_override(node=node):
+                    bpy.ops.node.edit_group_tree()
+            else:
+                bpy.ops.node.edit_group_tree({'node': node})
         elif node and hasattr(node, 'gn_tree'):  # GN Viewer
             bpy.ops.node.sv_edit_gn_tree(
                 tree_name=node.id_data.name, node_name=node.name)
@@ -224,9 +228,13 @@ def add_keymap():
         kmi = km.keymap_items.new('node.sv_node_connector', 'V', 'PRESS')
         nodeview_keymaps.append((km, kmi))
 
+        # Ctrl+Z  | Zoom to node and vice versa
         kmi = km.keymap_items.new('node.zoom_to_node', 'Z', 'PRESS', alt=True)
         nodeview_keymaps.append((km, kmi))
 
+        # Ctrl+Shift+H  | Hide and show Viewer Draw node
+        kmi = km.keymap_items.new('node.sv_node_vd_toggle', 'H', 'PRESS', shift=True, ctrl=True)
+        nodeview_keymaps.append((km, kmi))
 
 def remove_keymap():
 

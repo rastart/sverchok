@@ -153,8 +153,24 @@ def add_mesh_to_bmesh(bm, verts, edges=None, faces=None, sv_index_name=None, upd
     new_edge = bm.edges.new
     new_face = bm.faces.new
     bm_verts = [new_vert(co) for co in verts]
-    [new_edge((bm_verts[i1], bm_verts[i2])) for i1, i2 in edges or []]
-    [new_face([bm_verts[i] for i in face]) for face in faces or []]
+
+    #[new_edge((bm_verts[i1], bm_verts[i2])) for i1, i2 in edges or []] # не надо так делать
+    if edges is not None:
+        for i1, i2 in edges:
+            new_edge((bm_verts[i1], bm_verts[i2]))
+    else:
+        new_edges = []
+    #[new_face([bm_verts[i] for i in face]) for face in faces or []] # не надо так делать
+    if faces is not None:
+        # remove double faces. Some times get faces with same verts but with another order: [62,103,102] and [102,103,62].
+        # this is not compatible with mesh and only one of that faces can be used. So convert this faces indices into dictionary.
+        # this remove faces with the same vertices but same or different orders. This may happens on some of Voronoi if
+        # it slice self intersected mesh.
+        dict_faces = { tuple(sorted(f)): f for f in list(faces) }
+        for face in dict_faces.values():
+            new_face([bm_verts[i] for i in face])
+    else:
+        new_face = []
 
     if update_normals:
         bm.normal_update()

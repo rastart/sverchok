@@ -6,17 +6,21 @@
 # License-Filename: LICENSE
 
 import bpy
-from bpy.props import BoolProperty, StringProperty, IntProperty
+from bpy.props import BoolProperty, StringProperty, IntProperty, EnumProperty
 import bmesh
+from mathutils import Vector, Matrix
 
 from sverchok.node_tree import SverchCustomTreeNode
 from sverchok.utils.sv_operator_mixins import SvGenericNodeLocator
 from sverchok.data_structure import updateNode
 from sverchok.utils.sv_bmesh_utils import pydata_from_bmesh
+from sverchok.utils.sv_mesh_utils import mesh_join
 from sverchok.utils.nodes_mixins.show_3d_properties import Show3DProperties
+from sverchok.ui.sv_icons import custom_icon
 from sverchok.utils.blender_mesh import (
     read_verts, read_edges, read_verts_normal,
     read_face_normal, read_face_center, read_face_area, read_materials_idx)
+import numpy as np
 
 
 class SvOB3BDataCollectionMK2(bpy.types.PropertyGroup):
@@ -74,20 +78,19 @@ class SvOB3CallbackMK2(bpy.types.Operator, SvGenericNodeLocator):
         """
         getattr(node, self.fn_name)(self)
 
-
 def get_vertgroups(mesh):
     return [k for k,v in enumerate(mesh.vertices) if v.groups.values()]
 
 numpy_socket_names = ['Vertices', 'Edges', 'Vertex Normals', 'Material Idx', 'Polygon Areas', 'Polygon Centers', 'Polygon Normals']
 
 
-class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
+class SvGetObjectsDataMK2(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
     """
     Triggers: Object Info
     Tooltip: Get Scene Objects into Sverchok Tree
     """
 
-    bl_idname = 'SvGetObjectsData'
+    bl_idname = 'SvGetObjectsDataMK2'
     bl_label = 'Get Objects Data'
     bl_icon = 'OUTLINER_OB_EMPTY'
     sv_icon = 'SV_OBJECTS_IN'
@@ -134,14 +137,114 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
         name="Output Numpy",
         description="Output NumPy arrays (makes node faster)",
         size=7, update=updateNode)
+
     output_np_all: BoolProperty(
         name='Output all numpy',
         description='Output numpy arrays if possible',
         default=False, update=updateNode)
+    
+    apply_matrix: BoolProperty(
+        name = "Apply matrices",
+        description = "Apply objects matrices",
+        default = True,
+        update = updateNode)
+    
+    mesh_join : BoolProperty(
+        name = "merge",
+        description = "If checked, join mesh elements into one object",
+        default = False,
+        update = updateNode)
+
+    display_types = [
+            ('BOUNDS', "", "BOUNDS: Display the bounds of the object", "MATPLANE", 0),
+            ('WIRE', "", "WIRE: Display the object as a wireframe", "MESH_CUBE", 1),
+            ('SOLID', "", "SOLID: Display the object as a solid (if solid drawing is enabled in the viewport)", "SNAP_VOLUME", 2),  #custom_icon("SV_MAKE_SOLID")
+            ('TEXTURED', "", "TEXTURED: Display the object with textures (if textures are enabled in the viewport)", "TEXTURE",  3),
+        ]
+    
+    def update_display_type(self, context):
+        for obj in self.object_names:
+            bpy.data.objects[obj.name].display_type=self.display_type
+        return
+    
+    display_type : EnumProperty(
+        name = "Display Types",
+        items = display_types,
+        default = 'WIRE',
+        update = update_display_type)
+    
+    hide_render_types = [
+            ('RESTRICT_RENDER_ON', "", "Render objects", "RESTRICT_RENDER_ON", 0),
+            ('RESTRICT_RENDER_OFF', "", "Do not render objects", "RESTRICT_RENDER_OFF", 1),
+        ]
+    
+    def update_render_type(self, context):
+        for obj in self.object_names:
+            bpy.data.objects[obj.name].hide_render = True if self.hide_render_type=='RESTRICT_RENDER_ON' else False
+        return
+    
+    hide_render_type : EnumProperty(
+        name = "Render Types",
+        items = hide_render_types,
+        default = 'RESTRICT_RENDER_OFF',
+        update = update_render_type)
+    
+    align_3dview_types = [
+            ('ISOLATE_CURRENT', "", "Toggle local view with only current selected object in the list\nPress again to restore view", "PIVOT_CURSOR", 0),
+            ('ISOLATE_ALL', "", "Toggle local view with all objects in the list\nPress again to restore view", "PIVOT_INDIVIDUAL", 1),
+        ]
+    
+    def update_align_3dview(self, context):
+        if len(self.object_names)==0:
+            return
+        obj_in_list = self.object_names[self.active_obj_index]
+        if obj_in_list:
+            # reset all selections
+            for obj in bpy.context.selected_objects:
+                obj.select_set(False)
+            
+            # select all objects in list of this node
+            if self.align_3dview_type=='ISOLATE_ALL':
+                for obj in self.object_names:
+                    if obj.name in bpy.data.objects:
+                        bpy.data.objects[obj.name].select_set(True)
+
+            if obj_in_list.name in bpy.data.objects:
+                obj_in_scene = bpy.data.objects[obj_in_list.name]
+                obj_in_scene.select_set(True)
+                bpy.context.view_layer.objects.active = obj_in_scene
+
+            for area in bpy.context.screen.areas:
+                if area.type == 'VIEW_3D':
+                    ctx = bpy.context.copy()
+                    ctx['area'] = area
+                    ctx['region'] = area.regions[-1]
+                    # test if current mode is local view: https://blender.stackexchange.com/questions/290669/checking-for-object-being-in-local-view
+                    if self.align_3dview_type_previous_value!=self.align_3dview_type and area.spaces.active.local_view:
+                        bpy.ops.view3d.localview(ctx, frame_selected=False)
+                    self.align_3dview_type_previous_value = self.align_3dview_type
+                    bpy.ops.view3d.localview(ctx, frame_selected=False)
+                    #bpy.ops.view3d.view_selected(ctx)
+                    break
+
+            pass
+        return
+    
+    align_3dview_type : EnumProperty(
+        name = "Local View",
+        items = align_3dview_types,
+        default = 'ISOLATE_CURRENT',
+        update = update_align_3dview)
+    
+    align_3dview_type_previous_value : EnumProperty(
+        name = "Local View",
+        items = align_3dview_types,
+        default = 'ISOLATE_CURRENT')
+
 
     def sv_init(self, context):
         new = self.outputs.new
-        self.width = 150
+        self.width = 170
         self.inputs.new('SvObjectSocket', "Objects")
         new('SvVerticesSocket', "Vertices")
         new('SvStringsSocket', "Edges")
@@ -177,7 +280,6 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
 
         self.process_node(None)
 
-
     def select_objs(self, ops):
         """select all objects referenced by node"""
         for item in self.object_names:
@@ -212,6 +314,19 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
 
             self.wrapper_tracked_ui_draw_op(row, callback, text=op_text).fn_name = 'get_objects_from_scene'
 
+        row = col.row()
+        col = row.column()
+        col.row().prop(self, 'display_type', expand=True)
+        col = row.column()
+        col.row().prop(self, 'hide_render_type', expand=True)
+        col = row.column()
+        col.row().prop(self, 'align_3dview_type', expand=True)
+
+        col = layout.column(align=True)
+        row = col.row(align=True)
+        row.prop(self, "apply_matrix", text="Apply matrix", toggle=True)
+        row.prop(self, "mesh_join", text="merge", toggle=True)
+        
         col = layout.column(align=True)
         row = col.row(align=True)
         if not by_input:
@@ -296,24 +411,24 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
                     # from 3dview while in edit mode when using obj.to_mesh.
                     me = obj.data
                     bm = bmesh.from_edit_mesh(me)
-                    vers, edgs, pols = pydata_from_bmesh(bm)
+                    # verts, edgs, pols = pydata_from_bmesh(bm)
 
                     if o_vs:
-                        vs.append(vers)
+                        verts = [ Vector(v.co) for v in bm.verts]  # v.co is a Vector()
                     if o_es:
-                        es.append(edgs)
+                        edgs = [[e.verts[0].index, e.verts[1].index] for e in bm.edges]
                     if o_ps:
-                        ps.append(pols)
+                        pols = [[i.index for i in p.verts] for p in bm.faces]
                     if o_vn:
-                        vn.append([v.normal[:] for v in bm.verts])
+                        vertex_normals = [ Vector(v.normal) for v in bm.verts] # v.normal is a Vector()
                     if o_mi:
-                        mi.append(self.get_materials_from_bmesh(bm))
+                        material_indexes = self.get_materials_from_bmesh(bm)
                     if o_pa:
-                        pa.append([p.calc_area() for p in bm.faces])
+                        polygons_areas = [ p.calc_area() for p in bm.faces ]
                     if o_pc:
-                        pc.append([p.calc_center_median()[:] for p in bm.faces])
+                        polygon_centers = [ Vector(p.calc_center_median()) for p in bm.faces ]
                     if o_pn:
-                        pn.append([p.normal[:] for p in bm.faces])
+                        polygon_normals = [ Vector(p.normal) for p in bm.faces ]
 
                     del bm
                 else:
@@ -326,33 +441,48 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
                         obj_data = obj.to_mesh(preserve_all_data_layers=True, depsgraph=sv_depsgraph)
                     else:
                         obj_data = obj.to_mesh()
+                    
+                    T, R, S = mtrx.decompose()
 
                     if o_vs:
-                        vs.append(read_verts(obj_data, out_np[0]))
+                        verts            = [ ((mtrx @ v.co) if self.apply_matrix else v.co)[:] for v in obj_data.vertices]  # v.co is a Vector()
                     if o_es:
-                        es.append(read_edges(obj_data, out_np[1]))
+                        edgs             = [[ e.vertices[0], e.vertices[1] ] for e in obj_data.edges]
                     if o_ps:
-                        ps.append([list(p.vertices) for p in obj_data.polygons])
+                        pols             = [list(p.vertices) for p in obj_data.polygons]
                     if self.vergroups:
-                        vers_out_grouped.append(get_vertgroups(obj_data))
+                        vert_groups      = get_vertgroups(obj_data)
                     if o_vn:
-                        vn.append(read_verts_normal(obj_data, out_np[2]))
+                        vertex_normals   = [ ((   R @ v.co) if self.apply_matrix else v.normal)[:] for v in obj_data.vertices ] # v.normal is a Vector(). Update. Blender 3.6.3 crash in no wrap Vector(v.normal). I think this is after line "obj.to_mesh_clear()"
                     if o_mi:
-                        mi.append(read_materials_idx(obj_data, out_np[3]))
+                        material_indexes = read_materials_idx(obj_data, out_np[3])
                     if o_pa:
-                        pa.append(read_face_area(obj_data, out_np[4]))
+                        polygons_areas   = [ polygon.area for polygon in obj_data.polygons]
                     if o_pc:
-                        if out_np[5]:
-                            pc.append(read_face_center(obj_data, output_numpy=True))
-                        else:
-                            pc.append([p.center[:] for p in obj_data.polygons])
+                        polygon_centers  = [ ((mtrx @ polygon.center) if self.apply_matrix else polygon.center)[:] for polygon in obj_data.polygons]
                     if o_pn:
-                        if out_np[6]:
-                            pn.append(read_face_normal(obj_data, True))
-                        else:
-                            pn.append([p.normal[:] for p in obj_data.polygons])
+                        polygon_normals  = [ ((   R @ polygon.normal) if self.apply_matrix else polygon.normal)[:] for polygon in obj_data.polygons]
 
-                    obj.to_mesh_clear()
+                obj.to_mesh_clear()
+                
+                if o_vs:
+                    vs.append( verts )
+                if o_es:
+                    es.append( edgs )
+                if o_ps:
+                    ps.append( pols )
+                if self.vergroups:
+                    vers_out_grouped.append( vert_groups )
+                if o_vn:
+                    vn.append( vertex_normals )
+                if o_mi:
+                    mi.append( material_indexes )
+                if o_pa:
+                    pa.append( polygons_areas )
+                if o_pc:
+                    pc.append( polygon_centers )
+                if o_pn:
+                    pn.append( polygon_normals )
 
             except ReadingObjectDataError:
                 raise
@@ -364,6 +494,56 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
             if o_ms:
                 ms.append(mtrx)
 
+        if self.mesh_join:
+            # vs, es, ps, vn, mi, pa, pc, pn, ms
+            offset = 0
+            _vs = []
+            _es, _ps, _vn, _pa, _pc, _pn, _vg = [], [], [], [], [], [], []
+            for idx, vertices in enumerate(vs):
+                _vs.extend(vertices)
+                if es:
+                    _es.extend( [[i + offset for i in o] for o in es[idx] ] ) # edges
+                if ps:
+                    _ps.extend( [[i + offset for i in o] for o in ps[idx] ] ) # polygons
+                #_vn.extend( [tuple(i + offset for i in o) for o in ps[idx] ] ) # vers_out_grouped. Skip in mesh_join
+                if vn:
+                    _vn.extend( vn[idx] ) # vertex normals
+                # _mi - materia index. Do not change
+                # if mi and len(mi)>idx:
+                #     _mi.extend( mi[idx] ) # Skip in mesh_join
+                if pa:
+                    _pa.extend( pa[idx] ) # polygon area
+                if pc:
+                    _pc.extend( pc[idx] ) # polygon center
+                if pn:
+                    _pn.extend( pn[idx] ) # polygon normal
+                # if ms: Do not change
+                #     _ms.append( ms[idx] ) # matrices. Skip in mesh_join
+                if vers_out_grouped:
+                    _vg.extend( [ i + offset for i in vers_out_grouped[idx] ] ) # vertex groups
+                
+                offset += len(vertices)
+            
+            vs, es, ps, vn, pa, pc, pn, vers_out_grouped = [_vs], [_es], [_ps], [_vn], [_pa], [_pc], [_pn], [_vg]
+
+        if o_vs and (out_np[0]):
+            vs = [np.array(vert) for vert in vs]
+        if o_es and (out_np[1]):
+            es = [np.array(edge) for edge in es]
+        # if o_ps and (out_np[2]):
+        #     ps = [np.array(pol)  for pol  in ps]
+        # if self.vergroups:
+        #     vers_out_grouped = [np.array(group)  for group  in vers_out_grouped]
+        if o_vn and (out_np[2]):
+            vn = [np.array(vert_normal)     for vert_normal     in vn]
+        if o_mi and (out_np[3]):
+            mi = [np.array(material_index)  for material_index  in mi]
+        if o_pa and (out_np[4]):
+            pa = [np.array(polygon_areas)   for polygon_areas   in pa]
+        if o_pc and (out_np[5]):
+            pc = [np.array(polygon_centers) for polygon_centers in pc]
+        if o_pn and (out_np[6]):
+            pn = [np.array(polygon_normals) for polygon_normals in pn]
 
         for i, i2 in zip(self.outputs, [vs, es, ps, vn, mi, pa, pc, pn, ms]):
             if i.is_linked:
@@ -379,5 +559,5 @@ class SvGetObjectsData(Show3DProperties, SverchCustomTreeNode, bpy.types.Node):
                 outputs['Object'].sv_set([data_objects.get(o.name) for o in self.object_names])
 
 
-classes = [SvOB3BItemOperatorMK2, SvOB3BDataCollectionMK2, SVOB3B_UL_NamesListMK2, SvOB3CallbackMK2, SvGetObjectsData]
+classes = [SvOB3BItemOperatorMK2, SvOB3BDataCollectionMK2, SVOB3B_UL_NamesListMK2, SvOB3CallbackMK2, SvGetObjectsDataMK2]
 register, unregister = bpy.utils.register_classes_factory(classes)

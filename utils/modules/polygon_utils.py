@@ -289,11 +289,10 @@ def np_process_polygons(verts, faces, func=None, dims=3, output_numpy=False):
     if isinstance(faces, np.ndarray):
         np_faces = faces
     else:
-        np_faces = np.array(faces)
+        np_faces = np.array(faces,dtype=object)
 
     if np_faces.dtype == object:
-        np_len = np.vectorize(len)
-        lens = np_len(np_faces)
+        lens = np.array([len(i) for i in np_faces])
         pol_types = np.unique(lens)
         if dims == 1:
             vals = np.zeros(np_faces.shape[0], dtype=float)

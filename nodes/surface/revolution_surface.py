@@ -11,14 +11,20 @@ from sverchok.utils.curve import SvCurve
 from sverchok.utils.surface.algorithms import SvRevolutionSurface
 
 
-class SvRevolutionSurfaceNode(SverchCustomTreeNode, bpy.types.Node):
+class SvRevolutionSurfaceNodeMK2(SverchCustomTreeNode, bpy.types.Node):
     """
     Triggers: Revolution Surface
     Tooltip: Generate a surface of revolution (similar to Spin / Lathe modifier)
     """
-    bl_idname = 'SvExRevolutionSurfaceNode'
+    bl_idname = 'SvRevolutionSurfaceNodeMK2'
     bl_label = 'Revolution Surface'
     bl_icon = 'MOD_SCREW'
+
+    use_nurbs : BoolProperty(
+        name = "NURBS",
+        description = "Process NURBS curves and output a NURBS surface",
+        default = False,
+        update = updateNode)
 
     v_min : FloatProperty(
         name = "Angle From",
@@ -58,6 +64,7 @@ class SvRevolutionSurfaceNode(SverchCustomTreeNode, bpy.types.Node):
         self.origin = 'POINT'
 
     def draw_buttons(self, context, layout):
+        layout.prop(self, 'use_nurbs')
         layout.prop(self, "origin")
 
     def process(self):
@@ -81,17 +88,21 @@ class SvRevolutionSurfaceNode(SverchCustomTreeNode, bpy.types.Node):
         for curves, points, directions, v_mins, v_maxs in zip_long_repeat(curve_s, point_s, direction_s, v_min_s, v_max_s):
             for curve, point, direction, v_min, v_max in zip_long_repeat(curves, points, directions, v_mins, v_maxs):
                 origin = self.origin == 'GLOBAL'
-                surface = SvRevolutionSurface.build(curve,
-                                np.array(point), np.array(direction),
-                                v_min, v_max,
-                                global_origin=origin)
+                if self.use_nurbs:
+                    surface = SvRevolutionSurface.build(curve,
+                                    np.array(point), np.array(direction),
+                                    v_min, v_max,
+                                    global_origin=origin)
+                else:
+                    surface = SvRevolutionSurface(curve, np.array(point), np.array(direction), global_origin=origin)
+                    surface.v_bounds = (v_min, v_max)
                 surface_out.append(surface)
 
         self.outputs['Surface'].sv_set(surface_out)
 
 def register():
-    bpy.utils.register_class(SvRevolutionSurfaceNode)
+    bpy.utils.register_class(SvRevolutionSurfaceNodeMK2)
 
 def unregister():
-    bpy.utils.unregister_class(SvRevolutionSurfaceNode)
+    bpy.utils.unregister_class(SvRevolutionSurfaceNodeMK2)
 
