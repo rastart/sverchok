@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
@@ -6,17 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ellipse (Curve) &mdash; Sverchok 1, 2, 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/documentation_options.js?v=773c2105"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=773c2105"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -36,9 +34,6 @@
             Sverchok
               <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1, 2, 0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -83,7 +78,9 @@
 <li class="toctree-l3"><a class="reference internal" href="curve_on_surface.html">Curve on Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_range.html">Curve Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_segment.html">Curve Segment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curve_to_nurbs.html">Curve to NURBS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deconstruct_curve.html">Deconstruct Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discontinuity.html">NURBS Curve Discontinuity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="elevate_degree.html">Elevate Degree (NURBS Curve)</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Ellipse (Curve)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#functionality">Functionality</a></li>
@@ -124,6 +121,7 @@
 <li class="toctree-l3"><a class="reference internal" href="point_curve.html">Single-Point Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyarc.html">Poly Arc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyline.html">Polyline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="prepare_curves_net.html">Prepare NURBS Curves Net</a></li>
 <li class="toctree-l3"><a class="reference internal" href="project_curve_surface.html">Project Curve to Surface (NURBS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rbf_curve.html">RBF Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reduce_degree.html">Reduce Degree (NURBS Curve)</a></li>
@@ -132,6 +130,7 @@
 <li class="toctree-l3"><a class="reference internal" href="remove_knot.html">Remove Knot (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reparametrize.html">Reparametrize Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rounded_rectangle.html">Rounded Rectangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snap_curves.html">Snap Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sort_curves.html">Sort Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="split_curve.html">Split Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="surface_boundary.html">Surface’s Boundary</a></li>
@@ -173,6 +172,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/celling.html">Celling design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing_to_sverchok.html">Contributing to sverchok</a></li>
 </ul>
 
@@ -204,13 +204,15 @@
              
   <section id="ellipse-curve">
 <h1>Ellipse (Curve)<a class="headerlink" href="#ellipse-curve" title="Link to this heading">¶</a></h1>
-<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png"><img alt="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png" src="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png"><img alt="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png" src="https://user-images.githubusercontent.com/14288520/205259757-70c83631-6abf-4501-86b0-fa9ad5ba1f76.png" />
+</a>
 <section id="functionality">
 <h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">¶</a></h2>
 <p>This node generates a Curve object representing an ellipse. The ellipse is
 defined by a set of parameters: major/minor radii (a.k.a. major/minor
 semi-axis), eccentricity, focal length.</p>
-<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png"><img alt="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png" src="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png"><img alt="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png" src="https://user-images.githubusercontent.com/14288520/205485273-bff2586d-69e1-45a8-8310-eb8b3aa27851.png" />
+</a>
 </section>
 <section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h2>
@@ -230,7 +232,8 @@ set to <strong>ac</strong>.</p></li>
 By default, ellipse’s origin is placed at the global origin <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>,
 and the ellipse is placed in XOY plane.</p></li>
 </ul>
-<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png"><img alt="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png" src="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png"><img alt="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png" src="https://user-images.githubusercontent.com/14288520/205485604-7321fa32-4254-44b3-a18b-b72239bb787f.png" />
+</a>
 </section>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
@@ -266,7 +269,8 @@ available options are:</p>
 <section id="examples-of-usage">
 <h2>Examples of usage<a class="headerlink" href="#examples-of-usage" title="Link to this heading">¶</a></h2>
 <p>Default settings:</p>
-<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png"><img alt="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png" src="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png"><img alt="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png" src="https://user-images.githubusercontent.com/14288520/205485803-12cfb9da-11e9-4238-b490-08249600644b.png" />
+</a>
 <ul class="simple">
 <li><p>List-&gt;List Main-&gt; <a class="reference internal" href="../list_main/join.html"><span class="doc">List Join</span></a></p></li>
 <li><p>Viz-&gt; <a class="reference internal" href="../viz/viewer_draw_mk4.html"><span class="doc">Viewer Draw</span></a></p></li>
@@ -274,7 +278,8 @@ available options are:</p>
 </ul>
 <hr class="docutils" />
 <p>Extrude smaller ellipse along bigger one:</p>
-<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png"><img alt="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png" src="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png" /></a>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png"><img alt="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png" src="https://user-images.githubusercontent.com/14288520/205486157-dca072ac-8353-4756-8f7b-f9519905afa7.png" />
+</a>
 <ul class="simple">
 <li><p>Surfaces-&gt; <a class="reference internal" href="../surface/extrude_curve.html"><span class="doc">Extrude Curve Along Curve</span></a></p></li>
 <li><p>Surfaces-&gt; <a class="reference internal" href="../surface/evaluate_surface.html"><span class="doc">Evaluate Surface</span></a></p></li>
@@ -295,7 +300,7 @@ available options are:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014...2023, sverchok team.</p>
+    <p>&#169; Copyright 2014...2024, sverchok team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

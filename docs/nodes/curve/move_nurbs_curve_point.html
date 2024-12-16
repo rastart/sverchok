@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
@@ -6,17 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Move NURBS Curve Point &mdash; Sverchok 1, 2, 0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
     <link rel="shortcut icon" href="../../_static/sverchock_icon_b.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/documentation_options.js?v=773c2105"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/documentation_options.js?v=773c2105"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -36,9 +34,6 @@
             Sverchok
               <img src="../../_static/title_big_b.svg" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1, 2, 0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -83,7 +78,9 @@
 <li class="toctree-l3"><a class="reference internal" href="curve_on_surface.html">Curve on Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_range.html">Curve Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="curve_segment.html">Curve Segment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curve_to_nurbs.html">Curve to NURBS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deconstruct_curve.html">Deconstruct Curve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discontinuity.html">NURBS Curve Discontinuity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="elevate_degree.html">Elevate Degree (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ellipse_curve.html">Ellipse (Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="endpoints.html">Curve Endpoints</a></li>
@@ -124,6 +121,7 @@
 <li class="toctree-l3"><a class="reference internal" href="point_curve.html">Single-Point Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyarc.html">Poly Arc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polyline.html">Polyline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="prepare_curves_net.html">Prepare NURBS Curves Net</a></li>
 <li class="toctree-l3"><a class="reference internal" href="project_curve_surface.html">Project Curve to Surface (NURBS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rbf_curve.html">RBF Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reduce_degree.html">Reduce Degree (NURBS Curve)</a></li>
@@ -132,6 +130,7 @@
 <li class="toctree-l3"><a class="reference internal" href="remove_knot.html">Remove Knot (NURBS Curve)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reparametrize.html">Reparametrize Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rounded_rectangle.html">Rounded Rectangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snap_curves.html">Snap Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sort_curves.html">Sort Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="split_curve.html">Split Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="surface_boundary.html">Surface’s Boundary</a></li>
@@ -173,6 +172,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/celling.html">Celling design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing_to_sverchok.html">Contributing to sverchok</a></li>
 </ul>
 
@@ -243,10 +243,12 @@ the opposite direction.</p></li>
 </ul>
 <p>The default value is 1.0.</p>
 </li>
-<li><p><strong>Vector</strong>. The vector for which the curve point at <strong>T</strong> parameter is to be
-moved. This input is available only when <strong>Method</strong> is set to <strong>Move one
-control point</strong>, <strong>Move control points</strong>, or <strong>Insert knot</strong>. The default
-value is <code class="docutils literal notranslate"><span class="pre">(1.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></code>.</p></li>
+<li><p><strong>Vector</strong> / <strong>Point</strong>. This input is available only when <strong>Method</strong> is set
+to <strong>Move one control point</strong>, <strong>Move control points</strong>, or <strong>Insert knot</strong>.
+If <strong>Mode</strong> parameter is set to <strong>Relative</strong>, this input specifies the vector
+for which the curve point at <strong>T</strong> parameter is to be moved. In <strong>Absolute</strong>
+mode, this input specifies the point where curve point is to be moved to. The
+default value is <code class="docutils literal notranslate"><span class="pre">(1.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></code>.</p></li>
 </ul>
 </section>
 <section id="parameters">
@@ -295,6 +297,9 @@ to <strong>Move control points</strong>. If checked, the node will try to preser
 direction of curve tangent at the point being moved. In many cases, this
 gives only a slight difference; but sometimes this will make the result
 smoother. Unchecked by default.</p></li>
+<li><p><strong>Mode</strong>. The available options are <strong>Relative</strong> and <strong>Absolute</strong>. In the
+<strong>Relative</strong> mode, you specify the movement vector; in the <strong>Absolute</strong> mode,
+you specify the target point. The default mode is <strong>Relative</strong>.</p></li>
 </ul>
 </section>
 <section id="outputs">
@@ -341,7 +346,7 @@ thus creating additional control points, and moving three control points.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014...2023, sverchok team.</p>
+    <p>&#169; Copyright 2014...2024, sverchok team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
