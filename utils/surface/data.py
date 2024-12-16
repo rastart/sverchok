@@ -73,6 +73,17 @@ class SurfaceDerivativesData(object):
         else:
             return matrices_np
 
+    def tangents_in_direction(self, uv_directions, w_axis=2):
+        if w_axis == 2:
+            U, V = 0, 1
+        elif w_axis == 1:
+            U, V = 0, 2
+        else:
+            U, V = 1, 2
+        d_u = uv_directions[:,U][np.newaxis].T
+        d_v = uv_directions[:,V][np.newaxis].T
+        return self.du * d_u + self.dv * d_v
+
 class SurfaceCurvatureCalculator(object):
     """
     This class contains pre-calculated first and second surface derivatives,
@@ -87,6 +98,7 @@ class SurfaceCurvatureCalculator(object):
         self.nuu = self.nvv = self.nuv = None
         self.points = None
         self.normals = None
+        self._derivatives_data = None
 
     def set(self, points, normals, fu, fv, duu, dvv, duv, nuu, nvv, nuv):
         """Set derivatives information"""
@@ -101,6 +113,40 @@ class SurfaceCurvatureCalculator(object):
         self.nvv = nvv # (fvv, normal), a.k.a n
         self.nuv = nuv # (fuv, normal), a.k.a m
 
+    @property
+    def derivatives_data(self):
+        if self._derivatives_data is None:
+            if self.points is None or self.fu is None or self.fv is None:
+                raise Exception("SurfaceCurvatureCalculator.set() was not called before call to SurfaceCurvatureCalculator.derivatives_data")
+            self._derivatives_data = SurfaceDerivativesData(self.points, self.fu, self.fv)
+        return self._derivatives_data
+
+    def christoffel(self):
+        U, V, W = 0,1,2
+        fu = self.fu # / np.linalg.norm(self.fu, axis=1, keepdims=True)
+        fv = self.fv # / np.linalg.norm(self.fv, axis=1, keepdims=True)
+        normal = self.normals
+        n = len(self.us)
+
+        def solve(vec):
+            A = np.zeros((n,3,3))
+            A[:,:,0] = fu
+            A[:,:,1] = fv
+            A[:,:,2] = normal
+            B = np.zeros((n,3))
+            B[:] = vec
+            res = np.linalg.solve(A, B) # (n, 3)
+            return res.T # (3, n)
+
+        gamma = np.zeros((2,3,3,n))
+        gamma[U,U,:,:] = solve(self.fuu)
+        gamma[U,V,:,:] = solve(self.fuv)
+        gamma[V,U,:,:] = gamma[U,V,:,:]
+        gamma[V,V,:,:] = solve(self.fvv)
+        gamma[U, W, W] = gamma[U,U,U] + gamma[U,V,V]
+        gamma[V, W, W] = gamma[V,U,U] + gamma[V,V,V]
+        return gamma
+
     def mean(self):
         """
         Calculate mean curvature.
@@ -110,9 +156,13 @@ class SurfaceCurvatureCalculator(object):
         calculating k1 and k2 first.
         """
         duu, dvv, duv, nuu, nvv, nuv = self.duu, self.dvv, self.duv, self.nuu, self.nvv, self.nuv
-        A = duu*dvv - duv*duv
-        B = duu*nvv - 2*duv*nuv + dvv*nuu
-        return B / (2*A)
+        numerator = duu*nvv - 2*duv*nuv + dvv*nuu
+        denominator = 2*(duu*dvv - duv*duv)
+
+        curvature = np.zeros_like(numerator)
+        good = (denominator != 0)
+        curvature[good] = numerator[good] / denominator[good]
+        return curvature
 
     def gauss(self):
         """
@@ -125,7 +175,10 @@ class SurfaceCurvatureCalculator(object):
         duu, dvv, duv, nuu, nvv, nuv = self.duu, self.dvv, self.duv, self.nuu, self.nvv, self.nuv
         numerator = nuu * nvv - nuv*nuv
         denominator = duu * dvv - duv*duv
-        return numerator / denominator
+        curvature = np.zeros_like(numerator)
+        good = (denominator != 0)
+        curvature[good] = numerator[good] / denominator[good]
+        return curvature
 
     def curvature_along_direction(self, v1, v2):
         """
@@ -173,13 +226,23 @@ class SurfaceCurvatureCalculator(object):
         c1[np.isnan(c1)] = 0
         c2[np.isnan(c2)] = 0
 
-        c1mask = (c1 < c2)
-        c2mask = np.logical_not(c1mask)
+        if self.order:
+            c1mask = (c1 < c2)
+            c2mask = np.logical_not(c1mask)
+            c1_r = np.where(c1mask, c1, c2)
+            c2_r = np.where(c2mask, c1, c2)
+            return c1_r, c2_r
+        else:
+            return c1, c2
 
-        c1_r = np.where(c1mask, c1, c2)
-        c2_r = np.where(c2mask, c1, c2)
-
-        return c1_r, c2_r
+    def first_fundamental_form(self):
+        n = len(self.us)
+        G = np.empty((n,2,2))
+        G[:,0,0] = self.duu
+        G[:,0,1] = self.duv
+        G[:,1,0] = self.duv
+        G[:,1,1] = self.dvv
+        return G
 
     def values_and_directions(self):
         """

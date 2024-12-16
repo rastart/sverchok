@@ -89,11 +89,14 @@
         - SvExNurbsCurveNode
         - SvApproxNurbsCurveMk3Node
         - SvExInterpolateNurbsCurveNodeMK2
+        - SvCurveToNurbsNode
+        - SvCurveDiscontinuityNode
         - SvFilletCurveNode
         - SvDeconstructCurveNode
         - SvNurbsCurveNodesNode
         - ---
         - SvNurbsCurveMovePointNode
+        - SvSnapCurvesNode
         - ---
         - SvCurveInsertKnotNode
         - SvCurveRemoveKnotNode
@@ -126,6 +129,7 @@
     - SvExSurfaceBoundaryNode
     - ---
     - SvIntersectNurbsCurvesNode
+    - SvPrepareCurvesNetNode
     - SvExNearestPointOnCurveNode
     - SvExOrthoProjectCurveNode
     - SvExCurveEndpointsNode
@@ -237,6 +241,7 @@
     - SvExMergeScalarFieldsNode
     - ---
     - SvExBendAlongCurveFieldNode
+    - SvSlerpCurveFieldNode
     - SvBendAlongSurfaceFieldMk2Node
     - ---
     - SvExScalarFieldEvaluateNode
@@ -302,7 +307,7 @@
     - icon_name: POINTCLOUD_DATA
     - extra_menu: AdvancedObjectsPartialMenu
     - SvHomogenousVectorField
-    - SvRandomPointsOnMesh
+    - SvPopulateMeshNode
     - SvPopulateSurfaceMk2Node
     - SvPopulateSolidMk2Node
     - SvFieldRandomProbeMk3Node
@@ -315,7 +320,7 @@
     - SvExVoronoi3DNode
     - SvExVoronoiSphereNode
     - SvVoronoiOnSurfaceNode
-    - SvVoronoiOnMeshNodeMK2
+    - SvVoronoiOnMeshNodeMK4
     - SvVoronoiOnSolidNodeMK2
     - ---
     - SvLloyd2dNode
@@ -327,6 +332,7 @@
     - ---
     - SvConvexHullNodeMK2
     - SvConcaveHullNode
+    - SvMeshClusteringNode
 
 - Transforms:
     - icon_name: ORIENTATION_LOCAL
@@ -361,6 +367,7 @@
     - SvVolumeNodeMK2
     - SvAreaNode
     - DistancePPNode
+    - SvWeightedVectorSumNode
     - SvDistancePointLineNode
     - SvDistancePointPlaneNode
     - SvDistancetLineLineNode
@@ -390,6 +397,7 @@
     - SvCircleApproxNode
     - SvSphereApproxNode
     - SvInscribedCircleNode
+    - SvSemiInscribedCircleNode
     - SvSteinerEllipseNode
     - ---
     - SvMeshSelectNodeMk2
@@ -449,13 +457,15 @@
         - SvOffsetLineNode
         - SvContourNode
         - ---
-        - SvDualMeshNode
+        - SvQuadriFlowNode
+        - ---
+        - SvDualMeshNodeMK2
         - SvDiamondMeshNode
         - SvClipVertsNode
         - ---
         - SvBevelCurveNode
         - SvSweepModulator
-        - SvAdaptiveEdgeNode
+        - SvAdaptiveEdgeNodeMK2
         - SvAdaptivePolygonsNodeMk3
         - SvDuplicateAlongEdgeNode
         - SvFractalCurveNode
@@ -488,6 +498,9 @@
     - SvCropMesh2D
     - SvCSGBooleanNodeMK2
     - SvWafelNode
+    - ---
+    - SvStraightSkeleton2DOffset
+    - SvStraightSkeleton2DExtrude
 
 - ---
 
@@ -497,7 +510,7 @@
     - SvNumberNode
     - SvScalarMathNodeMK4
     - SvGenNumberRange
-    - SvListInputNode
+    - SvListInputNodeMK2
     - SvRndNumGen
     - RandomNode
     - Float2IntNode
@@ -704,7 +717,7 @@
 - Scene:
     - icon_name: SCENE_DATA
     - extra_menu: ConnectionPartialMenu
-    - SvGetObjectsDataMK2
+    - SvGetObjectsDataMK3
     - SvObjInLite
     - SvCurveInputNode
     - SvFCurveInNodeMK1

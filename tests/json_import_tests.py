@@ -51,21 +51,14 @@ class MeshExprImportTest(SverchokTestCase):
 #  2) 3rd party python modules (mcubes, conway, archicad)
 
 UNITTEST_SKIPLIST = [
-    "GreacePencil_injection.json",
-    "pointsONface_gather_lines.json",
-    "Generative_Art_Lsystem.json",
-    # "Genetic_algorithm.blend.json",  # looks like script node is trying to update via import_from_json method
-    "Genetic_algorithm_scripted_node.json",
-    "Elfnor_topology_nodes.json",
-    "l-systems.json",
-    "ABCnaming.json",
-    "ArchiCAD24import.json",
-    "CNC_CUTHOLES_RESIZE.json",
-    "Open4d_mesh.json",
     "BIM_ArchiCAD24_import.json",
     "BIM_FreeCAD_import.json",
     "BIM_truss_joint.json",
-    "SverchokLogo.json" # Blender 2.90 has a crash in delaunay_2d_cdt on this file :/
+    "Water_bomb_origami_tessellation_namako.json",
+    "ABCnaming.json",
+    "Grain.json",
+    "Genetic_algorithm_simple.json",
+    "Fasade_Complicated.zip",
 ]
 
 # @batch_only
@@ -85,11 +78,9 @@ class ExamplesImportTest(SverchokTestCase):
                 # assuming these are all jsons for now.
                 name = basename(path)
 
-                if name in UNITTEST_SKIPLIST:
-                    sv_logger.info(f"Skipping test import of: {name} - the tree in the skip list")
-                    continue
-
                 with self.subTest(file=name):
+                    if name in UNITTEST_SKIPLIST:
+                        self.skipTest("The tree in the skip list")
                     # info("Importing: %s", name)
                     with self.temporary_node_tree("ImportedTree") as new_tree:
                         # Do not try to process imported tree,

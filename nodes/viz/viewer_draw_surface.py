@@ -10,7 +10,6 @@ import numpy as np
 import bpy
 from mathutils import Matrix, Vector
 from bpy.props import StringProperty, BoolProperty, IntProperty, EnumProperty, FloatVectorProperty
-import bgl
 import gpu
 from gpu_extras.batch import batch_for_shader
 
@@ -22,23 +21,24 @@ from sverchok.utils.surface.bakery import SurfaceData
 from sverchok.utils.sv_operator_mixins import SvGenericNodeLocator
 from sverchok.ui.bgl_callback_3dview import callback_disable, callback_enable
 from sverchok.utils.sv_3dview_tools import Sv3DviewAlign
+from sverchok.utils.modules.drawing_abstractions import drawing, shading_3d
 
 
 def draw_edges(shader, points, edges, line_width, color):
-    bgl.glLineWidth(line_width)
+    drawing.set_line_width(line_width)
     batch = batch_for_shader(shader, 'LINES', {"pos": points}, indices=edges)
     shader.bind()
     shader.uniform_float('color', color)
     batch.draw(shader)
-    bgl.glLineWidth(1)
+    drawing.reset_line_width()
 
 def draw_points(shader, points, size, color):
-    bgl.glPointSize(size)
+    drawing.set_point_size(size)
     batch = batch_for_shader(shader, 'POINTS', {"pos": points})
     shader.bind()
     shader.uniform_float('color', color)
     batch.draw(shader)
-    bgl.glPointSize(1)
+    drawing.reset_point_size()
 
 def draw_polygons(shader, points, tris, vertex_colors):
     batch = batch_for_shader(shader, 'TRIS', {"pos": points, 'color': vertex_colors}, indices=tris)
@@ -48,7 +48,7 @@ def draw_polygons(shader, points, tris, vertex_colors):
 def draw_surfaces(context, args):
     node, draw_inputs, v_shader, e_shader, p_shader = args
 
-    bgl.glEnable(bgl.GL_BLEND)
+    drawing.enable_blendmode()
 
     for item in draw_inputs:
 
@@ -73,7 +73,7 @@ def draw_surfaces(context, args):
         if node.draw_verts:
             draw_points(v_shader, item.points_list, node.verts_size, node.verts_color)
 
-    bgl.glEnable(bgl.GL_BLEND)
+    drawing.disable_blendmode()
 
 class SvBakeSurfaceOp(bpy.types.Operator, SvGenericNodeLocator):
     """B A K E SURFACES"""
@@ -207,6 +207,42 @@ class SvSurfaceViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
             min = 1, default = 2,
             update = updateNode)
 
+    draw_curvature : BoolProperty(
+            name = "Indicate curvature",
+            default = False,
+            update = updateNode)
+    
+    curvature_types = [
+        ('GAUSS', "Gauss", "Gauss curvature - product of minimum and maximum curvature", 0),
+        ('MEAN', "Mean", "Mean curvature - average between minimum and maximum curvature", 1),
+        ('MAX', "Maximum", "Maximum curvature", 2),
+        ('MIN', "Minimum", "Minimum curvature", 3),
+        ('DIFF', "Difference", "Difference between maximum and minimum curvature", 4)
+    ]
+
+    curvature_type : EnumProperty(
+            name = "Curvature type",
+            description = "Type of surface curvature to be indicated by color",
+            items = curvature_types,
+            default = 'GAUSS',
+            update = updateNode)
+
+    curvature_max_color: FloatVectorProperty(
+            name = "Maximum curvature color",
+            description = "Color to be used to indicate positive curvature values",
+            default = (0.9, 0.1, 0.0, 1.0),
+            size = 4, min = 0.0, max = 1.0,
+            subtype = 'COLOR',
+            update = updateNode)
+
+    curvature_min_color: FloatVectorProperty(
+            name = "Minimum curvature color",
+            description = "Color to be used to indicate negative curvature values",
+            default = (0.0, 0.1, 0.9, 1.0),
+            size = 4, min = 0.0, max = 1.0,
+            subtype = 'COLOR',
+            update = updateNode)
+
     light_vector: FloatVectorProperty(
         name='Light Direction', subtype='DIRECTION', min=0, max=1, size=3,
         default=(0.2, 0.6, 0.4), update=updateNode)
@@ -250,6 +286,13 @@ class SvSurfaceViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
         row.prop(self, 'node_lines_color', text="")
         row.prop(self, 'node_lines_width', text="px")
 
+        row = grid.row(align=True)
+        row.prop(self, 'draw_curvature', icon='EVENT_C', text='')
+        row.prop(self, 'curvature_max_color', text='')
+        row.prop(self, 'curvature_min_color', text='')
+        if self.draw_curvature:
+            grid.prop(self, 'curvature_type', text="Type")
+
         row = layout.row(align=True)
         row.scale_y = 4.0 if self.prefs_over_sized_buttons else 1
         self.wrapper_tracked_ui_draw_op(row, SvBakeSurfaceOp.bl_idname, icon='OUTLINER_OB_MESH', text="B A K E")
@@ -261,12 +304,9 @@ class SvSurfaceViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
         self.draw_buttons(context, layout)
 
     def draw_all(self, draw_inputs):
-        shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
-        v_shader = gpu.shader.from_builtin(shader_name)
-        shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
-        e_shader = gpu.shader.from_builtin(shader_name)
-        shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}SMOOTH_COLOR'
-        p_shader = gpu.shader.from_builtin(shader_name)
+        v_shader = gpu.shader.from_builtin(shading_3d.UNIFORM_COLOR)
+        e_shader = gpu.shader.from_builtin(shading_3d.UNIFORM_COLOR)
+        p_shader = gpu.shader.from_builtin(shading_3d.SMOOTH_COLOR)
 
         draw_data = {
                 'tree_name': self.id_data.name[:],

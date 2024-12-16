@@ -370,6 +370,13 @@ class CubicSpline(Spline):
     def create(cls, vertices, tknots = None, metric = None, is_cyclic = False):
         return CubicSpline(vertices, tknots=tknots, metric=metric, is_cyclic=is_cyclic)
 
+    @classmethod
+    def from_2d_points(cls, xs, ys):
+        vertices = np.zeros((len(xs), 3))
+        vertices[:,0] = np.array(xs)
+        vertices[:,1] = np.zrray(ys)
+        return CubicSpline(vertices, metric='X', is_cyclic=False)
+
     def eval(self, t_in, tknots = None):
         """
         Evaluate the spline at the points in t_in, which must be an array
@@ -662,7 +669,7 @@ class GenerateLookup():
         add_to_sumlist = self.summed_lengths.append
         current_length = 0.0
         for idx in range(len(vlist)-1):
-            v = vlist[idx][0]-vlist[idx+1][0], vlist[idx][1]-vlist[idx+1][1], vlist[idx][2]-vlist[idx+1][2]
+            v = vlist[idx+1][0]-vlist[idx][0], vlist[idx+1][1]-vlist[idx][1], vlist[idx+1][2]-vlist[idx][2]
             length = math.sqrt((v[0]*v[0]) + (v[1]*v[1]) + (v[2]*v[2]))
             add_normal(v)
             add_len(length)
@@ -1040,7 +1047,8 @@ class PlaneEquation(object):
         # (A x + B y + C z) is a scalar product of (x, y, z) and (A, B, C)
         numerators = abs(points.dot([a, b, c]) + d)
         denominator = math.sqrt(a*a + b*b + c*c)
-        return numerators / denominator
+        res = numerators / denominator
+        return res
 
     def intersect_with_line(self, line, min_det=1e-12):
         """
@@ -1282,7 +1290,7 @@ class LineEquation(object):
 
     def __init__(self, a, b, c, point):
         epsilon = 1e-8
-        if abs(a) < epsilon and abs(b) < epsilon and abs(c) < epsilon:
+        if a*a + b*b + c*c < epsilon:
             raise Exception("Direction is (nearly) zero: {}, {}, {}".format(a, b, c))
         self.a = a
         self.b = b
@@ -1449,7 +1457,7 @@ class LineEquation(object):
         num = np_mixed_product(r2-r1, s1, s2)
         denom = np.linalg.norm(np.cross(s1, s2))
         if denom < parallel_threshold:
-            raise Exception("Lines are (almost) parallel")
+            return self.distance_to_point(r2)
         return abs(num) / denom
 
     def intersect_with_line_coplanar(self, line2):
@@ -2800,4 +2808,25 @@ def scale_relative(points, center, scale):
     points = points * scale
 
     return (points + center).tolist()
+
+def is_convex_2d(verts):
+    """
+    Check if 2D polygon is convex.
+
+    Args:
+        verts: np.array or list of shape (n,3); only first and second components are considered.
+
+    Returns:
+        boolean.
+    """
+    verts = np.array(verts)
+    edges = np.roll(verts, -1, axis=0) - verts
+    sign = None
+    for e1, e2 in zip(edges[:-1], edges[1:]):
+        n = np.cross(e1, e2)
+        if sign is None:
+            sign = n[2]
+        elif sign * n[2] < 0:
+            return False
+    return True
 

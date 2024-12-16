@@ -10,7 +10,7 @@ import numpy as np
 import bpy
 from mathutils import Matrix, Vector
 from bpy.props import StringProperty, BoolProperty, IntProperty, EnumProperty, FloatVectorProperty, FloatProperty
-import bgl
+
 import gpu
 from gpu_extras.batch import batch_for_shader
 
@@ -22,46 +22,59 @@ from sverchok.utils.curve.bakery import CurveData
 from sverchok.utils.sv_operator_mixins import SvGenericNodeLocator
 from sverchok.ui.bgl_callback_3dview import callback_disable, callback_enable
 from sverchok.utils.sv_3dview_tools import Sv3DviewAlign
+from sverchok.utils.modules.drawing_abstractions import drawing, shading_3d
 
 
 def draw_edges(shader, points, edges, line_width, color, is_smooth=False):
     if is_smooth:
         draw_edges_colored(shader, points, edges, line_width, [color for i in range(len(points))])
     else:
-        bgl.glLineWidth(line_width)
+        drawing.set_line_width(line_width)
         batch = batch_for_shader(shader, 'LINES', {"pos": points}, indices=edges)
         shader.bind()
         shader.uniform_float('color', color)
         batch.draw(shader)
-        bgl.glLineWidth(1)
+        drawing.reset_line_width()
+
+def draw_arrows(shader, tips, pts1, pts2, line_width, color):
+    n = len(tips)
+    points = np.concatenate((tips, pts1, pts2))
+    edges = [(i, i+n) for i in range(n-1)]
+    edges.extend([(i, i+2*n) for i in range(n-1)])
+    drawing.set_line_width(line_width)
+    batch = batch_for_shader(shader, 'LINES', {"pos": points.tolist()}, indices=edges)
+    shader.bind()
+    shader.uniform_float('color', color)
+    batch.draw(shader)
+    drawing.reset_line_width()
 
 def draw_edges_colored(shader, points, edges, line_width, colors):
-    bgl.glLineWidth(line_width)
+    drawing.set_line_width(line_width)
     batch = batch_for_shader(shader, 'LINES', {"pos": points, "color": colors}, indices=edges)
     shader.bind()
     batch.draw(shader)
-    bgl.glLineWidth(1)
+    drawing.reset_line_width()
 
 def draw_points(shader, points, size, color):
-    bgl.glPointSize(size)
+    drawing.set_point_size(size)
     batch = batch_for_shader(shader, 'POINTS', {"pos": points})
     shader.bind()
     shader.uniform_float('color', color)
     batch.draw(shader)
-    bgl.glPointSize(1)
+    drawing.reset_point_size()
 
 def draw_points_colored(shader, points, size, colors):
-    bgl.glPointSize(size)
+    drawing.set_point_size(size)
     batch = batch_for_shader(shader, 'POINTS', {"pos": points, "color": colors})
     shader.bind()
     batch.draw(shader)
-    bgl.glPointSize(1)
+    drawing.reset_point_size()
 
 def draw_curves(context, args):
     node, draw_inputs, v_shader, e_shader = args
     is_smooth = node.draw_curvature
 
-    bgl.glEnable(bgl.GL_BLEND)
+    drawing.enable_blendmode()
 
     for item in draw_inputs:
 
@@ -87,7 +100,10 @@ def draw_curves(context, args):
         if node.draw_verts and item.points is not None:
             draw_points(v_shader, item.points, node.verts_size, node.verts_color)
 
-    bgl.glEnable(bgl.GL_BLEND)
+        if node.draw_arrows and item.arrow_pts1 is not None and item.arrow_pts2 is not None:
+            draw_arrows(e_shader, item.np_points[1:], item.arrow_pts1, item.arrow_pts2, node.arrows_line_width, node.arrows_color)
+
+    drawing.enable_blendmode()
 
 class SvBakeCurveOp(bpy.types.Operator, SvGenericNodeLocator):
     """B A K E CURVES"""
@@ -150,6 +166,23 @@ class SvCurveViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
     line_width : IntProperty(
             name = "Line Width",
             min = 1, default = 2,
+            update = updateNode)
+
+    draw_arrows : BoolProperty(
+            name = "Display arrows",
+            default = False,
+            update = updateNode)
+
+    arrows_line_width : IntProperty(
+            name = "Arrows Line Width",
+            min = 1, default = 1,
+            update = updateNode)
+
+    arrows_color : FloatVectorProperty(
+            name = "Arrows Color",
+            default = (0.5, 0.8, 1.0, 1.0),
+            size = 4, min = 0.0, max = 1.0,
+            subtype = 'COLOR',
             update = updateNode)
 
     draw_control_points: BoolProperty(
@@ -243,6 +276,11 @@ class SvCurveViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
         row.prop(self, 'line_width', text="px")
 
         row = grid.row(align=True)
+        row.prop(self, 'draw_arrows', icon='EVENT_RIGHT_ARROW', text='')
+        row.prop(self, 'arrows_color', text='')
+        row.prop(self, 'arrows_line_width', text='px')
+
+        row = grid.row(align=True)
         row.prop(self, 'draw_control_points', icon='DECORATE_KEYFRAME', text='')
         row.prop(self, 'control_points_color', text="")
         row.prop(self, 'control_points_size', text="px")
@@ -280,14 +318,11 @@ class SvCurveViewerDrawNode(SverchCustomTreeNode, bpy.types.Node):
         self.inputs.new('SvStringsSocket', 'Resolution').prop_name = 'resolution'
 
     def draw_all(self, draw_inputs):
-        shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
-        v_shader = gpu.shader.from_builtin(shader_name)
+        v_shader = gpu.shader.from_builtin(shading_3d.UNIFORM_COLOR)
         if self.draw_curvature:
-            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}SMOOTH_COLOR'
-            e_shader = gpu.shader.from_builtin(shader_name)
+            e_shader = gpu.shader.from_builtin(shading_3d.SMOOTH_COLOR)
         else:
-            shader_name = f'{"3D_" if bpy.app.version < (3, 4) else ""}UNIFORM_COLOR'
-            e_shader = gpu.shader.from_builtin(shader_name)
+            e_shader = gpu.shader.from_builtin(shading_3d.UNIFORM_COLOR)
 
         draw_data = {
                 'tree_name': self.id_data.name[:],

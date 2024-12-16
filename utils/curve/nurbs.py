@@ -16,6 +16,7 @@ from math import pi
 from sverchok.utils.curve.core import SvCurve, SvTaylorCurve, UnsupportedCurveTypeException, calc_taylor_nurbs_matrices
 from sverchok.utils.curve.bezier import SvBezierCurve
 from sverchok.utils.curve import knotvector as sv_knotvector
+from sverchok.utils.curve.primitives import SvPointCurve
 from sverchok.utils.curve.algorithms import unify_curves_degree
 from sverchok.utils.curve.nurbs_algorithms import unify_two_curves
 from sverchok.utils.curve.nurbs_solver_applications import interpolate_nurbs_curve
@@ -28,6 +29,7 @@ from sverchok.utils.nurbs_common import (
     )
 from sverchok.utils.surface.nurbs import SvNativeNurbsSurface, SvGeomdlSurface
 from sverchok.utils.surface.algorithms import nurbs_revolution_surface
+from sverchok.utils.math import np_dot
 from sverchok.utils.geom import bounding_box, LineEquation, are_points_coplanar, get_common_plane
 from sverchok.utils.sv_logging import get_logger, sv_logger
 from sverchok.dependencies import geomdl
@@ -370,6 +372,7 @@ class SvNurbsCurve(SvCurve):
 
         def reduce_degree_once(curve, tolerance):
             if curve.is_bezier():
+                logger.info(f"bz: degree => {curve.get_degree()}")
                 old_control_points = curve.get_homogenous_control_points()
                 control_points, error = reduce_bezier_degree(curve.get_degree(), old_control_points, 1)
                 if tolerance is not None and error > tolerance:
@@ -385,11 +388,14 @@ class SvNurbsCurve(SvCurve):
             else:
                 src_t_min, src_t_max = curve.get_u_bounds()
                 segments = curve.to_bezier_segments(to_bezier_class=False)
+                logger.info(f"not bz: degree => {curve.get_degree()}; segments: {len(segments)}")
                 reduced_segments = []
                 max_error = 0.0
                 for i, segment in enumerate(segments):
                     try:
+                        logger.info(f"=> #{i} c {segment}")
                         s, error, ok = reduce_degree_once(segment, tolerance)
+                        logger.info(f"=> degree = {s.get_degree()}")
                         logger.debug(f"Curve segment #{i}: error = {error}")
                     except CantReduceDegreeException as e:
                         raise CantReduceDegreeException(f"At segment #{i}: {e}") from e
@@ -548,14 +554,18 @@ class SvNurbsCurve(SvCurve):
                         degree, knotvector,
                         control_points, weights)
         if new_t_max < t_max:
-            params, _ = curve._split_at(new_t_max)
-            if params is None:
-                raise Exception(f"Cut 2: {new_t_min} - {new_t_max} from {t_min} - {t_max}")
-            knotvector, control_points, weights = params
-            curve = SvNurbsCurve.build(implementation,
-                        degree, knotvector,
-                        control_points, weights)
-        t1, t2 = curve.get_u_bounds()
+            if new_t_max > new_t_min:
+                params, _ = curve._split_at(new_t_max)
+                if params is None:
+                    raise Exception(f"Cut 2: {new_t_min} - {new_t_max} from {t_min} - {t_max}")
+                knotvector, control_points, weights = params
+                curve = SvNurbsCurve.build(implementation,
+                            degree, knotvector,
+                            control_points, weights)
+            else:
+                return None
+                #pt = curve.evaluate(new_t_min)
+                #return SvPointCurve(pt).to_nurbs()
         if rescale:
             curve = curve.reparametrize(0, 1)
         return curve
@@ -601,6 +611,16 @@ class SvNurbsCurve(SvCurve):
         cpts = self.get_control_points()
         return cpts[-1] - cpts[-2]
 
+    def is_point(self, tolerance=0.001):
+        cpts = self.get_control_points()
+        if len(cpts) <= 1:
+            return True
+        if len(cpts) > 2:
+            return False
+        if not sv_knotvector.is_clamped(self.get_knotvector(), self.get_degree()):
+            return False
+        return np.linalg.norm(cpts[-1] - cpts[0]) < tolerance
+
     def is_line(self, tolerance=0.001):
         """
         Check that the curve is nearly a straight line segment.
@@ -615,13 +635,14 @@ class SvNurbsCurve(SvCurve):
         direction = end - begin
         if np.linalg.norm(direction) < tolerance:
             return True
-        line = LineEquation.from_direction_and_point(direction, begin)
+        line = LineEquation.from_direction_and_point(direction, begin).normalized()
         distances = line.distance_to_points(cpts)
         # Technically, this means that all control points lie
         # inside the cylinder, defined as "distance from line < tolerance";
         # As a consequence, the convex hull of control points lie in the
         # same cylinder; and the curve lies in that convex hull.
-        return (distances < tolerance).all()
+        result = (distances < tolerance).all()
+        return result
 
     def calc_linear_segment_knots(self, splits=2, tolerance=0.001):
         """
@@ -630,7 +651,7 @@ class SvNurbsCurve(SvCurve):
         """
 
         def calc_knots(segment, u1, u2):
-            if not segment.is_closed(tolerance) and segment.is_line(tolerance):
+            if segment is None or abs(u2-u1) < tolerance or segment.is_point(tolerance) or (not segment.is_closed(tolerance) and segment.is_line(tolerance)):
                 return set([u1, u2])
             else:
                 us = np.linspace(u1, u2, num=int(splits+1))
@@ -642,8 +663,16 @@ class SvNurbsCurve(SvCurve):
                     knots = knots.union(ks)
                 return knots
         
-        u1, u2 = self.get_u_bounds()
-        knots = np.array(sorted(calc_knots(self, u1, u2)))
+        all_knots = set()
+        split_ts, split_points, segments = self.split_at_fracture_points(return_details=True)
+        all_knots.update(split_ts)
+        for segment in segments:
+            u1, u2 = segment.get_u_bounds()
+            if segment.is_line(tolerance):
+                all_knots.update((u1, u2))
+            else:
+                all_knots.update(calc_knots(self, u1, u2))
+        knots = np.array(sorted(all_knots))
         return knots
 
     def to_bezier(self):
@@ -863,7 +892,7 @@ class SvNurbsCurve(SvCurve):
         points.append(segments[-1].get_end_points()[1])
         return np.array(points)
 
-    def split_at_fracture_points(self, order=1, direction_only = True, or_worse = True, tangent_tolerance = 1e-6, return_details = False):
+    def split_at_fracture_points(self, order=1, direction_only = True, or_worse = True, angle_tolerance = 1e-6, amplitude_tolerance=1e-6, return_details = False):
 
         if order not in {1,2,3}:
             raise Exception(f"Unsupported discontinuity order: {order}")
@@ -878,11 +907,15 @@ class SvNurbsCurve(SvCurve):
                 tangent1 = segment1.nth_derivative(order, u1_max)
                 tangent2 = segment2.nth_derivative(order, u2_min)
 
+            t1_amplitude = np.linalg.norm(tangent1)
+            t2_amplitude = np.linalg.norm(tangent2)
+            cos_alpha = np_dot(tangent1 / t1_amplitude, tangent2 / t2_amplitude, axis=0)
+            angle = np.arccos(cos_alpha)
             if direction_only:
-                tangent1 = tangent1 / np.linalg.norm(tangent1)
-                tangent2 = tangent2 / np.linalg.norm(tangent2)
-            delta = np.linalg.norm(tangent1 - tangent2)
-            return delta >= tangent_tolerance
+                return angle >= angle_tolerance
+            else:
+                amplitude_diff = abs(t1_amplitude - t2_amplitude)
+                return (angle >= angle_tolerance) or (amplitude_diff >= amplitude_tolerance)
 
         def concatenate_non_fractured(segments, start_ts):
             prev_segment = segments[0]
@@ -893,10 +926,10 @@ class SvNurbsCurve(SvCurve):
                 if is_fracture(prev_segment, segment):
                     new_segments.append(prev_segment)
                     split_ts.append(split_t)
-                    split_points.append(prev_segment.get_end_point())
+                    split_points.append(prev_segment.get_end_point().tolist())
                     prev_segment = segment
                 else:
-                    prev_segment = prev_segment.concatenate(segment)
+                    prev_segment = prev_segment.concatenate(segment, remove_knots=True)
 
             new_segments.append(prev_segment)
             return split_ts, split_points, new_segments

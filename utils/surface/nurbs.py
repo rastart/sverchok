@@ -752,15 +752,15 @@ class SvGeomdlSurface(SvNurbsSurface):
 
         normal = np.cross(fu, fv)
         norm = np.linalg.norm(normal, axis=1, keepdims=True)
-        normal = normal / norm
+        normal1 = normal / norm
 
         fuu = derivatives[:,2,0]
         fvv = derivatives[:,0,2]
         fuv = derivatives[:,1,1]
 
-        nuu = (fuu * normal).sum(axis=1)
-        nvv = (fvv * normal).sum(axis=1)
-        nuv = (fuv * normal).sum(axis=1)
+        nuu = (fuu * normal1).sum(axis=1)
+        nvv = (fvv * normal1).sum(axis=1)
+        nuv = (fuv * normal1).sum(axis=1)
 
         duu = np.linalg.norm(fu, axis=1) **2
         dvv = np.linalg.norm(fv, axis=1) **2
@@ -768,6 +768,9 @@ class SvGeomdlSurface(SvNurbsSurface):
 
         calc = SurfaceCurvatureCalculator(us, vs, order=order)
         calc.set(surf_vertices, normal, fu, fv, duu, dvv, duv, nuu, nvv, nuv)
+        calc.fuu = fuu
+        calc.fvv = fvv
+        calc.fuv = fuv
         return calc
 
     def derivatives_data_array(self, us, vs):
@@ -1129,6 +1132,9 @@ class SvNativeNurbsSurface(SvNurbsSurface):
 
         calc = SurfaceCurvatureCalculator(us, vs, order=order)
         calc.set(surface, normal, surface_u, surface_v, duu, dvv, duv, nuu, nvv, nuv)
+        calc.fuu = surface_uu
+        calc.fvv = surface_vv
+        calc.fuv = surface_uv
         return calc
 
 def build_from_curves(curves, degree_u = None, implementation = SvNurbsSurface.NATIVE):

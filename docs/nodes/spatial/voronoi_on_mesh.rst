@@ -1,8 +1,8 @@
 Voronoi on Mesh
 ===============
 
-.. image:: https://github.com/nortikin/sverchok/assets/14288520/3782710e-2a14-4bea-a835-37ac6ff715b4
-  :target: https://github.com/nortikin/sverchok/assets/14288520/3782710e-2a14-4bea-a835-37ac6ff715b4
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/ecff1142-de97-438f-a3be-f609d0816b96
+  :target: https://github.com/nortikin/sverchok/assets/14288520/ecff1142-de97-438f-a3be-f609d0816b96
 
 Dependencies
 ------------
@@ -28,13 +28,29 @@ Inputs
 This node has the following inputs:
 
 * **Vertices**. Vertices of the mesh to generate Voronoi diagram on. This input is mandatory.
-* **Faces**. Faces of the mesh to generate Voronoi diagram on. This input is mandatory.
-* **Sites**. The points to generate Voronoi diagram for. Usually you want for
-  this points to lie either inside the mesh or on it's surface, but this is not
-  necessary. This input is mandatory.
+* **Polygons**. Faces of the mesh to generate Voronoi diagram on. This input is mandatory.
 
-.. image:: https://user-images.githubusercontent.com/14288520/202571362-7f047b5b-64a9-489c-8167-5fcb125f7fdf.png
-  :target: https://user-images.githubusercontent.com/14288520/202571362-7f047b5b-64a9-489c-8167-5fcb125f7fdf.png
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/5a6ecd49-9ae1-4422-98b6-211060a22420
+  :target: https://github.com/nortikin/sverchok/assets/14288520/5a6ecd49-9ae1-4422-98b6-211060a22420
+
+* **Voronoi Sites**. The points to generate Voronoi diagram for. Usually you want for
+  this points to lie either inside the mesh or on it's surface, but this is not
+  necessary. This input is mandatory. If list of Voronoi sites is Zero length then source object will not processed
+  and transfer it params to output sockets.
+
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/4353aec1-e4f5-4cb4-a9ec-f3e8c6435c0b
+  :target: https://github.com/nortikin/sverchok/assets/14288520/4353aec1-e4f5-4cb4-a9ec-f3e8c6435c0b
+
+* **Mask of sites**. List of True/False or indexes. What Sites will be show in result.
+
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/61bd23e3-3a8e-47e2-b18f-1c7272b71679
+  :target: https://github.com/nortikin/sverchok/assets/14288520/61bd23e3-3a8e-47e2-b18f-1c7272b71679
+
+
+* **invert** Invert list **Mask of Sites**.
+
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/b8360826-c678-4b47-b783-3e05a71f1275
+  :target: https://github.com/nortikin/sverchok/assets/14288520/b8360826-c678-4b47-b783-3e05a71f1275
 
 * **Spacing**. Percent of space to leave between generated fragment meshes.
   Zero means do not leave any space, i.e. regions will fully cover initial
@@ -76,14 +92,14 @@ This node has the following parameters:
 .. image:: https://user-images.githubusercontent.com/14288520/202574847-5343b0d1-61f3-4313-a8a1-7efce49f1405.gif
   :target: https://user-images.githubusercontent.com/14288520/202574847-5343b0d1-61f3-4313-a8a1-7efce49f1405.gif
 
-* **Output nesting**. This defines nesting structure of output sockets. The available options are:
+* **Post processing**. This defines nesting structure of result meshes. The available options are:
 
-   * **Flat list**. Output a single flat list of mesh objects (Voronoi diagram
-     ridges / regions) for all input meshes.
-   * **Separate lists**. Output a separate list of mesh objects (Voronoi
-     diagram ridges / regions) for each input mesh.
-   * **Join meshes**. Output one mesh, joined from ridges / edges of Voronoi
-     diagram, for each input mesh.
+  * **Separate All Meshes**. Separate the result meshes into individual meshes.
+  * **Keep Source Meshes**. Keep parts of the source meshes as source meshes.
+  * **Join All Meshes**. Join all results meshes into a single mesh.
+
+.. image:: https://github.com/nortikin/sverchok/assets/14288520/afa0b637-b0cb-4813-9f10-3e05cd607e02
+  :target: https://github.com/nortikin/sverchok/assets/14288520/afa0b637-b0cb-4813-9f10-3e05cd607e02
 
 * **Accuracy**. This parameter is available in the N panel only. This defines
   the precision of mesh calculation (number of digits after decimal point). The
@@ -101,10 +117,11 @@ This node has the following outputs:
 * **Vertices**. Vertices of generated mesh.
 * **Edges**. Edges of generated mesh.
 * **Faces**. Faces of generated mesh.
-* **Sites_idx**. Indices of sources sites for further using. (from sverchok 1.3-alpha-master)
+* **Used Sites idx**. Indices of sources sites for further using (after apply Mask of sites). (from sverchok 1.3-alpha-master)
+* **Used Sites Verts**. Values of used sites. Keep of source struct of input socket "Voronoi sites" lists (after apply Mask of sites). (from sverchok 1.3-alpha-master)
 
-    .. image:: https://github.com/nortikin/sverchok/assets/14288520/4d60e90e-19af-4600-88dc-92b67896967a
-      :target: https://github.com/nortikin/sverchok/assets/14288520/4d60e90e-19af-4600-88dc-92b67896967a
+    .. image:: https://github.com/nortikin/sverchok/assets/14288520/91ccb203-e0bb-49a0-a626-e403ee30be3c
+      :target: https://github.com/nortikin/sverchok/assets/14288520/91ccb203-e0bb-49a0-a626-e403ee30be3c
 
     * Text-> :doc:`Stethoscope </nodes/text/stethoscope_v28>`
 
@@ -157,7 +174,7 @@ Example of usage
   :target: https://user-images.githubusercontent.com/14288520/202578440-c713aac3-c787-456a-b796-190204bf297a.png
 
 * Generator-> :doc:`Box </nodes/generator/box_mk2>`
-* Spatial-> :doc:`Populate Mesh </nodes/spatial/random_points_on_mesh>`
+* Spatial-> :doc:`Populate Mesh </nodes/spatial/populate_mesh_mk2>`
 * Modifiers->Modifier Change-> :doc:`Inset Faces </nodes/modifier_change/inset_faces>`
 * Modifiers->Modifier Make-> :doc:`Subdivide </nodes/modifier_change/subdivide_mk2>`
 * Matrix-> :doc:`Matrix In </nodes/matrix/matrix_in_mk4>`

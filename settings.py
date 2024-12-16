@@ -621,6 +621,9 @@ dependencies, or install only some of them.""")
         draw_message(box, "pyOpenSubdiv")
         draw_message(box, "numexpr")
         draw_message(box, "ezdxf")
+        draw_message(box, "pyacvd")
+        draw_message(box, "pyQuadriFlow")
+        draw_message(box, "pySVCGAL")
 
         draw_freecad_ops()
 

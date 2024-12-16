@@ -193,6 +193,30 @@ try:
 except ImportError:
     ezdxf = None 
 
+pyacvd_d = sv_dependencies["pyacvd"] = SvDependency("pyacvd","https://github.com/pyvista/pyacvd")
+pyacvd_d.pip_installable = True
+try:
+    import pyacvd
+    pyacvd_d.module = pyacvd
+except ImportError:
+    pyacvd = None 
+
+pyQuadriFlow_d = sv_dependencies["pyQuadriFlow"] = SvDependency("pyQuadriFlow","https://github.com/satabol/pyQuadriFlow")
+pyQuadriFlow_d.pip_installable = True
+try:
+    import pyQuadriFlow
+    pyQuadriFlow_d.module = pyQuadriFlow
+except ImportError:
+    pyQuadriFlow = None 
+
+pySVCGAL_d = sv_dependencies["pySVCGAL"] = SvDependency("pySVCGAL","https://github.com/satabol/pySVCGAL")
+pySVCGAL_d.pip_installable = True
+try:
+    import pySVCGAL
+    pySVCGAL_d.module = pySVCGAL
+except ImportError:
+    pySVCGAL = None 
+
 settings.pip = pip
 settings.sv_dependencies = sv_dependencies
 settings.ensurepip = ensurepip
